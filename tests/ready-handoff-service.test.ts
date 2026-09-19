@@ -142,6 +142,28 @@ describe("ready handoff service", () => {
       )
     ).rejects.toThrow(/current residence heartbeat/);
   });
+  it("freezes typed absences returned by the handoff service", async () => {
+    const habitats = new InMemoryHabitatRegistry();
+    await habitats.put(habitat);
+
+    const result = await new ReadyHandoffService(
+      new InMemoryEventJournal(),
+      habitats
+    ).attempt(
+      residenceId,
+      agent,
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(result.created).toBe(false);
+    if (!result.created) {
+      expect(Object.isFrozen(result.absence)).toBe(true);
+      expect(() => {
+        (result.absence as { statement: string }).statement = "mutated";
+      }).toThrow();
+    }
+  });
+
   it("returns typed absence when residence history is missing", async () => {
     const habitats = new InMemoryHabitatRegistry();
     await habitats.put(habitat);
