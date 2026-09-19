@@ -1,6 +1,6 @@
 import type { Habitat } from "../domain/habitat.js";
 import type { ResidenceSnapshot } from "../domain/residence.js";
-import type { EventJournal } from "../events/journal.js";
+import { HabitatCapacityConflict, type EventJournal } from "../events/journal.js";
 import type { AtlasAuthorityDecision, AtlasGateway } from "../integrations/atlas/contract.js";
 import {
   assertAdmissionAllowed,
@@ -127,20 +127,41 @@ export class AdmissionService {
       };
     }
 
-    const residence = await this.admitWithDecision(
-      current,
-      habitat,
-      residences,
-      eventId,
-      observedAt,
-      actorRef,
-      decision
-    );
-    return {
-      outcome: "admitted",
-      residence,
-      decision,
-      rejectionSource: null
-    };
+    try {
+      const residence = await this.admitWithDecision(
+        current,
+        habitat,
+        residences,
+        eventId,
+        observedAt,
+        actorRef,
+        decision
+      );
+      return {
+        outcome: "admitted",
+        residence,
+        decision,
+        rejectionSource: null
+      };
+    } catch (error) {
+      if (!(error instanceof HabitatCapacityConflict)) throw error;
+
+      const residence = await new RejectionService(this.journal).reject(
+        current,
+        eventId,
+        observedAt,
+        observedAt,
+        actorRef,
+        error.message,
+        [],
+        decision.authorityRef
+      );
+      return {
+        outcome: "rejected",
+        residence,
+        decision,
+        rejectionSource: "habitat_policy"
+      };
+    }
   }
 }
