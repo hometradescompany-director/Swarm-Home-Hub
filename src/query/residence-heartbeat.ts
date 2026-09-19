@@ -1,3 +1,5 @@
+import type { Habitat } from "../domain/habitat.js";
+import { assertHabitatHeartbeatPolicy } from "../domain/habitat.js";
 import type { ResidenceStatus } from "../domain/residence.js";
 import type { SwarmResidenceEvent } from "../events/event.js";
 import { projectResidence } from "../projection/residence.js";
@@ -19,11 +21,10 @@ export interface ResidenceHeartbeat {
 export function projectResidenceHeartbeat(
   events: readonly SwarmResidenceEvent[],
   now: string,
-  staleAfterMs: number
+  habitat: Habitat
 ): ResidenceHeartbeat {
-  if (!Number.isFinite(staleAfterMs) || staleAfterMs < 0) {
-    throw new Error("staleAfterMs must be a non-negative finite number");
-  }
+  assertHabitatHeartbeatPolicy(habitat);
+  const staleAfterMs = habitat.heartbeatStaleAfterMs;
 
   const nowMs = Date.parse(now);
   if (!Number.isFinite(nowMs)) {
@@ -57,6 +58,10 @@ export function projectResidenceHeartbeat(
       staleAfterMs,
       freshUntil: null
     };
+  }
+
+  if (residence.habitatId !== habitat.id) {
+    throw new Error("heartbeat habitat does not match residence habitat");
   }
 
   const latest = events.at(-1)!;
