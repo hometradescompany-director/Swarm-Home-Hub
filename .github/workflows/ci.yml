@@ -20,7 +20,25 @@ jobs:
         run: npm install -g npm@11.19.1
       - run: npm ci
       - name: Dependency audit
-        run: npm audit --audit-level=moderate
+        shell: bash
+        run: |
+          set -o pipefail
+          for attempt in 1 2 3; do
+            log="$(mktemp)"
+            if npm audit --audit-level=moderate 2>&1 | tee "$log"; then
+              exit 0
+            fi
+
+            if grep -Eq "503 Service Unavailable|performing maintenance|audit endpoint returned an error" "$log"; then
+              if [ "$attempt" -lt 3 ]; then
+                sleep $((attempt * 5))
+                continue
+              fi
+              echo "npm audit infrastructure remained unavailable after 3 attempts" >&2
+            fi
+
+            exit 1
+          done
       - name: Residence phase contract
         run: npm run test:residence-phase
       - run: npm run check
