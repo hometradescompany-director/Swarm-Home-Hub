@@ -1,5 +1,5 @@
 import type { AgentReference } from "../domain/agent.js";
-import type { ResidenceId } from "../domain/residence.js";
+import type { ResidenceId, ResidenceSnapshot } from "../domain/residence.js";
 import type { EventJournal } from "../events/journal.js";
 import type { TypedAbsence } from "../provenance/absence.js";
 import { projectResidence } from "../projection/residence.js";
@@ -45,7 +45,7 @@ export class ReadyHandoffService {
       };
     }
 
-    let residence;
+    let residence: ResidenceSnapshot | null;
     try {
       residence = projectResidence(events);
     } catch (error) {
