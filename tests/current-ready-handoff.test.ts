@@ -256,6 +256,94 @@ describe("current ready handoff", () => {
     ).toThrow(/superseded/);
   });
 
+  it("refuses a capsule with a forged freshness boundary", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(
+      validateCurrentReadyHandoff(
+        { ...handoff, freshUntil: "2026-09-19T04:01:00.000Z" },
+        residence,
+        habitat,
+        "2026-09-19T03:00:30.000Z"
+      )
+    ).toMatchObject({
+      usable: false,
+      code: "capsule_inconsistent"
+    });
+  });
+
+  it("refuses a capsule whose heartbeat evaluation time was altered", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(
+      validateCurrentReadyHandoff(
+        { ...handoff, heartbeatEvaluatedAt: "2026-09-19T03:00:02.000Z" },
+        residence,
+        habitat,
+        "2026-09-19T03:00:30.000Z"
+      )
+    ).toMatchObject({
+      usable: false,
+      code: "capsule_inconsistent"
+    });
+  });
+
+  it("refuses a capsule generated before its altered readiness observation", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(
+      validateCurrentReadyHandoff(
+        {
+          ...handoff,
+          readinessObservedAt: "2026-09-19T03:00:02.000Z",
+          freshUntil: "2026-09-19T03:01:02.000Z"
+        },
+        residence,
+        habitat,
+        "2026-09-19T03:00:30.000Z"
+      )
+    ).toMatchObject({
+      usable: false,
+      code: "capsule_inconsistent"
+    });
+  });
+
+  it("refuses a capsule with a malformed freshness threshold", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(
+      validateCurrentReadyHandoff(
+        { ...handoff, staleAfterMs: Number.NaN },
+        residence,
+        habitat,
+        "2026-09-19T03:00:30.000Z"
+      )
+    ).toMatchObject({
+      usable: false,
+      code: "capsule_inconsistent"
+    });
+  });
+
   it("returns a typed refusal instead of requiring message parsing", () => {
     const handoff = projectCurrentReadyHandoff(
       residence,
