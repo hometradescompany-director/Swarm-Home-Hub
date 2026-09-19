@@ -100,7 +100,7 @@ describe("ready handoff service", () => {
         agent,
         "2026-09-19T03:00:01.000Z"
       )
-    ).rejects.toThrow(/residence not found/);
+    ).rejects.toThrow(/Residence history cannot be located/);
   });
 
   it("refuses to mint without the current habitat policy", async () => {
@@ -112,7 +112,7 @@ describe("ready handoff service", () => {
         agent,
         "2026-09-19T03:00:01.000Z"
       )
-    ).rejects.toThrow(/habitat not found/);
+    ).rejects.toThrow(/Habitat policy cannot be located/);
   });
 
   it("refuses to mint from a paused habitat", async () => {
@@ -203,5 +203,4 @@ describe("ready handoff service", () => {
       }
     });
   });
-
 });
