@@ -142,4 +142,66 @@ describe("ready handoff service", () => {
       )
     ).rejects.toThrow(/current residence heartbeat/);
   });
+  it("returns typed absence when residence history is missing", async () => {
+    const habitats = new InMemoryHabitatRegistry();
+    await habitats.put(habitat);
+
+    const result = await new ReadyHandoffService(
+      new InMemoryEventJournal(),
+      habitats
+    ).attempt(
+      residenceId,
+      agent,
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(result).toMatchObject({
+      created: false,
+      absence: {
+        kind: "cannot_be_located",
+        sourceRef: `swarm:event-journal:${residenceId}`
+      }
+    });
+  });
+
+  it("returns typed absence when habitat policy is missing", async () => {
+    const journal = await readyJournal();
+
+    const result = await new ReadyHandoffService(
+      journal,
+      new InMemoryHabitatRegistry()
+    ).attempt(
+      residenceId,
+      agent,
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(result).toMatchObject({
+      created: false,
+      absence: {
+        kind: "cannot_be_located",
+        sourceRef: `swarm:habitat-registry:${habitat.id}`
+      }
+    });
+  });
+
+  it("returns typed validation rejection for stale readiness", async () => {
+    const journal = await readyJournal();
+    const habitats = new InMemoryHabitatRegistry();
+    await habitats.put(habitat);
+
+    const result = await new ReadyHandoffService(journal, habitats).attempt(
+      residenceId,
+      agent,
+      "2026-09-19T03:02:00.000Z"
+    );
+
+    expect(result).toMatchObject({
+      created: false,
+      absence: {
+        kind: "rejected_by_validation"
+      }
+    });
+  });
+
 });
