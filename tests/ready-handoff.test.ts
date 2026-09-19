@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { AgentReference } from "../src/domain/agent.js";
+import type { AgentReference, CapabilityRef } from "../src/domain/agent.js";
 import type { ResidenceSnapshot } from "../src/domain/residence.js";
 import { projectReadyHandoff } from "../src/query/ready-handoff.js";
 
@@ -62,4 +62,21 @@ describe("ready handoff capsule", () => {
       )
     ).toThrow(/does not match residence identity/);
   });
+});
+
+
+it("freezes ready handoff capsules and their capability arrays", () => {
+  const handoff = projectReadyHandoff(ready, agent, "2026-09-20T00:00:00.000Z");
+
+  expect(Object.isFrozen(handoff)).toBe(true);
+  expect(Object.isFrozen(handoff.capabilityRefs)).toBe(true);
+  expect(Object.isFrozen(handoff.offeringRefs)).toBe(true);
+
+  expect(() => {
+    (handoff.capabilityRefs as CapabilityRef[]).push("capability:three" as never);
+  }).toThrow();
+
+  expect(() => {
+    (handoff as { generatedAt: string }).generatedAt = "2099-01-01T00:00:00.000Z";
+  }).toThrow();
 });

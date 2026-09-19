@@ -20,6 +20,16 @@ export interface CurrentReadyHandoffCapsule extends ReadyHandoffCapsule {
   readonly freshUntil: string;
 }
 
+function freezeReadyHandoffCapsule<T extends ReadyHandoffCapsule>(handoff: T): T {
+  const frozen = {
+    ...handoff,
+    capabilityRefs: Object.freeze([...handoff.capabilityRefs]),
+    offeringRefs: Object.freeze([...handoff.offeringRefs])
+  };
+
+  return Object.freeze(frozen) as T;
+}
+
 export function projectReadyHandoff(
   residence: ResidenceSnapshot,
   agent: AgentReference,
@@ -35,15 +45,15 @@ export function projectReadyHandoff(
     throw new Error("handoff generation time must be a valid ISO-8601 value");
   }
 
-  return {
+  return freezeReadyHandoffCapsule({
     residenceId: residence.residenceId,
     agentIdentityRef: residence.agentIdentityRef,
     habitatId: residence.habitatId,
-    capabilityRefs: [...agent.capabilityRefs],
-    offeringRefs: [...agent.offeringRefs],
+    capabilityRefs: agent.capabilityRefs,
+    offeringRefs: agent.offeringRefs,
     lastResidenceEventId: residence.lastEventId,
     generatedAt
-  };
+  });
 }
 
 export function projectCurrentReadyHandoff(
@@ -104,13 +114,13 @@ export function projectCurrentReadyHandoff(
     throw new Error("handoff cannot be generated after the heartbeat freshness boundary");
   }
 
-  return {
+  return freezeReadyHandoffCapsule({
     ...projectReadyHandoff(residence, agent, generatedAt),
     readinessObservedAt: heartbeat.lastObservedAt,
     heartbeatEvaluatedAt: heartbeat.evaluatedAt,
     staleAfterMs: heartbeat.staleAfterMs,
     freshUntil: heartbeat.freshUntil
-  };
+  });
 }
 
 export function assertCurrentReadyHandoffFresh(
