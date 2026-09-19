@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { AgentReference } from "../src/domain/agent.js";
+import type { AgentReference, CapabilityRef } from "../src/domain/agent.js";
 import type { ResidenceSnapshot } from "../src/domain/residence.js";
 import { projectReadyHandoff } from "../src/query/ready-handoff.js";
 
