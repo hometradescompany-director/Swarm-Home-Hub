@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
+import type { Habitat } from "../src/domain/habitat.js";
 import type { SwarmResidenceEvent } from "../src/events/event.js";
 import { projectResidenceHeartbeat } from "../src/query/residence-heartbeat.js";
+
+const habitat: Habitat = {
+  id: "habitat:one" as never,
+  name: "One",
+  capacity: 3,
+  status: "open",
+  heartbeatStaleAfterMs: 60_000
+};
 
 const base: SwarmResidenceEvent = {
   id: "event:requested",
@@ -10,14 +19,14 @@ const base: SwarmResidenceEvent = {
   actorRef: "actor:test",
   residenceId: "residence:heartbeat" as never,
   agentIdentityRef: "agent:heartbeat" as never,
-  habitatId: "habitat:one" as never,
+  habitatId: habitat.id,
   evidenceReceiptIds: []
 };
 
 describe("residence heartbeat", () => {
-  it("returns unknown for absent history", () => {
+  it("returns unknown for absent history using habitat-owned freshness policy", () => {
     expect(
-      projectResidenceHeartbeat([], "2026-09-19T00:01:00.000Z", 60_000)
+      projectResidenceHeartbeat([], "2026-09-19T00:01:00.000Z", habitat)
     ).toEqual({
       residenceId: null,
       state: "unknown",
@@ -31,7 +40,7 @@ describe("residence heartbeat", () => {
     });
   });
 
-  it("marks active residence history stale only after the supplied threshold", () => {
+  it("marks active residence history stale only after habitat threshold", () => {
     const admitted: SwarmResidenceEvent = {
       ...base,
       id: "event:admitted",
@@ -43,7 +52,7 @@ describe("residence heartbeat", () => {
       projectResidenceHeartbeat(
         [base, admitted],
         "2026-09-19T00:01:20.001Z",
-        60_000
+        habitat
       )
     ).toMatchObject({
       state: "stale",
@@ -74,7 +83,7 @@ describe("residence heartbeat", () => {
       projectResidenceHeartbeat(
         [base, admitted, departed],
         "2026-09-20T00:00:00.000Z",
-        60_000
+        habitat
       )
     ).toMatchObject({
       state: "terminal",
@@ -89,14 +98,34 @@ describe("residence heartbeat", () => {
       projectResidenceHeartbeat(
         [base],
         "2026-09-18T23:59:59.999Z",
-        60_000
+        habitat
       )
     ).toThrow(/future relative to now/);
   });
 
   it("refuses an invalid evaluation time even when history is absent", () => {
     expect(() =>
-      projectResidenceHeartbeat([], "not-a-time", 60_000)
+      projectResidenceHeartbeat([], "not-a-time", habitat)
     ).toThrow(/evaluation time/);
+  });
+
+  it("refuses a heartbeat projected under the wrong habitat", () => {
+    expect(() =>
+      projectResidenceHeartbeat(
+        [base],
+        "2026-09-19T00:00:10.000Z",
+        { ...habitat, id: "habitat:other" as never }
+      )
+    ).toThrow(/does not match residence habitat/);
+  });
+
+  it("refuses malformed habitat freshness policy", () => {
+    expect(() =>
+      projectResidenceHeartbeat(
+        [base],
+        "2026-09-19T00:00:10.000Z",
+        { ...habitat, heartbeatStaleAfterMs: Number.NaN }
+      )
+    ).toThrow(/heartbeatStaleAfterMs/);
   });
 });
