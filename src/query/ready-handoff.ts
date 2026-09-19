@@ -130,6 +130,7 @@ export type CurrentReadyHandoffRefusalCode =
   | "identity_mismatch"
   | "habitat_mismatch"
   | "freshness_policy_changed"
+  | "habitat_not_open"
   | "source_event_superseded"
   | "residence_not_ready";
 
@@ -205,6 +206,13 @@ export function validateCurrentReadyHandoff(
       usable: false,
       code: "freshness_policy_changed",
       message: "handoff freshness policy has changed since generation"
+    };
+  }
+  if (currentHabitat.status !== "open") {
+    return {
+      usable: false,
+      code: "habitat_not_open",
+      message: `handoff habitat is not open: ${currentHabitat.id}`
     };
   }
   if (handoff.lastResidenceEventId !== currentResidence.lastEventId) {
