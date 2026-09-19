@@ -182,6 +182,43 @@ export class ReadyHandoffService {
       return { usable: false, absence: context.absence };
     }
 
+    const sourceEvent = context.context.events.find(
+      event => event.id === handoff.lastResidenceEventId
+    );
+    if (!sourceEvent) {
+      return {
+        usable: false,
+        absence: {
+          kind: "rejected_by_validation",
+          statement: "handoff source residence event cannot be located in authoritative history",
+          observedAt,
+          sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
+        }
+      };
+    }
+    if (sourceEvent.type !== "swarm.residence.ready") {
+      return {
+        usable: false,
+        absence: {
+          kind: "rejected_by_validation",
+          statement: "handoff source residence event is not a readiness event",
+          observedAt,
+          sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
+        }
+      };
+    }
+    if (sourceEvent.observedAt !== handoff.readinessObservedAt) {
+      return {
+        usable: false,
+        absence: {
+          kind: "rejected_by_validation",
+          statement: "handoff readiness observation does not match authoritative source event",
+          observedAt,
+          sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
+        }
+      };
+    }
+
     const validation = validateCurrentReadyHandoff(
       handoff,
       context.context.residence,
