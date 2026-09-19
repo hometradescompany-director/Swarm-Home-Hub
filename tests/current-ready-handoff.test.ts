@@ -26,6 +26,7 @@ const heartbeat = (
   state: "current",
   status: "ready",
   lastEventId: residence.lastEventId,
+  evaluatedAt: "2026-09-19T03:00:01.000Z",
   lastObservedAt: "2026-09-19T03:00:00.000Z",
   ageMs: 1_000,
   ...overrides
@@ -90,6 +91,17 @@ describe("current ready handoff", () => {
     ).toThrow(/before the readiness observation/);
   });
 
+  it("refuses a heartbeat evaluated at another handoff time", () => {
+    expect(() =>
+      projectCurrentReadyHandoff(
+        residence,
+        agent,
+        heartbeat(),
+        "2026-09-19T03:00:02.000Z"
+      )
+    ).toThrow(/heartbeat evaluation time/);
+  });
+
   it("refuses malformed handoff timestamps", () => {
     expect(() =>
       projectCurrentReadyHandoff(
@@ -100,5 +112,4 @@ describe("current ready handoff", () => {
       )
     ).toThrow(/valid ISO-8601/);
   });
-
 });

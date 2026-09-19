@@ -35,7 +35,6 @@ export function projectReadyHandoff(
   };
 }
 
-
 export function projectCurrentReadyHandoff(
   residence: ResidenceSnapshot,
   agent: AgentReference,
@@ -60,11 +59,19 @@ export function projectCurrentReadyHandoff(
 
   const generatedMs = Date.parse(generatedAt);
   const observedMs = Date.parse(heartbeat.lastObservedAt);
-  if (!Number.isFinite(generatedMs) || !Number.isFinite(observedMs)) {
+  const evaluatedMs = Date.parse(heartbeat.evaluatedAt);
+  if (
+    !Number.isFinite(generatedMs) ||
+    !Number.isFinite(observedMs) ||
+    !Number.isFinite(evaluatedMs)
+  ) {
     throw new Error("handoff timestamps must be valid ISO-8601 values");
   }
   if (generatedMs < observedMs) {
     throw new Error("handoff cannot be generated before the readiness observation");
+  }
+  if (generatedMs !== evaluatedMs) {
+    throw new Error("handoff must be generated at the heartbeat evaluation time");
   }
 
   return projectReadyHandoff(residence, agent, generatedAt);

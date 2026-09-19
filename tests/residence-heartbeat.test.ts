@@ -23,6 +23,7 @@ describe("residence heartbeat", () => {
       state: "unknown",
       status: null,
       lastEventId: null,
+      evaluatedAt: "2026-09-19T00:01:00.000Z",
       lastObservedAt: null,
       ageMs: null
     });
@@ -46,6 +47,7 @@ describe("residence heartbeat", () => {
       state: "stale",
       status: "admitted",
       lastEventId: "event:admitted",
+      evaluatedAt: "2026-09-19T00:01:20.001Z",
       ageMs: 70_001
     });
   });
@@ -85,5 +87,11 @@ describe("residence heartbeat", () => {
         60_000
       )
     ).toThrow(/future relative to now/);
+  });
+
+  it("refuses an invalid evaluation time even when history is absent", () => {
+    expect(() =>
+      projectResidenceHeartbeat([], "not-a-time", 60_000)
+    ).toThrow(/evaluation time/);
   });
 });

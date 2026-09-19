@@ -9,6 +9,7 @@ export interface ResidenceHeartbeat {
   readonly state: ResidenceHeartbeatState;
   readonly status: ResidenceStatus | null;
   readonly lastEventId: string | null;
+  readonly evaluatedAt: string;
   readonly lastObservedAt: string | null;
   readonly ageMs: number | null;
 }
@@ -22,12 +23,18 @@ export function projectResidenceHeartbeat(
     throw new Error("staleAfterMs must be a non-negative finite number");
   }
 
+  const nowMs = Date.parse(now);
+  if (!Number.isFinite(nowMs)) {
+    throw new Error("heartbeat evaluation time must be a valid ISO-8601 value");
+  }
+
   if (events.length === 0) {
     return {
       residenceId: null,
       state: "unknown",
       status: null,
       lastEventId: null,
+      evaluatedAt: now,
       lastObservedAt: null,
       ageMs: null
     };
@@ -40,15 +47,15 @@ export function projectResidenceHeartbeat(
       state: "unknown",
       status: null,
       lastEventId: null,
+      evaluatedAt: now,
       lastObservedAt: null,
       ageMs: null
     };
   }
 
   const latest = events.at(-1)!;
-  const nowMs = Date.parse(now);
   const observedMs = Date.parse(latest.observedAt);
-  if (!Number.isFinite(nowMs) || !Number.isFinite(observedMs)) {
+  if (!Number.isFinite(observedMs)) {
     throw new Error("heartbeat timestamps must be valid ISO-8601 values");
   }
 
@@ -64,6 +71,7 @@ export function projectResidenceHeartbeat(
     state: terminal ? "terminal" : ageMs > staleAfterMs ? "stale" : "current",
     status: residence.status,
     lastEventId: residence.lastEventId,
+    evaluatedAt: now,
     lastObservedAt: latest.observedAt,
     ageMs
   };
