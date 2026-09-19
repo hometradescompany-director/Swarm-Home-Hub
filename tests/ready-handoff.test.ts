@@ -43,6 +43,16 @@ describe("ready handoff capsule", () => {
     ).toThrow(/requires a ready residence/);
   });
 
+  it("refuses malformed generation time", () => {
+    expect(() =>
+      projectReadyHandoff(
+        ready,
+        agent,
+        "not-a-time"
+      )
+    ).toThrow(/generation time/);
+  });
+
   it("refuses cross-identity handoff", () => {
     expect(() =>
       projectReadyHandoff(
