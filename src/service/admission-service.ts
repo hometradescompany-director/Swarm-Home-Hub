@@ -1,15 +1,43 @@
 import type { Habitat } from "../domain/habitat.js";
 import type { ResidenceSnapshot } from "../domain/residence.js";
 import type { EventJournal } from "../events/journal.js";
-import type { AtlasGateway } from "../integrations/atlas/contract.js";
+import type { AtlasAuthorityDecision, AtlasGateway } from "../integrations/atlas/contract.js";
 import { assertAdmissionAllowed } from "../policy/admission.js";
 import { ResidenceService } from "./residence-service.js";
+import { RejectionService } from "./rejection-service.js";
+
+export interface AdmissionDecisionOutcome {
+  readonly outcome: "admitted" | "rejected";
+  readonly residence: ResidenceSnapshot;
+  readonly decision: AtlasAuthorityDecision;
+}
 
 export class AdmissionService {
   constructor(
     private readonly journal: EventJournal,
     private readonly atlas: AtlasGateway
   ) {}
+
+  private async admitWithDecision(
+    current: ResidenceSnapshot,
+    habitat: Habitat,
+    activeResidents: number,
+    eventId: string,
+    observedAt: string,
+    actorRef: string,
+    decision: AtlasAuthorityDecision
+  ): Promise<ResidenceSnapshot> {
+    assertAdmissionAllowed(decision, habitat, activeResidents);
+
+    return new ResidenceService(this.journal).transition(current, "admitted", {
+      id: eventId,
+      occurredAt: decision.decidedAt,
+      observedAt,
+      actorRef,
+      evidenceReceiptIds: [],
+      authorityRef: decision.authorityRef
+    });
+  }
 
   async admit(
     current: ResidenceSnapshot,
@@ -20,16 +48,49 @@ export class AdmissionService {
     actorRef: string
   ): Promise<ResidenceSnapshot> {
     const decision = await this.atlas.canEnterHome(current.agentIdentityRef);
-    assertAdmissionAllowed(decision, habitat, activeResidents);
-
-    const service = new ResidenceService(this.journal);
-    return service.transition(current, "admitted", {
-      id: eventId,
-      occurredAt: observedAt,
+    return this.admitWithDecision(
+      current,
+      habitat,
+      activeResidents,
+      eventId,
       observedAt,
       actorRef,
-      evidenceReceiptIds: [],
-      authorityRef: decision.authorityRef
-    });
+      decision
+    );
+  }
+
+  async decide(
+    current: ResidenceSnapshot,
+    habitat: Habitat,
+    activeResidents: number,
+    eventId: string,
+    observedAt: string,
+    actorRef: string
+  ): Promise<AdmissionDecisionOutcome> {
+    const decision = await this.atlas.canEnterHome(current.agentIdentityRef);
+
+    if (!decision.allowed) {
+      const residence = await new RejectionService(this.journal).reject(
+        current,
+        eventId,
+        decision.decidedAt,
+        actorRef,
+        decision.reason ?? "Atlas authority denied admission",
+        [],
+        decision.authorityRef
+      );
+      return { outcome: "rejected", residence, decision };
+    }
+
+    const residence = await this.admitWithDecision(
+      current,
+      habitat,
+      activeResidents,
+      eventId,
+      observedAt,
+      actorRef,
+      decision
+    );
+    return { outcome: "admitted", residence, decision };
   }
 }
