@@ -74,6 +74,7 @@ export class AdmissionService {
         current,
         eventId,
         decision.decidedAt,
+        observedAt,
         actorRef,
         decision.reason ?? "Atlas authority denied admission",
         [],
