@@ -119,26 +119,104 @@ export function assertCurrentReadyHandoffFresh(
   }
 }
 
+export type CurrentReadyHandoffRefusalCode =
+  | "invalid_timestamp"
+  | "checked_before_generation"
+  | "expired"
+  | "residence_mismatch"
+  | "identity_mismatch"
+  | "habitat_mismatch"
+  | "source_event_superseded"
+  | "residence_not_ready";
+
+export type CurrentReadyHandoffValidation =
+  | { readonly usable: true }
+  | {
+      readonly usable: false;
+      readonly code: CurrentReadyHandoffRefusalCode;
+      readonly message: string;
+    };
+
+export function validateCurrentReadyHandoff(
+  handoff: CurrentReadyHandoffCapsule,
+  currentResidence: ResidenceSnapshot,
+  now: string
+): CurrentReadyHandoffValidation {
+  const nowMs = Date.parse(now);
+  const generatedMs = Date.parse(handoff.generatedAt);
+  const freshUntilMs = Date.parse(handoff.freshUntil);
+
+  if (
+    !Number.isFinite(nowMs) ||
+    !Number.isFinite(generatedMs) ||
+    !Number.isFinite(freshUntilMs)
+  ) {
+    return {
+      usable: false,
+      code: "invalid_timestamp",
+      message: "handoff freshness timestamps must be valid ISO-8601 values"
+    };
+  }
+  if (nowMs < generatedMs) {
+    return {
+      usable: false,
+      code: "checked_before_generation",
+      message: "handoff cannot be checked before it was generated"
+    };
+  }
+  if (nowMs > freshUntilMs) {
+    return {
+      usable: false,
+      code: "expired",
+      message: "handoff freshness has expired"
+    };
+  }
+  if (handoff.residenceId !== currentResidence.residenceId) {
+    return {
+      usable: false,
+      code: "residence_mismatch",
+      message: "handoff does not belong to the current residence"
+    };
+  }
+  if (handoff.agentIdentityRef !== currentResidence.agentIdentityRef) {
+    return {
+      usable: false,
+      code: "identity_mismatch",
+      message: "handoff identity does not match the current residence"
+    };
+  }
+  if (handoff.habitatId !== currentResidence.habitatId) {
+    return {
+      usable: false,
+      code: "habitat_mismatch",
+      message: "handoff habitat does not match the current residence"
+    };
+  }
+  if (handoff.lastResidenceEventId !== currentResidence.lastEventId) {
+    return {
+      usable: false,
+      code: "source_event_superseded",
+      message: "handoff source residence event has been superseded"
+    };
+  }
+  if (currentResidence.status !== "ready") {
+    return {
+      usable: false,
+      code: "residence_not_ready",
+      message: `handoff requires the current residence to remain ready, got ${currentResidence.status}`
+    };
+  }
+
+  return { usable: true };
+}
+
 export function assertCurrentReadyHandoffUsable(
   handoff: CurrentReadyHandoffCapsule,
   currentResidence: ResidenceSnapshot,
   now: string
 ): void {
-  assertCurrentReadyHandoffFresh(handoff, now);
-
-  if (handoff.residenceId !== currentResidence.residenceId) {
-    throw new Error("handoff does not belong to the current residence");
-  }
-  if (handoff.agentIdentityRef !== currentResidence.agentIdentityRef) {
-    throw new Error("handoff identity does not match the current residence");
-  }
-  if (handoff.habitatId !== currentResidence.habitatId) {
-    throw new Error("handoff habitat does not match the current residence");
-  }
-  if (handoff.lastResidenceEventId !== currentResidence.lastEventId) {
-    throw new Error("handoff source residence event has been superseded");
-  }
-  if (currentResidence.status !== "ready") {
-    throw new Error(`handoff requires the current residence to remain ready, got ${currentResidence.status}`);
+  const validation = validateCurrentReadyHandoff(handoff, currentResidence, now);
+  if (!validation.usable) {
+    throw new Error(validation.message);
   }
 }
