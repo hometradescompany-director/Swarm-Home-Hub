@@ -221,10 +221,11 @@ export class ReadyHandoffService {
       return {
         usable: false,
         absence: createTypedAbsence({
-          kind: "rejected_by_validation",
+          kind: "contradictory",
           statement: "handoff readiness observation does not match authoritative source event",
           observedAt,
-          sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
+          sourceRef: `swarm:ready-handoff:${handoff.residenceId}`,
+          contradictsRef: `swarm:residence-event:${sourceEvent.id}`
         }),
         refusalCode: "source_event_time_mismatch"
       };
