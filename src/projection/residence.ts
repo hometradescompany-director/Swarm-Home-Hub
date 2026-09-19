@@ -15,6 +15,11 @@ export function projectResidence(events: readonly SwarmResidenceEvent[]): Reside
   if (events.length === 0) return null;
 
   const first = events[0]!;
+  const firstOccurredMs = Date.parse(first.occurredAt);
+  let previousObservedMs = Date.parse(first.observedAt);
+  if (!Number.isFinite(firstOccurredMs) || !Number.isFinite(previousObservedMs)) {
+    throw new Error("residence replay contains invalid ISO-8601 timestamps");
+  }
   if (first.type !== "swarm.residence.requested") {
     throw new Error("residence history must begin with a request event");
   }
@@ -32,6 +37,16 @@ export function projectResidence(events: readonly SwarmResidenceEvent[]): Reside
   };
 
   for (const event of events.slice(1)) {
+    const occurredMs = Date.parse(event.occurredAt);
+    const observedMs = Date.parse(event.observedAt);
+    if (!Number.isFinite(occurredMs) || !Number.isFinite(observedMs)) {
+      throw new Error("residence replay contains invalid ISO-8601 timestamps");
+    }
+    if (observedMs < previousObservedMs) {
+      throw new Error("residence replay observation time moved backward");
+    }
+    previousObservedMs = observedMs;
+
     if (event.residenceId !== snapshot.residenceId) {
       throw new Error("projection mixed multiple residence identities");
     }
