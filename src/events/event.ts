@@ -16,7 +16,10 @@ export interface SwarmResidenceEvent {
   readonly observedAt: string;
   readonly actorRef: string;
   readonly residenceId: ResidenceId;
+  /** Canonical Atlas identity reference used by local state. */
   readonly agentIdentityRef: AgentIdentityRef;
+  /** Caller-supplied opaque identity ref when Atlas canonicalised it to a different ref. */
+  readonly sourceAgentIdentityRef?: AgentIdentityRef;
   readonly habitatId: HabitatId;
   readonly evidenceReceiptIds: readonly string[];
   /** Opaque authority decision reference when this transition depends on external authority. */
