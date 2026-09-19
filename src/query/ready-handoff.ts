@@ -12,6 +12,12 @@ export interface ReadyHandoffCapsule {
   readonly generatedAt: string;
 }
 
+export interface CurrentReadyHandoffCapsule extends ReadyHandoffCapsule {
+  readonly readinessObservedAt: string;
+  readonly heartbeatEvaluatedAt: string;
+  readonly freshUntil: string;
+}
+
 export function projectReadyHandoff(
   residence: ResidenceSnapshot,
   agent: AgentReference,
@@ -40,7 +46,7 @@ export function projectCurrentReadyHandoff(
   agent: AgentReference,
   heartbeat: ResidenceHeartbeat,
   generatedAt: string
-): ReadyHandoffCapsule {
+): CurrentReadyHandoffCapsule {
   if (heartbeat.residenceId !== residence.residenceId) {
     throw new Error("handoff heartbeat does not belong to residence");
   }
@@ -56,14 +62,19 @@ export function projectCurrentReadyHandoff(
   if (!heartbeat.lastObservedAt) {
     throw new Error("handoff heartbeat is missing its last observation time");
   }
+  if (!heartbeat.freshUntil) {
+    throw new Error("handoff heartbeat is missing its freshness boundary");
+  }
 
   const generatedMs = Date.parse(generatedAt);
   const observedMs = Date.parse(heartbeat.lastObservedAt);
   const evaluatedMs = Date.parse(heartbeat.evaluatedAt);
+  const freshUntilMs = Date.parse(heartbeat.freshUntil);
   if (
     !Number.isFinite(generatedMs) ||
     !Number.isFinite(observedMs) ||
-    !Number.isFinite(evaluatedMs)
+    !Number.isFinite(evaluatedMs) ||
+    !Number.isFinite(freshUntilMs)
   ) {
     throw new Error("handoff timestamps must be valid ISO-8601 values");
   }
@@ -73,6 +84,37 @@ export function projectCurrentReadyHandoff(
   if (generatedMs !== evaluatedMs) {
     throw new Error("handoff must be generated at the heartbeat evaluation time");
   }
+  if (generatedMs > freshUntilMs) {
+    throw new Error("handoff cannot be generated after the heartbeat freshness boundary");
+  }
 
-  return projectReadyHandoff(residence, agent, generatedAt);
+  return {
+    ...projectReadyHandoff(residence, agent, generatedAt),
+    readinessObservedAt: heartbeat.lastObservedAt,
+    heartbeatEvaluatedAt: heartbeat.evaluatedAt,
+    freshUntil: heartbeat.freshUntil
+  };
+}
+
+export function assertCurrentReadyHandoffFresh(
+  handoff: CurrentReadyHandoffCapsule,
+  now: string
+): void {
+  const nowMs = Date.parse(now);
+  const generatedMs = Date.parse(handoff.generatedAt);
+  const freshUntilMs = Date.parse(handoff.freshUntil);
+
+  if (
+    !Number.isFinite(nowMs) ||
+    !Number.isFinite(generatedMs) ||
+    !Number.isFinite(freshUntilMs)
+  ) {
+    throw new Error("handoff freshness timestamps must be valid ISO-8601 values");
+  }
+  if (nowMs < generatedMs) {
+    throw new Error("handoff cannot be checked before it was generated");
+  }
+  if (nowMs > freshUntilMs) {
+    throw new Error("handoff freshness has expired");
+  }
 }
