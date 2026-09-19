@@ -63,3 +63,20 @@ describe("ready handoff capsule", () => {
     ).toThrow(/does not match residence identity/);
   });
 });
+
+
+it("freezes ready handoff capsules and their capability arrays", () => {
+  const handoff = projectReadyHandoff(ready, agent, "2026-09-20T00:00:00.000Z");
+
+  expect(Object.isFrozen(handoff)).toBe(true);
+  expect(Object.isFrozen(handoff.capabilityRefs)).toBe(true);
+  expect(Object.isFrozen(handoff.offeringRefs)).toBe(true);
+
+  expect(() => {
+    (handoff.capabilityRefs as CapabilityRef[]).push("capability:three" as never);
+  }).toThrow();
+
+  expect(() => {
+    (handoff as { generatedAt: string }).generatedAt = "2099-01-01T00:00:00.000Z";
+  }).toThrow();
+});
