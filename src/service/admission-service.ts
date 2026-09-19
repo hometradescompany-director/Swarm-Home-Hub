@@ -50,7 +50,7 @@ export class AdmissionService {
       actorRef,
       evidenceReceiptIds: [],
       authorityRef: decision.authorityRef
-    });
+    }, { habitatCapacity: habitat.capacity });
   }
 
   async admit(
