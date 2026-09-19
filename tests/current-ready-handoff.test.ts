@@ -78,4 +78,27 @@ describe("current ready handoff", () => {
       )
     ).toThrow(/current residence heartbeat/);
   });
+
+  it("refuses a handoff generated before the readiness observation", () => {
+    expect(() =>
+      projectCurrentReadyHandoff(
+        residence,
+        agent,
+        heartbeat({ lastObservedAt: "2026-09-19T03:00:02.000Z" }),
+        "2026-09-19T03:00:01.000Z"
+      )
+    ).toThrow(/before the readiness observation/);
+  });
+
+  it("refuses malformed handoff timestamps", () => {
+    expect(() =>
+      projectCurrentReadyHandoff(
+        residence,
+        agent,
+        heartbeat(),
+        "not-a-time"
+      )
+    ).toThrow(/valid ISO-8601/);
+  });
+
 });
