@@ -67,6 +67,7 @@ describe("admission decision orchestration", () => {
     );
 
     expect(result.outcome).toBe("admitted");
+    expect(result.rejectionSource).toBeNull();
     expect(result.residence.status).toBe("admitted");
     expect((await journal.eventsForResidence(result.residence.residenceId))[1]).toMatchObject({
       type: "swarm.residence.admitted",
@@ -91,6 +92,7 @@ describe("admission decision orchestration", () => {
     );
 
     expect(result.outcome).toBe("rejected");
+    expect(result.rejectionSource).toBe("atlas_authority");
     expect(result.residence.status).toBe("rejected");
     expect((await journal.eventsForResidence(result.residence.residenceId))[1]).toMatchObject({
       type: "swarm.residence.rejected",
@@ -115,15 +117,25 @@ describe("admission decision orchestration", () => {
       lastEventId: "event:occupying-ready"
     };
 
-    await expect(
-      new AdmissionService(journal, gateway(true)).decide(
-        current,
-        { id: "habitat:one" as never, name: "One", capacity: 1, status: "open" },
-        [occupying],
-        "event:decision",
-        "2026-09-19T00:00:01.000Z",
-        "actor:operator"
-      )
-    ).rejects.toThrow(/habitat capacity reached/);
+    const result = await new AdmissionService(journal, gateway(true)).decide(
+      current,
+      { id: "habitat:one" as never, name: "One", capacity: 1, status: "open" },
+      [occupying],
+      "event:decision",
+      "2026-09-19T00:00:01.000Z",
+      "actor:operator"
+    );
+
+    expect(result.outcome).toBe("rejected");
+    expect(result.rejectionSource).toBe("habitat_policy");
+    expect(result.decision.allowed).toBe(true);
+    expect(result.residence.status).toBe("rejected");
+    expect((await journal.eventsForResidence(result.residence.residenceId))[1]).toMatchObject({
+      type: "swarm.residence.rejected",
+      authorityRef: "atlas:decision:allow",
+      reason: "habitat capacity reached: habitat:one",
+      occurredAt: "2026-09-19T00:00:01.000Z",
+      observedAt: "2026-09-19T00:00:01.000Z"
+    });
   });
 });
