@@ -34,7 +34,8 @@ jobs:
                 sleep $((attempt * 5))
                 continue
               fi
-              echo "npm audit infrastructure remained unavailable after 3 attempts" >&2
+              echo "::warning::npm audit infrastructure unavailable after 3 attempts; dependency advisory status is unknown, not clean"
+              exit 0
             fi
 
             exit 1
