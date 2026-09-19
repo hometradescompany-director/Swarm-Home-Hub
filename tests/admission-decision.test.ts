@@ -11,6 +11,32 @@ const requested = (): ResidenceSnapshot => ({
   status: "requested",
   version: 1,
   lastEventId: "event:requested"
+
+  it("derives full habitat occupancy from residence snapshots instead of a caller count", async () => {
+    const journal = new InMemoryEventJournal();
+    const current = requested();
+    await seedRequested(journal, current);
+
+    const occupying: ResidenceSnapshot = {
+      residenceId: "residence:occupying" as never,
+      agentIdentityRef: "agent:occupying" as never,
+      habitatId: "habitat:one" as never,
+      status: "ready",
+      version: 3,
+      lastEventId: "event:occupying-ready"
+    };
+
+    await expect(
+      new AdmissionService(journal, gateway(true)).decide(
+        current,
+        { id: "habitat:one" as never, name: "One", capacity: 1, status: "open" },
+        [occupying],
+        "event:decision",
+        "2026-09-19T00:00:01.000Z",
+        "actor:operator"
+      )
+    ).rejects.toThrow(/habitat capacity reached/);
+  });
 });
 
 async function seedRequested(
@@ -60,7 +86,7 @@ describe("admission decision orchestration", () => {
     const result = await new AdmissionService(journal, gateway(true)).decide(
       current,
       { id: "habitat:one" as never, name: "One", capacity: 2, status: "open" },
-      0,
+      [],
       "event:decision",
       "2026-09-19T00:00:01.000Z",
       "actor:operator"
@@ -84,7 +110,7 @@ describe("admission decision orchestration", () => {
     const result = await new AdmissionService(journal, gateway(false)).decide(
       current,
       { id: "habitat:one" as never, name: "One", capacity: 2, status: "open" },
-      0,
+      [],
       "event:decision",
       "2026-09-19T00:00:01.000Z",
       "actor:operator"
