@@ -238,14 +238,25 @@ export class ReadyHandoffService {
     );
 
     if (!validation.usable) {
+      const absence =
+        validation.code === "source_event_superseded"
+          ? createTypedAbsence({
+              kind: "superseded",
+              statement: validation.message,
+              observedAt,
+              sourceRef: `swarm:residence-event:${handoff.lastResidenceEventId}`,
+              supersededByRef: `swarm:residence-event:${context.context.residence.lastEventId}`
+            })
+          : createTypedAbsence({
+              kind: "rejected_by_validation",
+              statement: validation.message,
+              observedAt,
+              sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
+            });
+
       return {
         usable: false,
-        absence: createTypedAbsence({
-          kind: "rejected_by_validation",
-          statement: validation.message,
-          observedAt,
-          sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
-        }),
+        absence,
         refusalCode: validation.code
       };
     }
