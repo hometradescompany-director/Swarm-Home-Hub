@@ -11,7 +11,8 @@ export class RejectionService {
     at: string,
     actorRef: string,
     reason: string,
-    evidenceReceiptIds: readonly string[] = []
+    evidenceReceiptIds: readonly string[] = [],
+    authorityRef?: string
   ): Promise<ResidenceSnapshot> {
     const normalizedReason = reason.trim();
     if (!normalizedReason) {
@@ -24,7 +25,8 @@ export class RejectionService {
       observedAt: at,
       actorRef,
       evidenceReceiptIds,
-      reason: normalizedReason
+      reason: normalizedReason,
+      ...(authorityRef ? { authorityRef } : {})
     });
   }
 }
