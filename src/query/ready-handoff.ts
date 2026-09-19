@@ -80,6 +80,17 @@ export function projectCurrentReadyHandoff(
   ) {
     throw new Error("handoff timestamps must be valid ISO-8601 values");
   }
+  if (!Number.isFinite(heartbeat.staleAfterMs) || heartbeat.staleAfterMs < 0) {
+    throw new Error("handoff heartbeat freshness threshold must be a non-negative finite number");
+  }
+  const derivedFreshUntilMs = observedMs + heartbeat.staleAfterMs;
+  if (!Number.isFinite(derivedFreshUntilMs) || derivedFreshUntilMs !== freshUntilMs) {
+    throw new Error("handoff heartbeat freshness boundary is inconsistent with its observation and policy");
+  }
+  const derivedAgeMs = evaluatedMs - observedMs;
+  if (heartbeat.ageMs !== derivedAgeMs) {
+    throw new Error("handoff heartbeat age is inconsistent with its observation and evaluation times");
+  }
   if (generatedMs < observedMs) {
     throw new Error("handoff cannot be generated before the readiness observation");
   }
