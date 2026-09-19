@@ -21,13 +21,16 @@ export class ResidenceService {
     envelope: Omit<SwarmResidenceEvent, "type" | "residenceId" | "agentIdentityRef" | "habitatId">
   ): Promise<ResidenceSnapshot> {
     assertAllowedTransition(current.status, next);
-    await this.journal.append({
-      ...envelope,
-      type: statusEvent[next],
-      residenceId: current.residenceId,
-      agentIdentityRef: current.agentIdentityRef,
-      habitatId: current.habitatId
-    });
+    await this.journal.append(
+      {
+        ...envelope,
+        type: statusEvent[next],
+        residenceId: current.residenceId,
+        agentIdentityRef: current.agentIdentityRef,
+        habitatId: current.habitatId
+      },
+      { expectedLastEventId: current.lastEventId }
+    );
     const rebuilt = projectResidence(await this.journal.eventsForResidence(current.residenceId));
     if (!rebuilt) throw new Error("residence projection unexpectedly empty");
     return rebuilt;
