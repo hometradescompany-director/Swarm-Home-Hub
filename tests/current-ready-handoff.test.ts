@@ -5,7 +5,8 @@ import type { ResidenceHeartbeat } from "../src/query/residence-heartbeat.js";
 import {
   assertCurrentReadyHandoffFresh,
   assertCurrentReadyHandoffUsable,
-  projectCurrentReadyHandoff
+  projectCurrentReadyHandoff,
+  validateCurrentReadyHandoff
 } from "../src/query/ready-handoff.js";
 
 const residence: ResidenceSnapshot = {
@@ -200,5 +201,67 @@ describe("current ready handoff", () => {
         "2026-09-19T03:00:30.000Z"
       )
     ).toThrow(/superseded/);
+  });
+
+  it("returns a typed refusal instead of requiring message parsing", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(
+      validateCurrentReadyHandoff(
+        handoff,
+        residence,
+        "2026-09-19T03:01:00.001Z"
+      )
+    ).toMatchObject({
+      usable: false,
+      code: "expired"
+    });
+  });
+
+  it("types event supersession separately from expiry", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+    const advanced: ResidenceSnapshot = {
+      ...residence,
+      version: residence.version + 1,
+      lastEventId: "event:new-ready"
+    };
+
+    expect(
+      validateCurrentReadyHandoff(
+        handoff,
+        advanced,
+        "2026-09-19T03:00:30.000Z"
+      )
+    ).toMatchObject({
+      usable: false,
+      code: "source_event_superseded"
+    });
+  });
+
+  it("returns usable true for the exact live source event", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(
+      validateCurrentReadyHandoff(
+        handoff,
+        residence,
+        "2026-09-19T03:00:30.000Z"
+      )
+    ).toEqual({ usable: true });
   });
 });
