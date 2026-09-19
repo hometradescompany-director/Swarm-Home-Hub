@@ -15,7 +15,10 @@ const command = (): RequestResidence => ({
   evidenceReceiptIds: ["receipt:request"]
 });
 
-function atlas(\n  exists: boolean,\n  canonicalRef: AgentIdentityRef = "agent:canonical" as AgentIdentityRef\n): AtlasGateway {
+function atlas(
+  exists: boolean,
+  canonicalRef: AgentIdentityRef = "agent:canonical" as AgentIdentityRef
+): AtlasGateway {
   return {
     async resolveAgentIdentity() {
       return { exists, canonicalRef };
