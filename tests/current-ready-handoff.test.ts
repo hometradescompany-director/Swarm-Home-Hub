@@ -36,45 +36,6 @@ const heartbeat = (
   staleAfterMs: 60_000,
   freshUntil: "2026-09-19T03:01:00.000Z",
   ...overrides
-  it("allows use while the exact source residence event is still current", () => {
-    const handoff = projectCurrentReadyHandoff(
-      residence,
-      agent,
-      heartbeat(),
-      "2026-09-19T03:00:01.000Z"
-    );
-
-    expect(() =>
-      assertCurrentReadyHandoffUsable(
-        handoff,
-        residence,
-        "2026-09-19T03:00:30.000Z"
-      )
-    ).not.toThrow();
-  });
-
-  it("refuses a still-fresh handoff after the residence advances", () => {
-    const handoff = projectCurrentReadyHandoff(
-      residence,
-      agent,
-      heartbeat(),
-      "2026-09-19T03:00:01.000Z"
-    );
-    const advanced: ResidenceSnapshot = {
-      ...residence,
-      status: "departed",
-      version: residence.version + 1,
-      lastEventId: "event:departed"
-    };
-
-    expect(() =>
-      assertCurrentReadyHandoffUsable(
-        handoff,
-        advanced,
-        "2026-09-19T03:00:30.000Z"
-      )
-    ).toThrow(/superseded/);
-  });
 });
 
 describe("current ready handoff", () => {
@@ -199,5 +160,45 @@ describe("current ready handoff", () => {
     expect(() =>
       assertCurrentReadyHandoffFresh(handoff, "2026-09-19T03:01:00.001Z")
     ).toThrow(/expired/);
+  });
+
+  it("allows use while the exact source residence event is still current", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(() =>
+      assertCurrentReadyHandoffUsable(
+        handoff,
+        residence,
+        "2026-09-19T03:00:30.000Z"
+      )
+    ).not.toThrow();
+  });
+
+  it("refuses a still-fresh handoff after the residence advances", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+    const advanced: ResidenceSnapshot = {
+      ...residence,
+      status: "departed",
+      version: residence.version + 1,
+      lastEventId: "event:departed"
+    };
+
+    expect(() =>
+      assertCurrentReadyHandoffUsable(
+        handoff,
+        advanced,
+        "2026-09-19T03:00:30.000Z"
+      )
+    ).toThrow(/superseded/);
   });
 });
