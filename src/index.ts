@@ -16,6 +16,7 @@ export * from "./service/admission-service.js";
 export * from "./service/rest-service.js";
 export * from "./service/departure-service.js";
 export * from "./service/rejection-service.js";
+export * from "./service/ready-handoff-service.js";
 export * from "./registry/habitat-registry.js";
 export * from "./query/active-residences.js";
 export * from "./query/residence-index.js";
