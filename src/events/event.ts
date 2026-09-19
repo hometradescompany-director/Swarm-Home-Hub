@@ -22,6 +22,8 @@ export interface SwarmResidenceEvent {
   readonly sourceAgentIdentityRef?: AgentIdentityRef;
   readonly habitatId: HabitatId;
   readonly evidenceReceiptIds: readonly string[];
+  /** Immediate predecessor in this residence event chain. Null only for the first event. */
+  readonly previousEventId?: string | null;
   /** Opaque authority decision reference when this transition depends on external authority. */
   readonly authorityRef?: string;
   /** Human-readable explanation. Never used as an authority identifier. */
