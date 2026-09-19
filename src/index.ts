@@ -19,4 +19,5 @@ export * from "./service/rejection-service.js";
 export * from "./registry/habitat-registry.js";
 export * from "./query/active-residences.js";
 export * from "./query/residence-index.js";
+export * from "./query/residence-timeline.js";
 export * from "./integrations/atlas/contract.js";
