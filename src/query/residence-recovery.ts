@@ -23,6 +23,11 @@ export async function recoverResidence(
   residenceId: ResidenceId,
   observedAt: string
 ): Promise<ResidenceRecovery> {
+  const observationMs = Date.parse(observedAt);
+  if (!Number.isFinite(observationMs)) {
+    throw new Error("recovery observedAt must be a valid ISO-8601 timestamp");
+  }
+  const canonicalObservedAt = new Date(observationMs).toISOString();
   const events = await journal.eventsForResidence(residenceId);
 
   if (events.length === 0) {
@@ -31,7 +36,7 @@ export async function recoverResidence(
       absence: {
         kind: "cannot_be_located",
         statement: `No residence events can be located for ${residenceId} in this journal.`,
-        observedAt,
+        observedAt: canonicalObservedAt,
         sourceRef: `swarm:event-journal:${residenceId}`
       }
     };
@@ -45,7 +50,7 @@ export async function recoverResidence(
         absence: {
           kind: "status_unknown",
           statement: `Residence state is unknown for ${residenceId}.`,
-          observedAt,
+          observedAt: canonicalObservedAt,
           sourceRef: `swarm:event-journal:${residenceId}`
         }
       };
@@ -65,7 +70,7 @@ export async function recoverResidence(
           error instanceof Error
             ? `Residence history could not be projected: ${error.message}`
             : "Residence history could not be projected.",
-        observedAt,
+        observedAt: canonicalObservedAt,
         sourceRef: `swarm:event-journal:${residenceId}`
       }
     };
