@@ -1,4 +1,5 @@
 import type { AgentReference, CapabilityRef, OfferingRef } from "../domain/agent.js";
+import type { Habitat } from "../domain/habitat.js";
 import type { ResidenceSnapshot } from "../domain/residence.js";
 import type { ResidenceHeartbeat } from "./residence-heartbeat.js";
 
@@ -15,6 +16,7 @@ export interface ReadyHandoffCapsule {
 export interface CurrentReadyHandoffCapsule extends ReadyHandoffCapsule {
   readonly readinessObservedAt: string;
   readonly heartbeatEvaluatedAt: string;
+  readonly staleAfterMs: number;
   readonly freshUntil: string;
 }
 
@@ -92,6 +94,7 @@ export function projectCurrentReadyHandoff(
     ...projectReadyHandoff(residence, agent, generatedAt),
     readinessObservedAt: heartbeat.lastObservedAt,
     heartbeatEvaluatedAt: heartbeat.evaluatedAt,
+    staleAfterMs: heartbeat.staleAfterMs,
     freshUntil: heartbeat.freshUntil
   };
 }
@@ -126,6 +129,7 @@ export type CurrentReadyHandoffRefusalCode =
   | "residence_mismatch"
   | "identity_mismatch"
   | "habitat_mismatch"
+  | "freshness_policy_changed"
   | "source_event_superseded"
   | "residence_not_ready";
 
@@ -140,6 +144,7 @@ export type CurrentReadyHandoffValidation =
 export function validateCurrentReadyHandoff(
   handoff: CurrentReadyHandoffCapsule,
   currentResidence: ResidenceSnapshot,
+  currentHabitat: Habitat,
   now: string
 ): CurrentReadyHandoffValidation {
   const nowMs = Date.parse(now);
@@ -185,11 +190,21 @@ export function validateCurrentReadyHandoff(
       message: "handoff identity does not match the current residence"
     };
   }
-  if (handoff.habitatId !== currentResidence.habitatId) {
+  if (
+    handoff.habitatId !== currentResidence.habitatId ||
+    currentHabitat.id !== currentResidence.habitatId
+  ) {
     return {
       usable: false,
       code: "habitat_mismatch",
-      message: "handoff habitat does not match the current residence"
+      message: "handoff habitat does not match the current residence and habitat policy"
+    };
+  }
+  if (handoff.staleAfterMs !== currentHabitat.heartbeatStaleAfterMs) {
+    return {
+      usable: false,
+      code: "freshness_policy_changed",
+      message: "handoff freshness policy has changed since generation"
     };
   }
   if (handoff.lastResidenceEventId !== currentResidence.lastEventId) {
@@ -213,9 +228,15 @@ export function validateCurrentReadyHandoff(
 export function assertCurrentReadyHandoffUsable(
   handoff: CurrentReadyHandoffCapsule,
   currentResidence: ResidenceSnapshot,
+  currentHabitat: Habitat,
   now: string
 ): void {
-  const validation = validateCurrentReadyHandoff(handoff, currentResidence, now);
+  const validation = validateCurrentReadyHandoff(
+    handoff,
+    currentResidence,
+    currentHabitat,
+    now
+  );
   if (!validation.usable) {
     throw new Error(validation.message);
   }
