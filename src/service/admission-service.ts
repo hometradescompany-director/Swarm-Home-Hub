@@ -29,7 +29,7 @@ export class AdmissionService {
       observedAt,
       actorRef,
       evidenceReceiptIds: [],
-      reason: decision.authorityRef
+      authorityRef: decision.authorityRef
     });
   }
 }
