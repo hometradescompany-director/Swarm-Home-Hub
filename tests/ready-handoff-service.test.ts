@@ -203,4 +203,106 @@ describe("ready handoff service", () => {
       }
     });
   });
+
+  it("revalidates an existing handoff against authoritative current state", async () => {
+    const journal = await readyJournal();
+    const habitats = new InMemoryHabitatRegistry();
+    await habitats.put(habitat);
+    const service = new ReadyHandoffService(journal, habitats);
+
+    const handoff = await service.create(
+      residenceId,
+      agent,
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    await expect(
+      service.assertUsable(handoff, "2026-09-19T03:00:02.000Z")
+    ).resolves.toBeUndefined();
+
+    await journal.append({
+      id: "event:resting-again",
+      type: "swarm.residence.rested",
+      occurredAt: "2026-09-19T03:00:03.000Z",
+      observedAt: "2026-09-19T03:00:03.000Z",
+      actorRef: "actor:test",
+      residenceId,
+      agentIdentityRef: agent.identityRef,
+      habitatId: habitat.id,
+      evidenceReceiptIds: [],
+      previousEventId: "event:ready"
+    });
+
+    const result = await service.inspect(
+      handoff,
+      "2026-09-19T03:00:04.000Z"
+    );
+
+    expect(result).toMatchObject({
+      usable: false,
+      absence: {
+        kind: "rejected_by_validation",
+        statement: "handoff source residence event has been superseded"
+      }
+    });
+  });
+
+  it("revalidates an existing handoff against current habitat policy", async () => {
+    const journal = await readyJournal();
+    const habitats = new InMemoryHabitatRegistry();
+    await habitats.put(habitat);
+    const service = new ReadyHandoffService(journal, habitats);
+
+    const handoff = await service.create(
+      residenceId,
+      agent,
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    await habitats.put({ ...habitat, heartbeatStaleAfterMs: 10_000 });
+
+    const result = await service.inspect(
+      handoff,
+      "2026-09-19T03:00:02.000Z"
+    );
+
+    expect(result).toMatchObject({
+      usable: false,
+      absence: {
+        kind: "rejected_by_validation",
+        statement: "handoff freshness policy has changed since generation"
+      }
+    });
+  });
+
+  it("returns typed absence when authoritative residence history cannot be found", async () => {
+    const sourceJournal = await readyJournal();
+    const habitats = new InMemoryHabitatRegistry();
+    await habitats.put(habitat);
+
+    const handoff = await new ReadyHandoffService(
+      sourceJournal,
+      habitats
+    ).create(
+      residenceId,
+      agent,
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    const result = await new ReadyHandoffService(
+      new InMemoryEventJournal(),
+      habitats
+    ).inspect(
+      handoff,
+      "2026-09-19T03:00:02.000Z"
+    );
+
+    expect(result).toMatchObject({
+      usable: false,
+      absence: {
+        kind: "cannot_be_located",
+        sourceRef: `swarm:event-journal:${residenceId}`
+      }
+    });
+  });
 });
