@@ -17,6 +17,8 @@ export interface ResidenceTimelineEntry {
   readonly occurredAt: string;
   readonly observedAt: string;
   readonly actorRef: string;
+  readonly agentIdentityRef: string;
+  readonly sourceAgentIdentityRef: string | null;
   readonly authorityRef: string | null;
   readonly evidenceReceiptIds: readonly string[];
   readonly reason: string | null;
@@ -32,6 +34,8 @@ export function projectResidenceTimeline(
     occurredAt: event.occurredAt,
     observedAt: event.observedAt,
     actorRef: event.actorRef,
+    agentIdentityRef: event.agentIdentityRef,
+    sourceAgentIdentityRef: event.sourceAgentIdentityRef ?? null,
     authorityRef: event.authorityRef ?? null,
     evidenceReceiptIds: [...event.evidenceReceiptIds],
     reason: event.reason ?? null
