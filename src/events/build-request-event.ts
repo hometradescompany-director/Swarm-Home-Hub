@@ -1,9 +1,11 @@
+import type { AgentIdentityRef } from "../domain/agent.js";
 import type { RequestResidence } from "../commands/request-residence.js";
 import type { SwarmResidenceEvent } from "./event.js";
 
 export function buildResidenceRequestedEvent(
   command: RequestResidence,
-  observedAt: string
+  observedAt: string,
+  canonicalAgentIdentityRef: AgentIdentityRef
 ): SwarmResidenceEvent {
   return {
     id: `event:${command.requestId}`,
@@ -12,7 +14,10 @@ export function buildResidenceRequestedEvent(
     observedAt,
     actorRef: command.actorRef,
     residenceId: command.residenceId,
-    agentIdentityRef: command.agentIdentityRef,
+    agentIdentityRef: canonicalAgentIdentityRef,
+    ...(canonicalAgentIdentityRef !== command.agentIdentityRef
+      ? { sourceAgentIdentityRef: command.agentIdentityRef }
+      : {}),
     habitatId: command.habitatId,
     evidenceReceiptIds: command.evidenceReceiptIds
   };
