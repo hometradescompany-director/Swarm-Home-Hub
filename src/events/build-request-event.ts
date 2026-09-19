@@ -19,6 +19,7 @@ export function buildResidenceRequestedEvent(
       ? { sourceAgentIdentityRef: command.agentIdentityRef }
       : {}),
     habitatId: command.habitatId,
-    evidenceReceiptIds: command.evidenceReceiptIds
+    evidenceReceiptIds: command.evidenceReceiptIds,
+    previousEventId: null
   };
 }
