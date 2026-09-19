@@ -1,0 +1,24 @@
+name: ci
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Use npm 11 resolver
+        run: npm install -g npm@11.19.1
+      - run: npm ci
+      - name: Dependency audit
+        run: npm audit --audit-level=moderate
+      - run: npm run check
