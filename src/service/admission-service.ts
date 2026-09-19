@@ -2,16 +2,28 @@ import type { Habitat } from "../domain/habitat.js";
 import type { ResidenceSnapshot } from "../domain/residence.js";
 import type { EventJournal } from "../events/journal.js";
 import type { AtlasAuthorityDecision, AtlasGateway } from "../integrations/atlas/contract.js";
-import { assertAdmissionAllowed } from "../policy/admission.js";
+import {
+  assertAdmissionAllowed,
+  assertAuthorityAllows,
+  assertHabitatAdmissionAvailable
+} from "../policy/admission.js";
 import { activeResidencesForHabitat } from "../query/active-residences.js";
 import { ResidenceService } from "./residence-service.js";
 import { RejectionService } from "./rejection-service.js";
 
-export interface AdmissionDecisionOutcome {
-  readonly outcome: "admitted" | "rejected";
-  readonly residence: ResidenceSnapshot;
-  readonly decision: AtlasAuthorityDecision;
-}
+export type AdmissionDecisionOutcome =
+  | {
+      readonly outcome: "admitted";
+      readonly residence: ResidenceSnapshot;
+      readonly decision: AtlasAuthorityDecision;
+      readonly rejectionSource: null;
+    }
+  | {
+      readonly outcome: "rejected";
+      readonly residence: ResidenceSnapshot;
+      readonly decision: AtlasAuthorityDecision;
+      readonly rejectionSource: "atlas_authority" | "habitat_policy";
+    };
 
 export class AdmissionService {
   constructor(
@@ -82,7 +94,37 @@ export class AdmissionService {
         [],
         decision.authorityRef
       );
-      return { outcome: "rejected", residence, decision };
+      return {
+        outcome: "rejected",
+        residence,
+        decision,
+        rejectionSource: "atlas_authority"
+      };
+    }
+
+    assertAuthorityAllows(decision);
+    const activeResidents = activeResidencesForHabitat(residences, habitat.id).length;
+    try {
+      assertHabitatAdmissionAvailable(habitat, activeResidents);
+    } catch (error) {
+      const reason =
+        error instanceof Error ? error.message : "local habitat policy denied admission";
+      const residence = await new RejectionService(this.journal).reject(
+        current,
+        eventId,
+        observedAt,
+        observedAt,
+        actorRef,
+        reason,
+        [],
+        decision.authorityRef
+      );
+      return {
+        outcome: "rejected",
+        residence,
+        decision,
+        rejectionSource: "habitat_policy"
+      };
     }
 
     const residence = await this.admitWithDecision(
@@ -94,6 +136,11 @@ export class AdmissionService {
       actorRef,
       decision
     );
-    return { outcome: "admitted", residence, decision };
+    return {
+      outcome: "admitted",
+      residence,
+      decision,
+      rejectionSource: null
+    };
   }
 }
