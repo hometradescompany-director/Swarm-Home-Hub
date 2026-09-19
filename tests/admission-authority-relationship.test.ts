@@ -32,6 +32,21 @@ const atlas: AtlasGateway = {
 describe("admission authority relationship", () => {
   it("preserves authorityRef separately from human-readable reason", async () => {
     const journal = new InMemoryEventJournal();
+    await journal.append(
+      {
+        id: requested.lastEventId,
+        type: "swarm.residence.requested",
+        occurredAt: "2026-09-18T23:59:59.000Z",
+        observedAt: "2026-09-18T23:59:59.500Z",
+        actorRef: "actor:request",
+        residenceId: requested.residenceId,
+        agentIdentityRef: requested.agentIdentityRef,
+        habitatId: requested.habitatId,
+        evidenceReceiptIds: [],
+        previousEventId: null
+      },
+      { expectedLastEventId: null }
+    );
     const service = new AdmissionService(journal, atlas);
 
     await service.admit(
@@ -39,15 +54,18 @@ describe("admission authority relationship", () => {
       { id: requested.habitatId, name: "One", capacity: 2, status: "open" },
       0,
       "event:admitted",
-      "2026-09-19T00:00:00.000Z",
+      "2026-09-19T00:00:01.000Z",
       "actor:operator"
     );
 
     const events = await journal.eventsForResidence(requested.residenceId);
-    expect(events[0]).toMatchObject({
+    expect(events[1]).toMatchObject({
       type: "swarm.residence.admitted",
-      authorityRef: "atlas:decision:abc123"
+      authorityRef: "atlas:decision:abc123",
+      occurredAt: "2026-09-19T00:00:00.000Z",
+      observedAt: "2026-09-19T00:00:01.000Z",
+      previousEventId: "event:requested"
     });
-    expect(events[0]?.reason).toBeUndefined();
+    expect(events[1]?.reason).toBeUndefined();
   });
 });
