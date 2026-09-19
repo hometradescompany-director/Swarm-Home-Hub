@@ -5,6 +5,15 @@ export interface AppendExpectation {
   readonly habitatCapacity?: number;
 }
 
+export class HabitatCapacityConflict extends Error {
+  readonly habitatId: string;
+  constructor(habitatId: string) {
+    super(`habitat capacity reached: ${habitatId}`);
+    this.name = "HabitatCapacityConflict";
+    this.habitatId = habitatId;
+  }
+}
+
 export interface EventJournal {
   append(event: SwarmResidenceEvent, expectation?: AppendExpectation): Promise<void>;
   eventsForResidence(residenceId: string): Promise<readonly SwarmResidenceEvent[]>;
@@ -64,7 +73,7 @@ export class InMemoryEventJournal implements EventJournal {
         ].includes(existing.type)
       ).length;
       if (occupied >= expectation.habitatCapacity) {
-        throw new Error(`habitat capacity reached: ${event.habitatId}`);
+        throw new HabitatCapacityConflict(event.habitatId);
       }
     }
 
