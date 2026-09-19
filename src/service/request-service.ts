@@ -4,6 +4,7 @@ import { buildResidenceRequestedEvent } from "../events/build-request-event.js";
 import type { AtlasGateway } from "../integrations/atlas/contract.js";
 import { projectResidence } from "../projection/residence.js";
 import type { ResidenceSnapshot } from "../domain/residence.js";
+import { assertProvenanceReceipt } from "../provenance/receipt.js";
 
 export class ResidenceRequestService {
   constructor(
@@ -28,6 +29,7 @@ export class ResidenceRequestService {
     }
     if (uniqueEvidenceIds.length > 0) {
       const receipts = await this.atlas.evidence(uniqueEvidenceIds);
+      for (const receipt of receipts) assertProvenanceReceipt(receipt);
       const resolved = new Set(receipts.map(receipt => receipt.id));
       const missing = uniqueEvidenceIds.filter(id => !resolved.has(id));
       if (missing.length > 0) {

@@ -14,7 +14,16 @@ const command = (evidenceReceiptIds: readonly string[]): RequestResidence => ({
   evidenceReceiptIds
 });
 
-function gateway(resolvedIds: readonly string[]): AtlasGateway {
+function gateway(
+  resolvedIds: readonly string[],
+  mutate?: (receipt: {
+    id: string;
+    sourceRef: string;
+    capturedAt: string;
+    standing: "source_record";
+    absence?: never;
+  }) => unknown
+): AtlasGateway {
   return {
     async resolveAgentIdentity(ref) {
       return { exists: true, canonicalRef: ref };
@@ -23,12 +32,15 @@ function gateway(resolvedIds: readonly string[]): AtlasGateway {
       throw new Error("not used by request service");
     },
     async evidence() {
-      return resolvedIds.map(id => ({
-        id,
-        sourceRef: "source:" + id,
-        capturedAt: "2026-09-19T00:00:00.000Z",
-        standing: "source_record" as const
-      }));
+      return resolvedIds.map(id => {
+        const receipt = {
+          id,
+          sourceRef: "source:" + id,
+          capturedAt: "2026-09-19T00:00:00.000Z",
+          standing: "source_record" as const
+        };
+        return (mutate ? mutate(receipt) : receipt) as never;
+      });
     }
   };
 }
@@ -59,6 +71,45 @@ describe("residence request evidence boundary", () => {
         "2026-09-19T00:00:01.000Z"
       )
     ).rejects.toThrow(/receipt:missing/);
+
+    expect(await journal.eventsForResidence(current.residenceId)).toHaveLength(0);
+  });
+
+  it("refuses malformed evidence receipts without writing a residence event", async () => {
+    const journal = new InMemoryEventJournal();
+    const current = command(["receipt:one"]);
+
+    await expect(
+      new ResidenceRequestService(
+        journal,
+        gateway(["receipt:one"], receipt => ({
+          ...receipt,
+          capturedAt: "not-a-time"
+        }))
+      ).request(current, "2026-09-19T00:00:01.000Z")
+    ).rejects.toThrow(/capturedAt/);
+
+    expect(await journal.eventsForResidence(current.residenceId)).toHaveLength(0);
+  });
+
+  it("refuses malformed embedded typed absence without writing a residence event", async () => {
+    const journal = new InMemoryEventJournal();
+    const current = command(["receipt:one"]);
+
+    await expect(
+      new ResidenceRequestService(
+        journal,
+        gateway(["receipt:one"], receipt => ({
+          ...receipt,
+          absence: {
+            kind: "superseded",
+            statement: "Old evidence superseded.",
+            observedAt: "2026-09-19T00:00:00.000Z",
+            sourceRef: "swarm:evidence:old"
+          }
+        }))
+      ).request(current, "2026-09-19T00:00:01.000Z")
+    ).rejects.toThrow(/supersededByRef/);
 
     expect(await journal.eventsForResidence(current.residenceId)).toHaveLength(0);
   });
