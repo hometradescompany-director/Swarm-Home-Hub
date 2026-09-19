@@ -13,6 +13,7 @@ describe("residence timeline projection", () => {
         actorRef: "actor:source",
         residenceId: "residence:timeline" as never,
         agentIdentityRef: "agent:timeline" as never,
+        sourceAgentIdentityRef: "agent:submitted" as never,
         habitatId: "habitat:one" as never,
         evidenceReceiptIds: ["receipt:request"]
       },
@@ -38,6 +39,8 @@ describe("residence timeline projection", () => {
         occurredAt: "2026-09-19T00:00:00.000Z",
         observedAt: "2026-09-19T00:00:01.000Z",
         actorRef: "actor:source",
+        agentIdentityRef: "agent:timeline",
+        sourceAgentIdentityRef: "agent:submitted",
         authorityRef: null,
         evidenceReceiptIds: ["receipt:request"],
         reason: null
@@ -49,6 +52,8 @@ describe("residence timeline projection", () => {
         occurredAt: "2026-09-19T00:00:02.000Z",
         observedAt: "2026-09-19T00:00:03.000Z",
         actorRef: "actor:operator",
+        agentIdentityRef: "agent:timeline",
+        sourceAgentIdentityRef: null,
         authorityRef: "atlas:decision:timeline",
         evidenceReceiptIds: [],
         reason: null
