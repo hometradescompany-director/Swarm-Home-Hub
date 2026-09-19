@@ -52,7 +52,7 @@ describe("admission authority relationship", () => {
     await service.admit(
       requested,
       { id: requested.habitatId, name: "One", capacity: 2, status: "open" },
-      0,
+      [],
       "event:admitted",
       "2026-09-19T00:00:01.000Z",
       "actor:operator"
