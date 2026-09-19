@@ -1,5 +1,6 @@
 import type { ResidenceSnapshot, ResidenceStatus } from "../domain/residence.js";
 import type { SwarmResidenceEvent } from "../events/event.js";
+import { assertAllowedTransition } from "../policy/transitions.js";
 
 const statusByEvent: Record<SwarmResidenceEvent["type"], ResidenceStatus> = {
   "swarm.residence.requested": "requested",
@@ -14,6 +15,10 @@ export function projectResidence(events: readonly SwarmResidenceEvent[]): Reside
   if (events.length === 0) return null;
 
   const first = events[0]!;
+  if (first.type !== "swarm.residence.requested") {
+    throw new Error("residence history must begin with a request event");
+  }
+
   let snapshot: ResidenceSnapshot = {
     residenceId: first.residenceId,
     agentIdentityRef: first.agentIdentityRef,
@@ -27,9 +32,18 @@ export function projectResidence(events: readonly SwarmResidenceEvent[]): Reside
     if (event.residenceId !== snapshot.residenceId) {
       throw new Error("projection mixed multiple residence identities");
     }
+    if (event.agentIdentityRef !== snapshot.agentIdentityRef) {
+      throw new Error("projection changed agent identity within one residence");
+    }
+    if (event.habitatId !== snapshot.habitatId) {
+      throw new Error("projection changed habitat identity within one residence");
+    }
+
+    const nextStatus = statusByEvent[event.type];
+    assertAllowedTransition(snapshot.status, nextStatus);
     snapshot = {
       ...snapshot,
-      status: statusByEvent[event.type],
+      status: nextStatus,
       version: snapshot.version + 1,
       lastEventId: event.id
     };
