@@ -12,6 +12,8 @@ export interface ResidenceHeartbeat {
   readonly evaluatedAt: string;
   readonly lastObservedAt: string | null;
   readonly ageMs: number | null;
+  readonly staleAfterMs: number;
+  readonly freshUntil: string | null;
 }
 
 export function projectResidenceHeartbeat(
@@ -36,7 +38,9 @@ export function projectResidenceHeartbeat(
       lastEventId: null,
       evaluatedAt: now,
       lastObservedAt: null,
-      ageMs: null
+      ageMs: null,
+      staleAfterMs,
+      freshUntil: null
     };
   }
 
@@ -49,7 +53,9 @@ export function projectResidenceHeartbeat(
       lastEventId: null,
       evaluatedAt: now,
       lastObservedAt: null,
-      ageMs: null
+      ageMs: null,
+      staleAfterMs,
+      freshUntil: null
     };
   }
 
@@ -63,6 +69,11 @@ export function projectResidenceHeartbeat(
     throw new Error("heartbeat observation is in the future relative to now");
   }
 
+  const freshUntilDate = new Date(observedMs + staleAfterMs);
+  if (!Number.isFinite(freshUntilDate.getTime())) {
+    throw new Error("heartbeat freshness boundary must be representable as ISO-8601");
+  }
+
   const ageMs = nowMs - observedMs;
   const terminal = residence.status === "departed" || residence.status === "rejected";
 
@@ -73,6 +84,8 @@ export function projectResidenceHeartbeat(
     lastEventId: residence.lastEventId,
     evaluatedAt: now,
     lastObservedAt: latest.observedAt,
-    ageMs
+    ageMs,
+    staleAfterMs,
+    freshUntil: freshUntilDate.toISOString()
   };
 }
