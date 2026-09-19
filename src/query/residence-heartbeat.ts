@@ -52,7 +52,11 @@ export function projectResidenceHeartbeat(
     throw new Error("heartbeat timestamps must be valid ISO-8601 values");
   }
 
-  const ageMs = Math.max(0, nowMs - observedMs);
+  if (nowMs < observedMs) {
+    throw new Error("heartbeat observation is in the future relative to now");
+  }
+
+  const ageMs = nowMs - observedMs;
   const terminal = residence.status === "departed" || residence.status === "rejected";
 
   return {
