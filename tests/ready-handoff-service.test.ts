@@ -275,6 +275,32 @@ describe("ready handoff service", () => {
     });
   });
 
+  it("rejects a tampered capsule through authoritative service consumption", async () => {
+    const journal = await readyJournal();
+    const habitats = new InMemoryHabitatRegistry();
+    await habitats.put(habitat);
+    const service = new ReadyHandoffService(journal, habitats);
+
+    const handoff = await service.create(
+      residenceId,
+      agent,
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    const result = await service.inspect(
+      { ...handoff, freshUntil: "2026-09-19T04:01:00.300Z" },
+      "2026-09-19T03:00:02.000Z"
+    );
+
+    expect(result).toMatchObject({
+      usable: false,
+      absence: {
+        kind: "rejected_by_validation",
+        statement: "handoff capsule freshness boundary is inconsistent with its readiness observation and policy"
+      }
+    });
+  });
+
   it("returns typed absence when authoritative residence history cannot be found", async () => {
     const sourceJournal = await readyJournal();
     const habitats = new InMemoryHabitatRegistry();
