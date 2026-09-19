@@ -300,4 +300,46 @@ describe("current ready handoff", () => {
       code: "freshness_policy_changed"
     });
   });
+
+  it("refuses an otherwise-live capsule when its habitat is paused", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(
+      validateCurrentReadyHandoff(
+        handoff,
+        residence,
+        { ...habitat, status: "paused" },
+        "2026-09-19T03:00:05.000Z"
+      )
+    ).toMatchObject({
+      usable: false,
+      code: "habitat_not_open"
+    });
+  });
+
+  it("refuses an otherwise-live capsule when its habitat is closed", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(
+      validateCurrentReadyHandoff(
+        handoff,
+        residence,
+        { ...habitat, status: "closed" },
+        "2026-09-19T03:00:05.000Z"
+      )
+    ).toMatchObject({
+      usable: false,
+      code: "habitat_not_open"
+    });
+  });
 });
