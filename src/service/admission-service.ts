@@ -3,6 +3,7 @@ import type { ResidenceSnapshot } from "../domain/residence.js";
 import type { EventJournal } from "../events/journal.js";
 import type { AtlasAuthorityDecision, AtlasGateway } from "../integrations/atlas/contract.js";
 import { assertAdmissionAllowed } from "../policy/admission.js";
+import { activeResidencesForHabitat } from "../query/active-residences.js";
 import { ResidenceService } from "./residence-service.js";
 import { RejectionService } from "./rejection-service.js";
 
@@ -21,12 +22,13 @@ export class AdmissionService {
   private async admitWithDecision(
     current: ResidenceSnapshot,
     habitat: Habitat,
-    activeResidents: number,
+    residences: readonly ResidenceSnapshot[],
     eventId: string,
     observedAt: string,
     actorRef: string,
     decision: AtlasAuthorityDecision
   ): Promise<ResidenceSnapshot> {
+    const activeResidents = activeResidencesForHabitat(residences, habitat.id).length;
     assertAdmissionAllowed(decision, habitat, activeResidents);
 
     return new ResidenceService(this.journal).transition(current, "admitted", {
@@ -42,7 +44,7 @@ export class AdmissionService {
   async admit(
     current: ResidenceSnapshot,
     habitat: Habitat,
-    activeResidents: number,
+    residences: readonly ResidenceSnapshot[],
     eventId: string,
     observedAt: string,
     actorRef: string
@@ -51,7 +53,7 @@ export class AdmissionService {
     return this.admitWithDecision(
       current,
       habitat,
-      activeResidents,
+      residences,
       eventId,
       observedAt,
       actorRef,
@@ -62,7 +64,7 @@ export class AdmissionService {
   async decide(
     current: ResidenceSnapshot,
     habitat: Habitat,
-    activeResidents: number,
+    residences: readonly ResidenceSnapshot[],
     eventId: string,
     observedAt: string,
     actorRef: string
@@ -86,7 +88,7 @@ export class AdmissionService {
     const residence = await this.admitWithDecision(
       current,
       habitat,
-      activeResidents,
+      residences,
       eventId,
       observedAt,
       actorRef,
