@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { AgentReference } from "../src/domain/agent.js";
+import type { Habitat } from "../src/domain/habitat.js";
 import type { ResidenceSnapshot } from "../src/domain/residence.js";
 import type { ResidenceHeartbeat } from "../src/query/residence-heartbeat.js";
 import {
@@ -22,6 +23,14 @@ const agent: AgentReference = {
   identityRef: residence.agentIdentityRef,
   capabilityRefs: ["capability:one" as never],
   offeringRefs: ["offering:one" as never]
+};
+
+const habitat: Habitat = {
+  id: residence.habitatId,
+  name: "One",
+  capacity: 3,
+  status: "open",
+  heartbeatStaleAfterMs: 60_000
 };
 
 const heartbeat = (
@@ -53,6 +62,7 @@ describe("current ready handoff", () => {
       lastResidenceEventId: "event:ready",
       readinessObservedAt: "2026-09-19T03:00:00.000Z",
       heartbeatEvaluatedAt: "2026-09-19T03:00:01.000Z",
+      staleAfterMs: 60_000,
       freshUntil: "2026-09-19T03:01:00.000Z"
     });
   });
@@ -175,6 +185,7 @@ describe("current ready handoff", () => {
       assertCurrentReadyHandoffUsable(
         handoff,
         residence,
+        habitat,
         "2026-09-19T03:00:30.000Z"
       )
     ).not.toThrow();
@@ -198,6 +209,7 @@ describe("current ready handoff", () => {
       assertCurrentReadyHandoffUsable(
         handoff,
         advanced,
+        habitat,
         "2026-09-19T03:00:30.000Z"
       )
     ).toThrow(/superseded/);
@@ -215,6 +227,7 @@ describe("current ready handoff", () => {
       validateCurrentReadyHandoff(
         handoff,
         residence,
+        habitat,
         "2026-09-19T03:01:00.001Z"
       )
     ).toMatchObject({
@@ -240,6 +253,7 @@ describe("current ready handoff", () => {
       validateCurrentReadyHandoff(
         handoff,
         advanced,
+        habitat,
         "2026-09-19T03:00:30.000Z"
       )
     ).toMatchObject({
@@ -260,8 +274,30 @@ describe("current ready handoff", () => {
       validateCurrentReadyHandoff(
         handoff,
         residence,
+        habitat,
         "2026-09-19T03:00:30.000Z"
       )
     ).toEqual({ usable: true });
+  });
+
+  it("refuses an otherwise-live capsule after freshness policy changes", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(
+      validateCurrentReadyHandoff(
+        handoff,
+        residence,
+        { ...habitat, heartbeatStaleAfterMs: 10_000 },
+        "2026-09-19T03:00:05.000Z"
+      )
+    ).toMatchObject({
+      usable: false,
+      code: "freshness_policy_changed"
+    });
   });
 });
