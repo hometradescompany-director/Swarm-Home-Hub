@@ -19,5 +19,8 @@ export interface SwarmResidenceEvent {
   readonly agentIdentityRef: AgentIdentityRef;
   readonly habitatId: HabitatId;
   readonly evidenceReceiptIds: readonly string[];
+  /** Opaque authority decision reference when this transition depends on external authority. */
+  readonly authorityRef?: string;
+  /** Human-readable explanation. Never used as an authority identifier. */
   readonly reason?: string;
 }
