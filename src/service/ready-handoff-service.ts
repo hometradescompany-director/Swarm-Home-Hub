@@ -1,5 +1,7 @@
 import type { AgentReference } from "../domain/agent.js";
+import type { Habitat } from "../domain/habitat.js";
 import type { ResidenceId, ResidenceSnapshot } from "../domain/residence.js";
+import type { SwarmResidenceEvent } from "../events/event.js";
 import type { EventJournal } from "../events/journal.js";
 import type { TypedAbsence } from "../provenance/absence.js";
 import { projectResidence } from "../projection/residence.js";
@@ -11,6 +13,16 @@ import {
 } from "../query/ready-handoff.js";
 import { projectResidenceHeartbeat } from "../query/residence-heartbeat.js";
 
+interface ReadyHandoffContext {
+  readonly events: readonly SwarmResidenceEvent[];
+  readonly residence: ResidenceSnapshot;
+  readonly habitat: Habitat;
+}
+
+type ReadyHandoffContextResult =
+  | { readonly found: true; readonly context: ReadyHandoffContext }
+  | { readonly found: false; readonly absence: TypedAbsence };
+
 export type ReadyHandoffAttempt =
   | {
       readonly created: true;
@@ -21,25 +33,34 @@ export type ReadyHandoffAttempt =
       readonly absence: TypedAbsence;
     };
 
+export type ReadyHandoffUseAttempt =
+  | {
+      readonly usable: true;
+      readonly handoff: CurrentReadyHandoffCapsule;
+    }
+  | {
+      readonly usable: false;
+      readonly absence: TypedAbsence;
+    };
+
 export class ReadyHandoffService {
   constructor(
     private readonly journal: EventJournal,
     private readonly habitats: HabitatRegistry
   ) {}
 
-  async attempt(
+  private async context(
     residenceId: ResidenceId,
-    agent: AgentReference,
-    generatedAt: string
-  ): Promise<ReadyHandoffAttempt> {
+    observedAt: string
+  ): Promise<ReadyHandoffContextResult> {
     const events = await this.journal.eventsForResidence(residenceId);
     if (events.length === 0) {
       return {
-        created: false,
+        found: false,
         absence: {
           kind: "cannot_be_located",
           statement: `Residence history cannot be located for handoff: ${residenceId}`,
-          observedAt: generatedAt,
+          observedAt,
           sourceRef: `swarm:event-journal:${residenceId}`
         }
       };
@@ -50,14 +71,14 @@ export class ReadyHandoffService {
       residence = projectResidence(events);
     } catch (error) {
       return {
-        created: false,
+        found: false,
         absence: {
           kind: "corrupted",
           statement:
             error instanceof Error
               ? `Residence history could not be projected for handoff: ${error.message}`
               : "Residence history could not be projected for handoff.",
-          observedAt: generatedAt,
+          observedAt,
           sourceRef: `swarm:event-journal:${residenceId}`
         }
       };
@@ -65,11 +86,11 @@ export class ReadyHandoffService {
 
     if (!residence) {
       return {
-        created: false,
+        found: false,
         absence: {
           kind: "status_unknown",
           statement: `Residence state is unknown for handoff: ${residenceId}`,
-          observedAt: generatedAt,
+          observedAt,
           sourceRef: `swarm:event-journal:${residenceId}`
         }
       };
@@ -78,15 +99,33 @@ export class ReadyHandoffService {
     const habitat = await this.habitats.get(residence.habitatId);
     if (!habitat) {
       return {
-        created: false,
+        found: false,
         absence: {
           kind: "cannot_be_located",
           statement: `Habitat policy cannot be located for handoff: ${residence.habitatId}`,
-          observedAt: generatedAt,
+          observedAt,
           sourceRef: `swarm:habitat-registry:${residence.habitatId}`
         }
       };
     }
+
+    return {
+      found: true,
+      context: { events, residence, habitat }
+    };
+  }
+
+  async attempt(
+    residenceId: ResidenceId,
+    agent: AgentReference,
+    generatedAt: string
+  ): Promise<ReadyHandoffAttempt> {
+    const context = await this.context(residenceId, generatedAt);
+    if (!context.found) {
+      return { created: false, absence: context.absence };
+    }
+
+    const { events, residence, habitat } = context.context;
 
     try {
       const heartbeat = projectResidenceHeartbeat(events, generatedAt, habitat);
@@ -131,6 +170,40 @@ export class ReadyHandoffService {
     }
   }
 
+  async inspect(
+    handoff: CurrentReadyHandoffCapsule,
+    observedAt: string
+  ): Promise<ReadyHandoffUseAttempt> {
+    const context = await this.context(
+      handoff.residenceId as ResidenceId,
+      observedAt
+    );
+    if (!context.found) {
+      return { usable: false, absence: context.absence };
+    }
+
+    const validation = validateCurrentReadyHandoff(
+      handoff,
+      context.context.residence,
+      context.context.habitat,
+      observedAt
+    );
+
+    if (!validation.usable) {
+      return {
+        usable: false,
+        absence: {
+          kind: "rejected_by_validation",
+          statement: validation.message,
+          observedAt,
+          sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
+        }
+      };
+    }
+
+    return { usable: true, handoff };
+  }
+
   async create(
     residenceId: ResidenceId,
     agent: AgentReference,
@@ -141,5 +214,15 @@ export class ReadyHandoffService {
       throw new Error(attempt.absence.statement);
     }
     return attempt.handoff;
+  }
+
+  async assertUsable(
+    handoff: CurrentReadyHandoffCapsule,
+    observedAt: string
+  ): Promise<void> {
+    const attempt = await this.inspect(handoff, observedAt);
+    if (!attempt.usable) {
+      throw new Error(attempt.absence.statement);
+    }
   }
 }
