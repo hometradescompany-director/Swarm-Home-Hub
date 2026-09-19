@@ -82,7 +82,7 @@ describe("capacity race refusal", () => {
 
     const result = await new AdmissionService(journal, gateway).decide(
       current,
-      { id: current.habitatId, name: "One", capacity: 1, status: "open" },
+      { id: current.habitatId, name: "One", capacity: 1, status: "open", heartbeatStaleAfterMs: 60_000 },
       [],
       "event:second:decision",
       "2026-09-19T00:00:01.000Z",
