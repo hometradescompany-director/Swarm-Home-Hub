@@ -20,7 +20,7 @@ export class DepartureService {
       observedAt: at,
       actorRef,
       evidenceReceiptIds: [],
-      reason
+      ...(reason !== undefined ? { reason } : {})
     });
   }
 }
