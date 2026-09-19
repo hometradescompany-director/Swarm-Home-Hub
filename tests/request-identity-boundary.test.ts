@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { RequestResidence } from "../src/commands/request-residence.js";
+import type { AgentIdentityRef } from "../src/domain/agent.js";
 import { InMemoryEventJournal } from "../src/events/journal.js";
 import type { AtlasGateway } from "../src/integrations/atlas/contract.js";
 import { ResidenceRequestService } from "../src/service/request-service.js";
@@ -14,7 +15,10 @@ const command = (): RequestResidence => ({
   evidenceReceiptIds: ["receipt:request"]
 });
 
-function atlas(exists: boolean, canonicalRef = "agent:canonical" as never): AtlasGateway {
+function atlas(
+  exists: boolean,
+  canonicalRef: AgentIdentityRef = "agent:canonical" as AgentIdentityRef
+): AtlasGateway {
   return {
     async resolveAgentIdentity() {
       return { exists, canonicalRef };
