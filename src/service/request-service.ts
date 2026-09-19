@@ -13,7 +13,10 @@ export class ResidenceRequestService {
       throw new Error(`residence already exists: ${command.residenceId}`);
     }
 
-    await this.journal.append(buildResidenceRequestedEvent(command, observedAt));
+    await this.journal.append(
+      buildResidenceRequestedEvent(command, observedAt),
+      { expectedLastEventId: null }
+    );
 
     const snapshot = projectResidence(await this.journal.eventsForResidence(command.residenceId));
     if (!snapshot) throw new Error("request projection unexpectedly empty");
