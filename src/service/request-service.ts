@@ -22,6 +22,19 @@ export class ResidenceRequestService {
       throw new Error(`Atlas identity not found: ${command.agentIdentityRef}`);
     }
 
+    const uniqueEvidenceIds = [...new Set(command.evidenceReceiptIds)];
+    if (uniqueEvidenceIds.length !== command.evidenceReceiptIds.length) {
+      throw new Error("residence request contains duplicate evidence receipt ids");
+    }
+    if (uniqueEvidenceIds.length > 0) {
+      const receipts = await this.atlas.evidence(uniqueEvidenceIds);
+      const resolved = new Set(receipts.map(receipt => receipt.id));
+      const missing = uniqueEvidenceIds.filter(id => !resolved.has(id));
+      if (missing.length > 0) {
+        throw new Error(`request evidence could not be resolved: ${missing.join(", ")}`);
+      }
+    }
+
     await this.journal.append(
       buildResidenceRequestedEvent(command, observedAt, identity.canonicalRef),
       { expectedLastEventId: null }
