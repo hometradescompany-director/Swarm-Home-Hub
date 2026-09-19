@@ -6,6 +6,7 @@ export type AbsenceKind =
   | "inaccessible"
   | "deliberately_deleted"
   | "superseded"
+  | "contradictory"
   | "corrupted"
   | "rejected_by_validation"
   | "provenance_lost"
@@ -17,6 +18,7 @@ export interface TypedAbsence {
   readonly observedAt: string;
   readonly sourceRef?: string;
   readonly supersededByRef?: string;
+  readonly contradictsRef?: string;
 }
 
 export interface CreateTypedAbsenceInput {
@@ -25,6 +27,7 @@ export interface CreateTypedAbsenceInput {
   readonly observedAt: string;
   readonly sourceRef?: string;
   readonly supersededByRef?: string;
+  readonly contradictsRef?: string;
 }
 
 export function createTypedAbsence(input: CreateTypedAbsenceInput): TypedAbsence {
@@ -53,12 +56,30 @@ export function createTypedAbsence(input: CreateTypedAbsenceInput): TypedAbsence
     throw new Error("superseded absence requires sourceRef and supersededByRef");
   }
 
+  const contradictsRef = input.contradictsRef?.trim();
+  if (input.contradictsRef !== undefined && !contradictsRef) {
+    throw new Error("typed absence contradictsRef cannot be blank when supplied");
+  }
+  if (contradictsRef && input.kind !== "contradictory") {
+    throw new Error("contradictsRef is only valid for contradictory absences");
+  }
+  if (input.kind === "contradictory" && (!sourceRef || !contradictsRef)) {
+    throw new Error("contradictory absence requires sourceRef and contradictsRef");
+  }
+  if (input.kind === "contradictory" && sourceRef === contradictsRef) {
+    throw new Error("contradictory absence must relate two distinct refs");
+  }
+  if (supersededByRef && contradictsRef) {
+    throw new Error("typed absence cannot be both superseded and contradictory");
+  }
+
   return Object.freeze({
     kind: input.kind,
     statement,
     observedAt: input.observedAt,
     ...(sourceRef ? { sourceRef } : {}),
-    ...(supersededByRef ? { supersededByRef } : {})
+    ...(supersededByRef ? { supersededByRef } : {}),
+    ...(contradictsRef ? { contradictsRef } : {})
   });
 }
 

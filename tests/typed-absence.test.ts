@@ -75,6 +75,52 @@ describe("typed absence", () => {
     ).toThrow(/only valid for superseded/);
   });
 
+  it("requires both sides of a contradiction relationship", () => {
+    expect(() =>
+      createTypedAbsence({
+        kind: "contradictory",
+        statement: "Two observations disagree.",
+        observedAt: "2026-09-20T02:30:00.000Z",
+        sourceRef: "swarm:evidence:left"
+      })
+    ).toThrow(/sourceRef and contradictsRef/);
+
+    expect(
+      createTypedAbsence({
+        kind: "contradictory",
+        statement: "Two observations disagree.",
+        observedAt: "2026-09-20T02:30:00.000Z",
+        sourceRef: "swarm:evidence:left",
+        contradictsRef: "swarm:evidence:right"
+      })
+    ).toMatchObject({
+      kind: "contradictory",
+      sourceRef: "swarm:evidence:left",
+      contradictsRef: "swarm:evidence:right"
+    });
+  });
+
+  it("refuses self-contradiction and contradiction metadata on other kinds", () => {
+    expect(() =>
+      createTypedAbsence({
+        kind: "contradictory",
+        statement: "Invalid self contradiction.",
+        observedAt: "2026-09-20T02:30:00.000Z",
+        sourceRef: "swarm:evidence:same",
+        contradictsRef: "swarm:evidence:same"
+      })
+    ).toThrow(/distinct refs/);
+
+    expect(() =>
+      createTypedAbsence({
+        kind: "status_unknown",
+        statement: "Unknown.",
+        observedAt: "2026-09-20T02:30:00.000Z",
+        contradictsRef: "swarm:evidence:right"
+      })
+    ).toThrow(/only valid for contradictory/);
+  });
+
   it("refuses blank source references", () => {
     expect(() =>
       createTypedAbsence({

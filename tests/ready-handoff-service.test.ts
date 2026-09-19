@@ -325,8 +325,10 @@ describe("ready handoff service", () => {
     expect(result).toMatchObject({
       usable: false,
       absence: {
-        kind: "rejected_by_validation",
-        statement: "handoff readiness observation does not match authoritative source event"
+        kind: "contradictory",
+        statement: "handoff readiness observation does not match authoritative source event",
+        sourceRef: "swarm:ready-handoff:residence:service",
+        contradictsRef: "swarm:residence-event:event:ready"
       },
       refusalCode: "source_event_time_mismatch"
     });
