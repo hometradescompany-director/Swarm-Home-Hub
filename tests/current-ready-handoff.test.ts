@@ -105,7 +105,11 @@ describe("current ready handoff", () => {
       projectCurrentReadyHandoff(
         residence,
         agent,
-        heartbeat({ lastObservedAt: "2026-09-19T03:00:02.000Z" }),
+        heartbeat({
+          lastObservedAt: "2026-09-19T03:00:02.000Z",
+          ageMs: -1_000,
+          freshUntil: "2026-09-19T03:01:02.000Z"
+        }),
         "2026-09-19T03:00:01.000Z"
       )
     ).toThrow(/before the readiness observation/);
