@@ -6,7 +6,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "check": "npm run typecheck && npm test"
+    "check": "npm run typecheck && npm test",
+    "test:residence-phase": "vitest run tests/residence-phase-contract.test.ts"
   },
   "devDependencies": {
     "typescript": "^5.9.2",
