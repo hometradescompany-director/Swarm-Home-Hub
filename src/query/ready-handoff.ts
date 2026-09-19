@@ -118,3 +118,27 @@ export function assertCurrentReadyHandoffFresh(
     throw new Error("handoff freshness has expired");
   }
 }
+
+export function assertCurrentReadyHandoffUsable(
+  handoff: CurrentReadyHandoffCapsule,
+  currentResidence: ResidenceSnapshot,
+  now: string
+): void {
+  assertCurrentReadyHandoffFresh(handoff, now);
+
+  if (handoff.residenceId !== currentResidence.residenceId) {
+    throw new Error("handoff does not belong to the current residence");
+  }
+  if (handoff.agentIdentityRef !== currentResidence.agentIdentityRef) {
+    throw new Error("handoff identity does not match the current residence");
+  }
+  if (handoff.habitatId !== currentResidence.habitatId) {
+    throw new Error("handoff habitat does not match the current residence");
+  }
+  if (handoff.lastResidenceEventId !== currentResidence.lastEventId) {
+    throw new Error("handoff source residence event has been superseded");
+  }
+  if (currentResidence.status !== "ready") {
+    throw new Error(`handoff requires the current residence to remain ready, got ${currentResidence.status}`);
+  }
+}
