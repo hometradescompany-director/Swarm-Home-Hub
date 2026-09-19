@@ -271,7 +271,8 @@ describe("ready handoff service", () => {
       absence: {
         kind: "rejected_by_validation",
         statement: "handoff freshness policy has changed since generation"
-      }
+      },
+      refusalCode: "freshness_policy_changed"
     });
   });
 
@@ -301,7 +302,8 @@ describe("ready handoff service", () => {
       absence: {
         kind: "rejected_by_validation",
         statement: "handoff readiness observation does not match authoritative source event"
-      }
+      },
+      refusalCode: "source_event_time_mismatch"
     });
   });
 
@@ -327,7 +329,8 @@ describe("ready handoff service", () => {
       absence: {
         kind: "rejected_by_validation",
         statement: "handoff capsule freshness boundary is inconsistent with its readiness observation and policy"
-      }
+      },
+      refusalCode: "capsule_inconsistent"
     });
   });
 
