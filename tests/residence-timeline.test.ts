@@ -15,7 +15,8 @@ describe("residence timeline projection", () => {
         agentIdentityRef: "agent:timeline" as never,
         sourceAgentIdentityRef: "agent:submitted" as never,
         habitatId: "habitat:one" as never,
-        evidenceReceiptIds: ["receipt:request"]
+        evidenceReceiptIds: ["receipt:request"],
+        previousEventId: null
       },
       {
         id: "event:admitted",
@@ -27,6 +28,7 @@ describe("residence timeline projection", () => {
         agentIdentityRef: "agent:timeline" as never,
         habitatId: "habitat:one" as never,
         evidenceReceiptIds: [],
+        previousEventId: "event:requested",
         authorityRef: "atlas:decision:timeline"
       }
     ];
@@ -34,6 +36,7 @@ describe("residence timeline projection", () => {
     expect(projectResidenceTimeline(events)).toEqual([
       {
         eventId: "event:requested",
+        previousEventId: null,
         type: "swarm.residence.requested",
         status: "requested",
         occurredAt: "2026-09-19T00:00:00.000Z",
@@ -47,6 +50,7 @@ describe("residence timeline projection", () => {
       },
       {
         eventId: "event:admitted",
+        previousEventId: "event:requested",
         type: "swarm.residence.admitted",
         status: "admitted",
         occurredAt: "2026-09-19T00:00:02.000Z",
