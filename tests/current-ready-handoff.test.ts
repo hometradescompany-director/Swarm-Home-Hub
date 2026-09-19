@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 import type { AgentReference } from "../src/domain/agent.js";
 import type { ResidenceSnapshot } from "../src/domain/residence.js";
 import type { ResidenceHeartbeat } from "../src/query/residence-heartbeat.js";
-import { projectCurrentReadyHandoff } from "../src/query/ready-handoff.js";
+import {
+  assertCurrentReadyHandoffFresh,
+  projectCurrentReadyHandoff
+} from "../src/query/ready-handoff.js";
 
 const residence: ResidenceSnapshot = {
   residenceId: "residence:fresh-handoff" as never,
@@ -29,6 +32,8 @@ const heartbeat = (
   evaluatedAt: "2026-09-19T03:00:01.000Z",
   lastObservedAt: "2026-09-19T03:00:00.000Z",
   ageMs: 1_000,
+  staleAfterMs: 60_000,
+  freshUntil: "2026-09-19T03:01:00.000Z",
   ...overrides
 });
 
@@ -43,7 +48,10 @@ describe("current ready handoff", () => {
       )
     ).toMatchObject({
       residenceId: "residence:fresh-handoff",
-      lastResidenceEventId: "event:ready"
+      lastResidenceEventId: "event:ready",
+      readinessObservedAt: "2026-09-19T03:00:00.000Z",
+      heartbeatEvaluatedAt: "2026-09-19T03:00:01.000Z",
+      freshUntil: "2026-09-19T03:01:00.000Z"
     });
   });
 
@@ -111,5 +119,45 @@ describe("current ready handoff", () => {
         "not-a-time"
       )
     ).toThrow(/valid ISO-8601/);
+  });
+
+  it("refuses a handoff generated after its freshness boundary", () => {
+    expect(() =>
+      projectCurrentReadyHandoff(
+        residence,
+        agent,
+        heartbeat({
+          evaluatedAt: "2026-09-19T03:01:00.001Z",
+          freshUntil: "2026-09-19T03:01:00.000Z"
+        }),
+        "2026-09-19T03:01:00.001Z"
+      )
+    ).toThrow(/freshness boundary/);
+  });
+
+  it("allows a consumer to use the capsule through the freshness boundary", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(() =>
+      assertCurrentReadyHandoffFresh(handoff, "2026-09-19T03:01:00.000Z")
+    ).not.toThrow();
+  });
+
+  it("refuses replay after the freshness boundary", () => {
+    const handoff = projectCurrentReadyHandoff(
+      residence,
+      agent,
+      heartbeat(),
+      "2026-09-19T03:00:01.000Z"
+    );
+
+    expect(() =>
+      assertCurrentReadyHandoffFresh(handoff, "2026-09-19T03:01:00.001Z")
+    ).toThrow(/expired/);
   });
 });
