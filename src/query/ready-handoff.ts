@@ -1,5 +1,6 @@
 import type { AgentReference, CapabilityRef, OfferingRef } from "../domain/agent.js";
 import type { ResidenceSnapshot } from "../domain/residence.js";
+import type { ResidenceHeartbeat } from "./residence-heartbeat.js";
 
 export interface ReadyHandoffCapsule {
   readonly residenceId: string;
@@ -32,4 +33,27 @@ export function projectReadyHandoff(
     lastResidenceEventId: residence.lastEventId,
     generatedAt
   };
+}
+
+
+export function projectCurrentReadyHandoff(
+  residence: ResidenceSnapshot,
+  agent: AgentReference,
+  heartbeat: ResidenceHeartbeat,
+  generatedAt: string
+): ReadyHandoffCapsule {
+  if (heartbeat.residenceId !== residence.residenceId) {
+    throw new Error("handoff heartbeat does not belong to residence");
+  }
+  if (heartbeat.lastEventId !== residence.lastEventId) {
+    throw new Error("handoff heartbeat is based on a different residence event");
+  }
+  if (heartbeat.state !== "current") {
+    throw new Error(`handoff requires current residence heartbeat, got ${heartbeat.state}`);
+  }
+  if (heartbeat.status !== "ready") {
+    throw new Error(`handoff heartbeat must report ready status, got ${heartbeat.status ?? "unknown"}`);
+  }
+
+  return projectReadyHandoff(residence, agent, generatedAt);
 }
