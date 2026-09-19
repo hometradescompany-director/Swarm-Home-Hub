@@ -17,6 +17,12 @@ export class HabitatCapacityConflict extends Error {
 export interface EventJournal {
   append(event: SwarmResidenceEvent, expectation?: AppendExpectation): Promise<void>;
   eventsForResidence(residenceId: string): Promise<readonly SwarmResidenceEvent[]>;
+  /**
+   * Optional bounded inspection surface for gateways and operator tooling.
+   * Persistence adapters may omit this until they can provide an authoritative,
+   * deterministic scan. Callers must fail closed when it is unavailable.
+   */
+  allEvents?(): Promise<readonly SwarmResidenceEvent[]>;
 }
 
 export class InMemoryEventJournal implements EventJournal {
@@ -97,5 +103,9 @@ export class InMemoryEventJournal implements EventJournal {
 
   async eventsForResidence(residenceId: string): Promise<readonly SwarmResidenceEvent[]> {
     return this.#events.filter(event => event.residenceId === residenceId);
+  }
+
+  async allEvents(): Promise<readonly SwarmResidenceEvent[]> {
+    return [...this.#events];
   }
 }

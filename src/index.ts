@@ -27,3 +27,7 @@ export * from "./query/ready-handoff.js";
 export * from "./query/residence-heartbeat.js";
 export * from "./integrations/atlas/contract.js";
 export { ResidenceRequestService as RequestService } from "./service/request-service.js";
+
+export * from "./platform/swarm-home-door.js";
+export * from "./platform/tool-manifest.js";
+export * from "./platform/tool-router.js";
