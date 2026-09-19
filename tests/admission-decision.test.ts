@@ -59,7 +59,7 @@ describe("admission decision orchestration", () => {
 
     const result = await new AdmissionService(journal, gateway(true)).decide(
       current,
-      { id: "habitat:one" as never, name: "One", capacity: 2, status: "open" },
+      { id: "habitat:one" as never, name: "One", capacity: 2, status: "open", heartbeatStaleAfterMs: 60_000 },
       [],
       "event:decision",
       "2026-09-19T00:00:01.000Z",
@@ -84,7 +84,7 @@ describe("admission decision orchestration", () => {
 
     const result = await new AdmissionService(journal, gateway(false)).decide(
       current,
-      { id: "habitat:one" as never, name: "One", capacity: 2, status: "open" },
+      { id: "habitat:one" as never, name: "One", capacity: 2, status: "open", heartbeatStaleAfterMs: 60_000 },
       [],
       "event:decision",
       "2026-09-19T00:00:01.000Z",
@@ -119,7 +119,7 @@ describe("admission decision orchestration", () => {
 
     const result = await new AdmissionService(journal, gateway(true)).decide(
       current,
-      { id: "habitat:one" as never, name: "One", capacity: 1, status: "open" },
+      { id: "habitat:one" as never, name: "One", capacity: 1, status: "open", heartbeatStaleAfterMs: 60_000 },
       [occupying],
       "event:decision",
       "2026-09-19T00:00:01.000Z",
