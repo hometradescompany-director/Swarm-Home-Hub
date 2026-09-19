@@ -1,7 +1,7 @@
 name: ci
 
 permissions:
-  contents: write
+  contents: read
 
 on:
   pull_request:
@@ -13,22 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - name: Use npm 11 resolver
         run: npm install -g npm@11.19.1
-      - run: npm install
-      - name: Commit proven dependency lockfile
-        if: github.event_name == 'pull_request'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package-lock.json
-          git diff --cached --quiet || git commit -m "072/666 Lock proven dependency graph"
-          git push origin HEAD:${{ github.head_ref }}
-      - name: Dependency audit diagnostics
-        run: npm audit --json || true
+      - run: npm ci
+      - name: Dependency audit
+        run: npm audit --audit-level=moderate
       - run: npm run check
