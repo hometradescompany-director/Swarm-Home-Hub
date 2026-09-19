@@ -7,6 +7,16 @@ export interface Habitat {
   readonly name: string;
   readonly capacity: number;
   readonly status: HabitatStatus;
+  readonly heartbeatStaleAfterMs: number;
+}
+
+export function assertHabitatHeartbeatPolicy(habitat: Habitat): void {
+  if (
+    !Number.isFinite(habitat.heartbeatStaleAfterMs) ||
+    habitat.heartbeatStaleAfterMs < 0
+  ) {
+    throw new Error("habitat heartbeatStaleAfterMs must be a non-negative finite number");
+  }
 }
 
 export function assertHabitatCapacity(habitat: Habitat, activeResidents: number): void {
