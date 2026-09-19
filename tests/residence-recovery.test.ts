@@ -99,4 +99,28 @@ describe("residence recovery", () => {
       expect(result.absence.statement).toMatch(/invalid residence transition/);
     }
   });
+
+  it("rejects invalid recovery observation time", async () => {
+    await expect(
+      recoverResidence(
+        new InMemoryEventJournal(),
+        "residence:missing" as never,
+        "not-a-time"
+      )
+    ).rejects.toThrow(/valid ISO-8601/);
+  });
+
+  it("canonicalizes recovery observation time before writing typed absence", async () => {
+    const result = await recoverResidence(
+      new InMemoryEventJournal(),
+      "residence:missing" as never,
+      "2026-09-19T13:00:00+10:00"
+    );
+
+    expect(result.found).toBe(false);
+    if (!result.found) {
+      expect(result.absence.observedAt).toBe("2026-09-19T03:00:00.000Z");
+    }
+  });
+
 });
