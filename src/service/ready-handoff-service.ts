@@ -3,7 +3,7 @@ import type { Habitat } from "../domain/habitat.js";
 import type { ResidenceId, ResidenceSnapshot } from "../domain/residence.js";
 import type { SwarmResidenceEvent } from "../events/event.js";
 import type { EventJournal } from "../events/journal.js";
-import type { TypedAbsence } from "../provenance/absence.js";
+import { createTypedAbsence, type TypedAbsence } from "../provenance/absence.js";
 import { projectResidence } from "../projection/residence.js";
 import type { HabitatRegistry } from "../registry/habitat-registry.js";
 import {
@@ -65,12 +65,12 @@ export class ReadyHandoffService {
     if (events.length === 0) {
       return {
         found: false,
-        absence: {
+        absence: createTypedAbsence({
           kind: "cannot_be_located",
           statement: `Residence history cannot be located for handoff: ${residenceId}`,
           observedAt,
           sourceRef: `swarm:event-journal:${residenceId}`
-        }
+        })
       };
     }
 
@@ -80,7 +80,7 @@ export class ReadyHandoffService {
     } catch (error) {
       return {
         found: false,
-        absence: {
+        absence: createTypedAbsence({
           kind: "corrupted",
           statement:
             error instanceof Error
@@ -88,19 +88,19 @@ export class ReadyHandoffService {
               : "Residence history could not be projected for handoff.",
           observedAt,
           sourceRef: `swarm:event-journal:${residenceId}`
-        }
+        })
       };
     }
 
     if (!residence) {
       return {
         found: false,
-        absence: {
+        absence: createTypedAbsence({
           kind: "status_unknown",
           statement: `Residence state is unknown for handoff: ${residenceId}`,
           observedAt,
           sourceRef: `swarm:event-journal:${residenceId}`
-        }
+        })
       };
     }
 
@@ -108,12 +108,12 @@ export class ReadyHandoffService {
     if (!habitat) {
       return {
         found: false,
-        absence: {
+        absence: createTypedAbsence({
           kind: "cannot_be_located",
           statement: `Habitat policy cannot be located for handoff: ${residence.habitatId}`,
           observedAt,
           sourceRef: `swarm:habitat-registry:${residence.habitatId}`
-        }
+        })
       };
     }
 
@@ -152,12 +152,12 @@ export class ReadyHandoffService {
       if (!validation.usable) {
         return {
           created: false,
-          absence: {
+          absence: createTypedAbsence({
             kind: "rejected_by_validation",
             statement: validation.message,
             observedAt: generatedAt,
             sourceRef: `swarm:ready-handoff:${residenceId}`
-          }
+          })
         };
       }
 
@@ -165,7 +165,7 @@ export class ReadyHandoffService {
     } catch (error) {
       return {
         created: false,
-        absence: {
+        absence: createTypedAbsence({
           kind: "rejected_by_validation",
           statement:
             error instanceof Error
@@ -173,7 +173,7 @@ export class ReadyHandoffService {
               : "Ready handoff validation failed.",
           observedAt: generatedAt,
           sourceRef: `swarm:ready-handoff:${residenceId}`
-        }
+        })
       };
     }
   }
@@ -196,36 +196,36 @@ export class ReadyHandoffService {
     if (!sourceEvent) {
       return {
         usable: false,
-        absence: {
+        absence: createTypedAbsence({
           kind: "rejected_by_validation",
           statement: "handoff source residence event cannot be located in authoritative history",
           observedAt,
           sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
-        },
+        }),
         refusalCode: "source_event_missing"
       };
     }
     if (sourceEvent.type !== "swarm.residence.ready") {
       return {
         usable: false,
-        absence: {
+        absence: createTypedAbsence({
           kind: "rejected_by_validation",
           statement: "handoff source residence event is not a readiness event",
           observedAt,
           sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
-        },
+        }),
         refusalCode: "source_event_not_ready"
       };
     }
     if (sourceEvent.observedAt !== handoff.readinessObservedAt) {
       return {
         usable: false,
-        absence: {
+        absence: createTypedAbsence({
           kind: "rejected_by_validation",
           statement: "handoff readiness observation does not match authoritative source event",
           observedAt,
           sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
-        },
+        }),
         refusalCode: "source_event_time_mismatch"
       };
     }
@@ -240,12 +240,12 @@ export class ReadyHandoffService {
     if (!validation.usable) {
       return {
         usable: false,
-        absence: {
+        absence: createTypedAbsence({
           kind: "rejected_by_validation",
           statement: validation.message,
           observedAt,
           sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
-        },
+        }),
         refusalCode: validation.code
       };
     }
