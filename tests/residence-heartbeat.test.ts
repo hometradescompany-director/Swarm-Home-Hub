@@ -25,7 +25,9 @@ describe("residence heartbeat", () => {
       lastEventId: null,
       evaluatedAt: "2026-09-19T00:01:00.000Z",
       lastObservedAt: null,
-      ageMs: null
+      ageMs: null,
+      staleAfterMs: 60_000,
+      freshUntil: null
     });
   });
 
@@ -48,7 +50,9 @@ describe("residence heartbeat", () => {
       status: "admitted",
       lastEventId: "event:admitted",
       evaluatedAt: "2026-09-19T00:01:20.001Z",
-      ageMs: 70_001
+      ageMs: 70_001,
+      staleAfterMs: 60_000,
+      freshUntil: "2026-09-19T00:01:10.000Z"
     });
   });
 
@@ -75,7 +79,8 @@ describe("residence heartbeat", () => {
     ).toMatchObject({
       state: "terminal",
       status: "departed",
-      lastEventId: "event:departed"
+      lastEventId: "event:departed",
+      freshUntil: "2026-09-19T00:01:20.000Z"
     });
   });
 
