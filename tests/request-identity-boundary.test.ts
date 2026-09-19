@@ -22,8 +22,13 @@ function atlas(exists: boolean, canonicalRef = "agent:canonical" as never): Atla
     async canEnterHome() {
       throw new Error("not used by request service");
     },
-    async evidence() {
-      return [];
+    async evidence(receiptIds) {
+      return receiptIds.map(id => ({
+        id,
+        sourceRef: `source:${id}`,
+        capturedAt: "2026-09-19T00:00:00.000Z",
+        standing: "source_record" as const
+      }));
     }
   };
 }
