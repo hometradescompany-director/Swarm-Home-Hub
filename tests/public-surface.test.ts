@@ -5,6 +5,7 @@ import {
   InMemoryEventJournal,
   InMemoryHabitatRegistry,
   RejectionService,
+  ReadyHandoffService,
   ResidenceService,
   RestService,
   RequestService,
@@ -17,6 +18,7 @@ describe("phase-one public surface", () => {
     expect(AdmissionService).toBeTypeOf("function");
     expect(DepartureService).toBeTypeOf("function");
     expect(RejectionService).toBeTypeOf("function");
+    expect(ReadyHandoffService).toBeTypeOf("function");
     expect(ResidenceService).toBeTypeOf("function");
     expect(RestService).toBeTypeOf("function");
     expect(RequestService).toBeTypeOf("function");
