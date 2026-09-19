@@ -12,6 +12,7 @@ const statusByEvent: Record<SwarmResidenceEvent["type"], ResidenceStatus> = {
 
 export interface ResidenceTimelineEntry {
   readonly eventId: string;
+  readonly previousEventId: string | null;
   readonly type: SwarmResidenceEvent["type"];
   readonly status: ResidenceStatus;
   readonly occurredAt: string;
@@ -29,6 +30,7 @@ export function projectResidenceTimeline(
 ): readonly ResidenceTimelineEntry[] {
   return events.map(event => ({
     eventId: event.id,
+    previousEventId: event.previousEventId ?? null,
     type: event.type,
     status: statusByEvent[event.type],
     occurredAt: event.occurredAt,
