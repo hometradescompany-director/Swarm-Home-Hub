@@ -17,8 +17,23 @@ export class InMemoryEventJournal implements EventJournal {
       throw new Error(`duplicate event id: ${event.id}`);
     }
 
+    const occurredMs = Date.parse(event.occurredAt);
+    const observedMs = Date.parse(event.observedAt);
+    if (!Number.isFinite(occurredMs) || !Number.isFinite(observedMs)) {
+      throw new Error("residence event timestamps must be valid ISO-8601 values");
+    }
+
     const current = this.#events.filter(existing => existing.residenceId === event.residenceId);
-    const actualLastEventId = current.at(-1)?.id ?? null;
+    const previous = current.at(-1) ?? null;
+    const actualLastEventId = previous?.id ?? null;
+    if (previous) {
+      const previousObservedMs = Date.parse(previous.observedAt);
+      if (observedMs < previousObservedMs) {
+        throw new Error(
+          `residence observation time moved backward: ${event.observedAt} < ${previous.observedAt}`
+        );
+      }
+    }
 
     if (expectation && actualLastEventId !== expectation.expectedLastEventId) {
       throw new Error(
