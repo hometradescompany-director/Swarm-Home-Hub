@@ -11,7 +11,7 @@ describe("phase-one foundation", () => {
   it("fails closed when habitat capacity is exhausted", () => {
     expect(() =>
       assertHabitatCapacity(
-        { id: "habitat:one" as never, name: "One", capacity: 1, status: "open" },
+        { id: "habitat:one" as never, name: "One", capacity: 1, status: "open", heartbeatStaleAfterMs: 60_000 },
         1
       )
     ).toThrow();
