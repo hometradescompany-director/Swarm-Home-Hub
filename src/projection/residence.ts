@@ -18,6 +18,9 @@ export function projectResidence(events: readonly SwarmResidenceEvent[]): Reside
   if (first.type !== "swarm.residence.requested") {
     throw new Error("residence history must begin with a request event");
   }
+  if (first.previousEventId !== undefined && first.previousEventId !== null) {
+    throw new Error("first residence event cannot name a predecessor");
+  }
 
   let snapshot: ResidenceSnapshot = {
     residenceId: first.residenceId,
@@ -37,6 +40,14 @@ export function projectResidence(events: readonly SwarmResidenceEvent[]): Reside
     }
     if (event.habitatId !== snapshot.habitatId) {
       throw new Error("projection changed habitat identity within one residence");
+    }
+    if (
+      event.previousEventId !== undefined &&
+      event.previousEventId !== snapshot.lastEventId
+    ) {
+      throw new Error(
+        `projection predecessor mismatch: expected ${snapshot.lastEventId} but event named ${event.previousEventId ?? "<none>"}`
+      );
     }
 
     const nextStatus = statusByEvent[event.type];
