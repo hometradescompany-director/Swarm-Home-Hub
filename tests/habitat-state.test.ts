@@ -17,7 +17,7 @@ const residence = (
 describe("habitat state projection", () => {
   it("derives capacity from occupying residences only", () => {
     const state = projectHabitatState(
-      { id: "habitat:one" as never, name: "One", capacity: 3, status: "open" },
+      { id: "habitat:one" as never, name: "One", capacity: 3, status: "open", heartbeatStaleAfterMs: 60_000 },
       [
         residence("request", "requested"),
         residence("admitted", "admitted"),
@@ -38,7 +38,7 @@ describe("habitat state projection", () => {
 
   it("closes admissions when the habitat is paused even with free capacity", () => {
     const state = projectHabitatState(
-      { id: "habitat:one" as never, name: "One", capacity: 3, status: "paused" },
+      { id: "habitat:one" as never, name: "One", capacity: 3, status: "paused", heartbeatStaleAfterMs: 60_000 },
       [residence("admitted", "admitted")]
     );
 
@@ -49,7 +49,7 @@ describe("habitat state projection", () => {
   it("fails loudly if the derived state exceeds declared capacity", () => {
     expect(() =>
       projectHabitatState(
-        { id: "habitat:one" as never, name: "One", capacity: 1, status: "open" },
+        { id: "habitat:one" as never, name: "One", capacity: 1, status: "open", heartbeatStaleAfterMs: 60_000 },
         [residence("one", "admitted"), residence("two", "ready")]
       )
     ).toThrow(/exceeds capacity/);
