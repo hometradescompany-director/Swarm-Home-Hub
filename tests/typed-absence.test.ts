@@ -39,6 +39,42 @@ describe("typed absence", () => {
     ).toThrow(/observedAt/);
   });
 
+  it("requires both sides of a supersession relationship", () => {
+    expect(() =>
+      createTypedAbsence({
+        kind: "superseded",
+        statement: "Prior observation superseded.",
+        observedAt: "2026-09-20T02:20:00.000Z",
+        sourceRef: "swarm:event:old"
+      })
+    ).toThrow(/sourceRef and supersededByRef/);
+
+    expect(
+      createTypedAbsence({
+        kind: "superseded",
+        statement: "Prior observation superseded.",
+        observedAt: "2026-09-20T02:20:00.000Z",
+        sourceRef: "swarm:event:old",
+        supersededByRef: "swarm:event:new"
+      })
+    ).toMatchObject({
+      kind: "superseded",
+      sourceRef: "swarm:event:old",
+      supersededByRef: "swarm:event:new"
+    });
+  });
+
+  it("refuses supersession metadata on other absence kinds", () => {
+    expect(() =>
+      createTypedAbsence({
+        kind: "status_unknown",
+        statement: "Unknown.",
+        observedAt: "2026-09-20T02:20:00.000Z",
+        supersededByRef: "swarm:event:new"
+      })
+    ).toThrow(/only valid for superseded/);
+  });
+
   it("refuses blank source references", () => {
     expect(() =>
       createTypedAbsence({

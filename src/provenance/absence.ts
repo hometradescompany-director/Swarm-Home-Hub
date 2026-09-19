@@ -16,6 +16,7 @@ export interface TypedAbsence {
   readonly statement: string;
   readonly observedAt: string;
   readonly sourceRef?: string;
+  readonly supersededByRef?: string;
 }
 
 export interface CreateTypedAbsenceInput {
@@ -23,6 +24,7 @@ export interface CreateTypedAbsenceInput {
   readonly statement: string;
   readonly observedAt: string;
   readonly sourceRef?: string;
+  readonly supersededByRef?: string;
 }
 
 export function createTypedAbsence(input: CreateTypedAbsenceInput): TypedAbsence {
@@ -40,11 +42,23 @@ export function createTypedAbsence(input: CreateTypedAbsenceInput): TypedAbsence
     throw new Error("typed absence sourceRef cannot be blank when supplied");
   }
 
+  const supersededByRef = input.supersededByRef?.trim();
+  if (input.supersededByRef !== undefined && !supersededByRef) {
+    throw new Error("typed absence supersededByRef cannot be blank when supplied");
+  }
+  if (supersededByRef && input.kind !== "superseded") {
+    throw new Error("supersededByRef is only valid for superseded absences");
+  }
+  if (input.kind === "superseded" && (!sourceRef || !supersededByRef)) {
+    throw new Error("superseded absence requires sourceRef and supersededByRef");
+  }
+
   return Object.freeze({
     kind: input.kind,
     statement,
     observedAt: input.observedAt,
-    ...(sourceRef ? { sourceRef } : {})
+    ...(sourceRef ? { sourceRef } : {}),
+    ...(supersededByRef ? { supersededByRef } : {})
   });
 }
 

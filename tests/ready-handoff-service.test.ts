@@ -263,9 +263,12 @@ describe("ready handoff service", () => {
     expect(result).toMatchObject({
       usable: false,
       absence: {
-        kind: "rejected_by_validation",
-        statement: "handoff source residence event has been superseded"
-      }
+        kind: "superseded",
+        statement: "handoff source residence event has been superseded",
+        sourceRef: "swarm:residence-event:event:ready",
+        supersededByRef: "swarm:residence-event:event:resting-again"
+      },
+      refusalCode: "source_event_superseded"
     });
   });
 
