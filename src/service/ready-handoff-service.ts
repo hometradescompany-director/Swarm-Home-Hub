@@ -9,6 +9,7 @@ import type { HabitatRegistry } from "../registry/habitat-registry.js";
 import {
   projectCurrentReadyHandoff,
   type CurrentReadyHandoffCapsule,
+  type CurrentReadyHandoffRefusalCode,
   validateCurrentReadyHandoff
 } from "../query/ready-handoff.js";
 import { projectResidenceHeartbeat } from "../query/residence-heartbeat.js";
@@ -33,6 +34,12 @@ export type ReadyHandoffAttempt =
       readonly absence: TypedAbsence;
     };
 
+export type ReadyHandoffServiceRefusalCode =
+  | CurrentReadyHandoffRefusalCode
+  | "source_event_missing"
+  | "source_event_not_ready"
+  | "source_event_time_mismatch";
+
 export type ReadyHandoffUseAttempt =
   | {
       readonly usable: true;
@@ -41,6 +48,7 @@ export type ReadyHandoffUseAttempt =
   | {
       readonly usable: false;
       readonly absence: TypedAbsence;
+      readonly refusalCode?: ReadyHandoffServiceRefusalCode;
     };
 
 export class ReadyHandoffService {
@@ -193,7 +201,8 @@ export class ReadyHandoffService {
           statement: "handoff source residence event cannot be located in authoritative history",
           observedAt,
           sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
-        }
+        },
+        refusalCode: "source_event_missing"
       };
     }
     if (sourceEvent.type !== "swarm.residence.ready") {
@@ -204,7 +213,8 @@ export class ReadyHandoffService {
           statement: "handoff source residence event is not a readiness event",
           observedAt,
           sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
-        }
+        },
+        refusalCode: "source_event_not_ready"
       };
     }
     if (sourceEvent.observedAt !== handoff.readinessObservedAt) {
@@ -215,7 +225,8 @@ export class ReadyHandoffService {
           statement: "handoff readiness observation does not match authoritative source event",
           observedAt,
           sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
-        }
+        },
+        refusalCode: "source_event_time_mismatch"
       };
     }
 
@@ -234,7 +245,8 @@ export class ReadyHandoffService {
           statement: validation.message,
           observedAt,
           sourceRef: `swarm:ready-handoff:${handoff.residenceId}`
-        }
+        },
+        refusalCode: validation.code
       };
     }
 
