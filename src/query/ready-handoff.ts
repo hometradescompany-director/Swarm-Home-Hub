@@ -54,6 +54,18 @@ export function projectCurrentReadyHandoff(
   if (heartbeat.status !== "ready") {
     throw new Error(`handoff heartbeat must report ready status, got ${heartbeat.status ?? "unknown"}`);
   }
+  if (!heartbeat.lastObservedAt) {
+    throw new Error("handoff heartbeat is missing its last observation time");
+  }
+
+  const generatedMs = Date.parse(generatedAt);
+  const observedMs = Date.parse(heartbeat.lastObservedAt);
+  if (!Number.isFinite(generatedMs) || !Number.isFinite(observedMs)) {
+    throw new Error("handoff timestamps must be valid ISO-8601 values");
+  }
+  if (generatedMs < observedMs) {
+    throw new Error("handoff cannot be generated before the readiness observation");
+  }
 
   return projectReadyHandoff(residence, agent, generatedAt);
 }
