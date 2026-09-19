@@ -140,6 +140,7 @@ describe("current ready handoff", () => {
         agent,
         heartbeat({
           evaluatedAt: "2026-09-19T03:01:00.001Z",
+          ageMs: 60_001,
           freshUntil: "2026-09-19T03:01:00.000Z"
         }),
         "2026-09-19T03:01:00.001Z"
