@@ -1,6 +1,6 @@
 import type { ResidenceSnapshot } from "../domain/residence.js";
 import type { SwarmResidenceEvent, SwarmResidenceEventType } from "../events/event.js";
-import type { EventJournal } from "../events/journal.js";
+import type { AppendExpectation, EventJournal } from "../events/journal.js";
 import { assertAllowedTransition } from "../policy/transitions.js";
 import { projectResidence } from "../projection/residence.js";
 
@@ -18,7 +18,8 @@ export class ResidenceService {
   async transition(
     current: ResidenceSnapshot,
     next: Exclude<ResidenceSnapshot["status"], "requested">,
-    envelope: Omit<SwarmResidenceEvent, "type" | "residenceId" | "agentIdentityRef" | "habitatId">
+    envelope: Omit<SwarmResidenceEvent, "type" | "residenceId" | "agentIdentityRef" | "habitatId">,
+    constraints: Omit<AppendExpectation, "expectedLastEventId"> = {}
   ): Promise<ResidenceSnapshot> {
     assertAllowedTransition(current.status, next);
     await this.journal.append(
@@ -30,7 +31,7 @@ export class ResidenceService {
         habitatId: current.habitatId,
         previousEventId: current.lastEventId
       },
-      { expectedLastEventId: current.lastEventId }
+      { expectedLastEventId: current.lastEventId, ...constraints }
     );
     const rebuilt = projectResidence(await this.journal.eventsForResidence(current.residenceId));
     if (!rebuilt) throw new Error("residence projection unexpectedly empty");
