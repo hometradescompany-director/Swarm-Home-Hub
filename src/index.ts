@@ -23,4 +23,5 @@ export * from "./query/residence-timeline.js";
 export * from "./query/habitat-state.js";
 export * from "./query/residence-recovery.js";
 export * from "./query/ready-handoff.js";
+export * from "./query/residence-heartbeat.js";
 export * from "./integrations/atlas/contract.js";
