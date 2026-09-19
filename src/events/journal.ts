@@ -2,6 +2,7 @@ import type { SwarmResidenceEvent } from "./event.js";
 
 export interface AppendExpectation {
   readonly expectedLastEventId: string | null;
+  readonly habitatCapacity?: number;
 }
 
 export interface EventJournal {
@@ -39,6 +40,32 @@ export class InMemoryEventJournal implements EventJournal {
       throw new Error(
         `stale residence snapshot: expected last event ${expectation.expectedLastEventId ?? "<none>"} but found ${actualLastEventId ?? "<none>"}`
       );
+    }
+
+    if (expectation?.habitatCapacity !== undefined) {
+      if (event.type !== "swarm.residence.admitted") {
+        throw new Error("habitat capacity guard only applies to admission events");
+      }
+      if (!Number.isInteger(expectation.habitatCapacity) || expectation.habitatCapacity < 1) {
+        throw new Error("habitat capacity must be a positive integer");
+      }
+
+      const latestByResidence = new Map<string, SwarmResidenceEvent>();
+      for (const existing of this.#events) {
+        if (existing.habitatId === event.habitatId) {
+          latestByResidence.set(existing.residenceId, existing);
+        }
+      }
+      const occupied = [...latestByResidence.values()].filter(existing =>
+        [
+          "swarm.residence.admitted",
+          "swarm.residence.rested",
+          "swarm.residence.ready"
+        ].includes(existing.type)
+      ).length;
+      if (occupied >= expectation.habitatCapacity) {
+        throw new Error(`habitat capacity reached: ${event.habitatId}`);
+      }
     }
 
     const expectedPredecessor = expectation?.expectedLastEventId ?? actualLastEventId;
