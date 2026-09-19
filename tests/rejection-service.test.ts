@@ -12,15 +12,39 @@ const requested = (): ResidenceSnapshot => ({
   lastEventId: "event:requested"
 });
 
+async function seedRequested(
+  journal: InMemoryEventJournal,
+  snapshot: ResidenceSnapshot
+): Promise<void> {
+  await journal.append(
+    {
+      id: snapshot.lastEventId,
+      type: "swarm.residence.requested",
+      occurredAt: "2026-09-18T23:59:59.000Z",
+      observedAt: "2026-09-18T23:59:59.500Z",
+      actorRef: "actor:request",
+      residenceId: snapshot.residenceId,
+      agentIdentityRef: snapshot.agentIdentityRef,
+      habitatId: snapshot.habitatId,
+      evidenceReceiptIds: [],
+      previousEventId: null
+    },
+    { expectedLastEventId: null }
+  );
+}
+
 describe("rejection service", () => {
-  it("records a requested -> rejected decision with reason and evidence", async () => {
+  it("records a requested -> rejected decision with distinct event/observation time", async () => {
     const journal = new InMemoryEventJournal();
+    const current = requested();
+    await seedRequested(journal, current);
     const service = new RejectionService(journal);
 
     const next = await service.reject(
-      requested(),
+      current,
       "event:rejected",
       "2026-09-19T00:00:00.000Z",
+      "2026-09-19T00:00:01.000Z",
       "actor:atlas-gateway",
       "authority denied admission",
       ["receipt:authority-decision"]
@@ -28,12 +52,15 @@ describe("rejection service", () => {
 
     expect(next.status).toBe("rejected");
     const events = await journal.eventsForResidence(next.residenceId);
-    expect(events).toHaveLength(1);
-    expect(events[0]).toMatchObject({
+    expect(events).toHaveLength(2);
+    expect(events[1]).toMatchObject({
       id: "event:rejected",
       type: "swarm.residence.rejected",
+      occurredAt: "2026-09-19T00:00:00.000Z",
+      observedAt: "2026-09-19T00:00:01.000Z",
       reason: "authority denied admission",
-      evidenceReceiptIds: ["receipt:authority-decision"]
+      evidenceReceiptIds: ["receipt:authority-decision"],
+      previousEventId: "event:requested"
     });
   });
 
@@ -44,6 +71,7 @@ describe("rejection service", () => {
         requested(),
         "event:rejected",
         "2026-09-19T00:00:00.000Z",
+        "2026-09-19T00:00:01.000Z",
         "actor:atlas-gateway",
         "   "
       )
@@ -57,6 +85,7 @@ describe("rejection service", () => {
         { ...requested(), status: "admitted" },
         "event:rejected",
         "2026-09-19T00:00:00.000Z",
+        "2026-09-19T00:00:01.000Z",
         "actor:atlas-gateway",
         "late denial"
       )
