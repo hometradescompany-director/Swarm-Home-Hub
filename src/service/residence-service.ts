@@ -27,7 +27,8 @@ export class ResidenceService {
         type: statusEvent[next],
         residenceId: current.residenceId,
         agentIdentityRef: current.agentIdentityRef,
-        habitatId: current.habitatId
+        habitatId: current.habitatId,
+        previousEventId: current.lastEventId
       },
       { expectedLastEventId: current.lastEventId }
     );
