@@ -147,6 +147,42 @@ describe("current ready handoff", () => {
     ).toThrow(/freshness boundary/);
   });
 
+  it("refuses a heartbeat whose freshness boundary exceeds its declared policy", () => {
+    expect(() =>
+      projectCurrentReadyHandoff(
+        residence,
+        agent,
+        heartbeat({
+          staleAfterMs: 60_000,
+          freshUntil: "2027-09-19T03:01:00.000Z"
+        }),
+        "2026-09-19T03:00:01.000Z"
+      )
+    ).toThrow(/freshness boundary is inconsistent/);
+  });
+
+  it("refuses a heartbeat whose age does not match its timestamps", () => {
+    expect(() =>
+      projectCurrentReadyHandoff(
+        residence,
+        agent,
+        heartbeat({ ageMs: 42_000 }),
+        "2026-09-19T03:00:01.000Z"
+      )
+    ).toThrow(/age is inconsistent/);
+  });
+
+  it("refuses a malformed heartbeat freshness threshold", () => {
+    expect(() =>
+      projectCurrentReadyHandoff(
+        residence,
+        agent,
+        heartbeat({ staleAfterMs: Number.NaN }),
+        "2026-09-19T03:00:01.000Z"
+      )
+    ).toThrow(/freshness threshold/);
+  });
+
   it("allows a consumer to use the capsule through the freshness boundary", () => {
     const handoff = projectCurrentReadyHandoff(
       residence,
