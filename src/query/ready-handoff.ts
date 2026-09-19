@@ -31,6 +31,9 @@ export function projectReadyHandoff(
   if (agent.identityRef !== residence.agentIdentityRef) {
     throw new Error("handoff identity does not match residence identity");
   }
+  if (!Number.isFinite(Date.parse(generatedAt))) {
+    throw new Error("handoff generation time must be a valid ISO-8601 value");
+  }
 
   return {
     residenceId: residence.residenceId,
