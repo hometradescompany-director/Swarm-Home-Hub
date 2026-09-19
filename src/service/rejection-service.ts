@@ -8,7 +8,8 @@ export class RejectionService {
   async reject(
     current: ResidenceSnapshot,
     eventId: string,
-    at: string,
+    occurredAt: string,
+    observedAt: string,
     actorRef: string,
     reason: string,
     evidenceReceiptIds: readonly string[] = [],
@@ -21,8 +22,8 @@ export class RejectionService {
 
     return new ResidenceService(this.journal).transition(current, "rejected", {
       id: eventId,
-      occurredAt: at,
-      observedAt: at,
+      occurredAt,
+      observedAt,
       actorRef,
       evidenceReceiptIds,
       reason: normalizedReason,
