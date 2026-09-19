@@ -119,14 +119,50 @@ export function assertCurrentReadyHandoffFresh(
 ): void {
   const nowMs = Date.parse(now);
   const generatedMs = Date.parse(handoff.generatedAt);
+  const readinessObservedMs = Date.parse(handoff.readinessObservedAt);
+  const heartbeatEvaluatedMs = Date.parse(handoff.heartbeatEvaluatedAt);
   const freshUntilMs = Date.parse(handoff.freshUntil);
 
   if (
     !Number.isFinite(nowMs) ||
     !Number.isFinite(generatedMs) ||
+    !Number.isFinite(readinessObservedMs) ||
+    !Number.isFinite(heartbeatEvaluatedMs) ||
     !Number.isFinite(freshUntilMs)
   ) {
     throw new Error("handoff freshness timestamps must be valid ISO-8601 values");
+  }
+  if (!Number.isFinite(handoff.staleAfterMs) || handoff.staleAfterMs < 0) {
+    return {
+      usable: false,
+      code: "capsule_inconsistent",
+      message: "handoff capsule freshness threshold is invalid"
+    };
+  }
+  const derivedFreshUntilMs = readinessObservedMs + handoff.staleAfterMs;
+  if (
+    !Number.isFinite(derivedFreshUntilMs) ||
+    derivedFreshUntilMs !== freshUntilMs
+  ) {
+    return {
+      usable: false,
+      code: "capsule_inconsistent",
+      message: "handoff capsule freshness boundary is inconsistent with its readiness observation and policy"
+    };
+  }
+  if (heartbeatEvaluatedMs !== generatedMs) {
+    return {
+      usable: false,
+      code: "capsule_inconsistent",
+      message: "handoff capsule heartbeat evaluation time does not match generation time"
+    };
+  }
+  if (generatedMs < readinessObservedMs) {
+    return {
+      usable: false,
+      code: "capsule_inconsistent",
+      message: "handoff capsule was generated before its readiness observation"
+    };
   }
   if (nowMs < generatedMs) {
     throw new Error("handoff cannot be checked before it was generated");
@@ -138,6 +174,7 @@ export function assertCurrentReadyHandoffFresh(
 
 export type CurrentReadyHandoffRefusalCode =
   | "invalid_timestamp"
+  | "capsule_inconsistent"
   | "checked_before_generation"
   | "expired"
   | "residence_mismatch"
