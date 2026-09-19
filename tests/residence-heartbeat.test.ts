@@ -76,4 +76,14 @@ describe("residence heartbeat", () => {
       lastEventId: "event:departed"
     });
   });
+
+  it("refuses a heartbeat evaluated before its latest observation", () => {
+    expect(() =>
+      projectResidenceHeartbeat(
+        [base],
+        "2026-09-18T23:59:59.999Z",
+        60_000
+      )
+    ).toThrow(/future relative to now/);
+  });
 });
