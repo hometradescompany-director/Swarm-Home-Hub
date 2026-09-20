@@ -47,3 +47,16 @@ event journal / habitat registry / Atlas contract
 ```
 
 No adapter is allowed to become a source of truth.
+
+
+## Web transport
+
+A dependency-free `SwarmHomeWebTransport` now adapts standard Web `Request` objects to the existing `SwarmHomeToolRouter`.
+
+Bounded routes:
+
+- `GET /health` — service/transport liveness only
+- `GET /tools` — machine-readable tool manifest, including mutation standing and input schema
+- `POST /tools/{toolName}` — invoke exactly one existing Swarm Home tool
+
+The adapter owns HTTP framing only. It does not read the event journal, habitat registry, or Atlas gateway directly, and it cannot create a second residence truth path.
