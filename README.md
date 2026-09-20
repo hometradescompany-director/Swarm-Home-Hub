@@ -10,6 +10,8 @@ For technical evaluation, architecture fit, and what a buyer can verify, see [do
 
 For bounded commercial engagement options, see [docs/COMMERCIAL.md](docs/COMMERCIAL.md).
 
+For a concrete paid-pilot intake path, see [docs/BUYER-START.md](docs/BUYER-START.md).
+
 ## Boundary
 
 Swarm Home Hub is **not Atlas**. It is a bounded system that consumes Atlas contracts.
