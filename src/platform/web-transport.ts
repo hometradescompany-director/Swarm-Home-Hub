@@ -1,8 +1,34 @@
-import { swarmHomeToolManifest, swarmHomeToolNames, type SwarmHomeToolName } from "./tool-manifest.js";
+import {
+  swarmHomeToolDescriptor,
+  swarmHomeToolManifest,
+  swarmHomeToolNames,
+  type SwarmHomeToolDescriptor,
+  type SwarmHomeToolName
+} from "./tool-manifest.js";
 import { SwarmHomeToolRouter, type SwarmHomeToolCall } from "./tool-router.js";
+
+export interface SwarmHomeWebAdmission {
+  readonly allowed: boolean;
+  readonly status?: 401 | 403 | 429;
+  readonly error?: string;
+}
+
+export type SwarmHomeWebAdmissionGuard = (
+  request: Request,
+  tool: SwarmHomeToolDescriptor
+) => SwarmHomeWebAdmission | Promise<SwarmHomeWebAdmission>;
 
 export interface SwarmHomeWebTransportOptions {
   readonly basePath?: string;
+  /**
+   * Host-owned authentication/rate-limit/admission seam.
+   *
+   * Swarm Home does not become the authority owner here. In the absence of a
+   * guard, read-only tools remain inspectable and every mutating tool fails
+   * closed before it can reach the router.
+   */
+  readonly admitToolCall?: SwarmHomeWebAdmissionGuard;
+  readonly maxBodyBytes?: number;
 }
 
 export interface SwarmHomeWebHealth {
@@ -23,7 +49,10 @@ function json(value: unknown, status = 200): Response {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store"
+      "cache-control": "no-store",
+      "x-content-type-options": "nosniff",
+      "referrer-policy": "no-referrer",
+      "content-security-policy": "default-src 'none'; frame-ancestors 'none'"
     }
   });
 }
@@ -44,16 +73,28 @@ function isToolName(value: string): value is SwarmHomeToolName {
  */
 export class SwarmHomeWebTransport {
   readonly #basePath: string;
+  readonly #admitToolCall?: SwarmHomeWebAdmissionGuard;
+  readonly #maxBodyBytes: number;
 
   constructor(
     private readonly router: SwarmHomeToolRouter,
     options: SwarmHomeWebTransportOptions = {}
   ) {
     this.#basePath = normalizeBasePath(options.basePath);
+    this.#admitToolCall = options.admitToolCall;
+    this.#maxBodyBytes = options.maxBodyBytes ?? 64 * 1024;
+
+    if (!Number.isInteger(this.#maxBodyBytes) || this.#maxBodyBytes <= 0) {
+      throw new Error("maxBodyBytes must be a positive integer");
+    }
   }
 
   async handle(request: Request): Promise<Response> {
     const url = new URL(request.url);
+    if (url.pathname.length > 2048) {
+      return json({ ok: false, error: "request path is too long" }, 414);
+    }
+
     const path = this.#stripBasePath(url.pathname);
     if (path === null) {
       return json({ ok: false, error: "route not found" }, 404);
@@ -82,9 +123,46 @@ export class SwarmHomeWebTransport {
         return json({ ok: false, error: `unknown Swarm Home tool: ${rawName}` }, 404);
       }
 
+      const tool = swarmHomeToolDescriptor(rawName);
+      if (!this.#admitToolCall && tool.mutatesState) {
+        return json(
+          { ok: false, error: "state-mutating tools require a transport admission guard" },
+          403
+        );
+      }
+
+      if (this.#admitToolCall) {
+        const admission = await this.#admitToolCall(request, tool);
+        if (!admission.allowed) {
+          return json(
+            { ok: false, error: admission.error ?? "tool call refused by transport admission policy" },
+            admission.status ?? 403
+          );
+        }
+      }
+
+      const contentType = request.headers.get("content-type") ?? "";
+      if (!contentType.toLowerCase().startsWith("application/json")) {
+        return json({ ok: false, error: "content-type must be application/json" }, 415);
+      }
+
+      const declaredLength = request.headers.get("content-length");
+      if (
+        declaredLength !== null &&
+        Number.isFinite(Number(declaredLength)) &&
+        Number(declaredLength) > this.#maxBodyBytes
+      ) {
+        return json({ ok: false, error: "request body is too large" }, 413);
+      }
+
+      const rawBody = await request.text();
+      if (new TextEncoder().encode(rawBody).byteLength > this.#maxBodyBytes) {
+        return json({ ok: false, error: "request body is too large" }, 413);
+      }
+
       let body: unknown;
       try {
-        body = await request.json();
+        body = JSON.parse(rawBody);
       } catch {
         return json({ ok: false, error: "request body must be valid JSON" }, 400);
       }
