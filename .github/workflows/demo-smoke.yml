@@ -7,7 +7,9 @@ on:
   pull_request:
     paths:
       - "scripts/demo.mjs"
+      - "scripts/proof.mjs"
       - "docs/DEMO.md"
+      - "docs/BUYER-PROOF.md"
       - "src/**"
       - "package.json"
       - "package-lock.json"
@@ -16,7 +18,9 @@ on:
     branches: [main]
     paths:
       - "scripts/demo.mjs"
+      - "scripts/proof.mjs"
       - "docs/DEMO.md"
+      - "docs/BUYER-PROOF.md"
       - "src/**"
       - "package.json"
       - "package-lock.json"
@@ -24,7 +28,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  smoke:
+  buyer-proof:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -34,46 +38,16 @@ jobs:
       - name: Use npm 11 resolver
         run: npm install -g npm@11.19.1
       - run: npm ci
-      - name: Compile
-        run: npx tsc
-      - name: Boot bounded demo host
-        shell: bash
-        run: |
-          set -euo pipefail
-          node scripts/demo.mjs >/tmp/swarm-home-demo.log 2>&1 &
-          echo $! >/tmp/swarm-home-demo.pid
-
-          for attempt in $(seq 1 20); do
-            if curl --fail --silent http://127.0.0.1:8787/swarm-home/health >/tmp/health.json; then
-              exit 0
-            fi
-            sleep 0.5
-          done
-
-          cat /tmp/swarm-home-demo.log
-          exit 1
-      - name: Prove public read-only surface
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          curl --fail --silent             http://127.0.0.1:8787/swarm-home/health             | tee /tmp/health.json             | grep -q '"ok":true'
-
-          curl --fail --silent             http://127.0.0.1:8787/swarm-home/tools             | tee /tmp/tools.json             | grep -q '"swarm.home.inspect"'
-
-          curl --fail --silent             -X POST             -H 'content-type: application/json'             -d '{"arguments":{}}'             http://127.0.0.1:8787/swarm-home/tools/swarm.home.inspect             | tee /tmp/inspect.json             | grep -q '"ok":true'
-
-          status="$(
-            curl --silent --output /tmp/mutation.json --write-out '%{http_code}'               -X POST               -H 'content-type: application/json'               -d '{"arguments":{}}'               http://127.0.0.1:8787/swarm-home/tools/swarm.home.request
-          )"
-
-          test "$status" = "403"
-          grep -q 'state-mutating tools require a transport admission guard' /tmp/mutation.json
-      - name: Stop demo host
+      - name: Run one-command buyer proof
+        run: npm run proof | tee buyer-proof.json
+      - name: Publish proof in workflow summary
         if: always()
         shell: bash
         run: |
-          if [ -f /tmp/swarm-home-demo.pid ]; then
-            kill "$(cat /tmp/swarm-home-demo.pid)" 2>/dev/null || true
-          fi
-          cat /tmp/swarm-home-demo.log 2>/dev/null || true
+          {
+            echo '## Swarm Home Hub buyer proof'
+            echo
+            echo '```json'
+            cat buyer-proof.json 2>/dev/null || echo '{"ok":false,"error":"proof report unavailable"}'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
