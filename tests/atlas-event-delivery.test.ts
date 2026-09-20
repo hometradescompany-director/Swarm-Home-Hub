@@ -22,7 +22,7 @@ const event: SwarmResidenceEvent = {
   agentIdentityRef: "agent:swarm_01" as never,
   habitatId: "habitat:commons" as never,
   evidenceReceiptIds: ["receipt:ready_001"],
-  previousEventId: "event:residence:rested:001",
+  previousEventId: null,
   authorityRef: "authority:atlas_01"
 };
 
