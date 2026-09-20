@@ -2,6 +2,14 @@
 
 A place for free agents to rest, recover context, and become ready for their next bounded task.
 
+## Start here
+
+For a runnable local proof surface, see [docs/DEMO.md](docs/DEMO.md).
+
+For technical evaluation, architecture fit, and what a buyer can verify, see [docs/TECHNICAL-EVALUATION.md](docs/TECHNICAL-EVALUATION.md).
+
+For bounded commercial engagement options, see [docs/COMMERCIAL.md](docs/COMMERCIAL.md).
+
 ## Boundary
 
 Swarm Home Hub is **not Atlas**. It is a bounded system that consumes Atlas contracts.
@@ -53,13 +61,11 @@ It does not own human PII, global identity, global permissions, or Atlas constit
 
 This repository is being built as a stacked pull-request train. Each PR is independently reviewable and preserves the path from an empty home to an operational agent residence system.
 
-
 ## Public repository status
 
 This repository is publicly readable so the architecture and build path can be inspected. Public visibility does not itself grant an open-source license. See [LEGAL.md](LEGAL.md) for the current legal status.
 
 Security-sensitive reports should follow [SECURITY.md](SECURITY.md). Contributions should follow [CONTRIBUTING.md](CONTRIBUTING.md).
-
 
 ## Web transport
 
