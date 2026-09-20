@@ -31,3 +31,5 @@ export { ResidenceRequestService as RequestService } from "./service/request-ser
 export * from "./platform/swarm-home-door.js";
 export * from "./platform/tool-manifest.js";
 export * from "./platform/tool-router.js";
+
+export * from "./platform/web-transport.js";
