@@ -2,7 +2,20 @@
 
 This is a deliberately bounded, read-only host over the existing Swarm Home web transport.
 
-## Start
+## One-command proof
+
+For the shortest technical evaluation path:
+
+```bash
+npm ci
+npm run proof
+```
+
+That command compiles the project, starts the local host, verifies health and discovery, exercises read-only inspection, and proves that an unguarded state mutation fails closed with HTTP 403.
+
+See [BUYER-PROOF.md](BUYER-PROOF.md) for the evaluation boundary and report semantics.
+
+## Start manually
 
 ```bash
 npm install
