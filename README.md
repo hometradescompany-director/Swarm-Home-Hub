@@ -57,6 +57,18 @@ It does not own human PII, global identity, global permissions, or Atlas constit
 - No duplicate truth ownership with Atlas.
 - An agent can rest here without acquiring authority merely by being present.
 
+## Atlas wiring
+
+The product-side seam is `SwarmAtlasFederation/v1`. A concrete
+`AtlasHttpGateway` now composes `atlas-entity/v1` and
+`atlas-authority/v1`: Atlas may resolve an opaque agent mapping and answer the
+single bounded `swarm.residence.enter` question, while Swarm still owns habitat
+capacity and every residence transition.
+
+Evidence retrieval and outbound event delivery remain deliberately fail-closed
+until their dedicated transport / durable outbox boundaries exist. See
+[docs/ATLAS_FEDERATION.md](docs/ATLAS_FEDERATION.md).
+
 ## Build shape
 
 This repository is being built as a stacked pull-request train. Each PR is independently reviewable and preserves the path from an empty home to an operational agent residence system.
