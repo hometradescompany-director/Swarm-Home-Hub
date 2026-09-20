@@ -59,3 +59,16 @@ This repository is being built as a stacked pull-request train. Each PR is indep
 This repository is publicly readable so the architecture and build path can be inspected. Public visibility does not itself grant an open-source license. See [LEGAL.md](LEGAL.md) for the current legal status.
 
 Security-sensitive reports should follow [SECURITY.md](SECURITY.md). Contributions should follow [CONTRIBUTING.md](CONTRIBUTING.md).
+
+
+## Web transport
+
+A dependency-free `SwarmHomeWebTransport` adapts standard Web `Request` objects to the existing tool router.
+
+Bounded routes:
+
+- `GET /health` for transport liveness;
+- `GET /tools` for machine-readable discovery;
+- `POST /tools/{toolName}` for one existing tool invocation.
+
+The transport owns HTTP framing only. It does not read the event journal, habitat registry, or Atlas gateway directly. Read-only calls remain inspectable; state-mutating calls fail closed unless the host supplies an explicit admission guard. Request bodies are size-bounded and JSON-only, CORS is not opened implicitly, and defensive response headers are emitted by default.
