@@ -39,7 +39,7 @@ export const SWARM_ATLAS_BOUNDARY = Object.freeze({
   ],
   withheld: [
     "Atlas evidence retrieval transport until a dedicated endpoint exists",
-    "Atlas event delivery until Swarm has a durable outbox/retry boundary",
+    "Production Atlas event delivery until the host supplies durable journal and delivery-ledger adapters",
     "any shared mutable database or implicit authority transfer",
   ],
 } as const);
