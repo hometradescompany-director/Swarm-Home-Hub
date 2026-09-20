@@ -1,6 +1,5 @@
 import type { SwarmResidenceEvent } from "../../events/event.js";
-
-export const ATLAS_EVENT_CONTRACT = "atlas-event/v1" as const;
+import { ATLAS_EVENT_CONTRACT } from "./federation.js";
 
 export interface AtlasEventDeliveryResult {
   readonly sourceEventId: string;
