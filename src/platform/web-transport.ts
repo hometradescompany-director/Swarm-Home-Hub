@@ -73,7 +73,7 @@ function isToolName(value: string): value is SwarmHomeToolName {
  */
 export class SwarmHomeWebTransport {
   readonly #basePath: string;
-  readonly #admitToolCall?: SwarmHomeWebAdmissionGuard;
+  readonly #admitToolCall: SwarmHomeWebAdmissionGuard | undefined;
   readonly #maxBodyBytes: number;
 
   constructor(
