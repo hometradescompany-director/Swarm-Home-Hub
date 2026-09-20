@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "tsc",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "check": "npm run typecheck && npm test",
+    "proof": "npm run build && node scripts/proof.mjs",
     "test:residence-phase": "vitest run tests/residence-phase-contract.test.ts"
   },
   "devDependencies": {
