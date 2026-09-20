@@ -101,9 +101,109 @@ describe("Swarm Home web transport", () => {
 
     const malformed = await web.handle(new Request(
       "https://example.test/swarm-home/tools/swarm.home.inspect",
-      { method: "POST", body: "{" }
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: "{"
+      }
     ));
     expect(malformed.status).toBe(400);
+  });
+
+  it("fails closed on state mutation when the host supplies no admission guard", async () => {
+    const web = await transport();
+    const response = await web.handle(new Request(
+      "https://example.test/swarm-home/tools/swarm.home.request",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          arguments: {
+            command: {
+              requestId: "request:web",
+              residenceId: "residence:web",
+              agentIdentityRef: "atlas:agent:web",
+              habitatId: "habitat:web",
+              requestedAt: "2026-09-20T06:00:00.000Z",
+              actorRef: "actor:web",
+              evidenceReceiptIds: []
+            },
+            observedAt: "2026-09-20T06:00:00.000Z"
+          }
+        })
+      }
+    ));
+
+    expect(response.status).toBe(403);
+    await expect(response.json()).resolves.toMatchObject({
+      ok: false,
+      error: "state-mutating tools require a transport admission guard"
+    });
+  });
+
+  it("lets the host admission seam authorize or rate-limit tool calls", async () => {
+    const journal = new InMemoryEventJournal();
+    const habitats = new InMemoryHabitatRegistry();
+    await habitats.put(habitat);
+    const web = new SwarmHomeWebTransport(
+      new SwarmHomeToolRouter(new SwarmHomeDoor({ journal, habitats, atlas })),
+      {
+        basePath: "/swarm-home",
+        admitToolCall: (_request, tool) =>
+          tool.name === "swarm.home.inspect"
+            ? { allowed: false, status: 429, error: "slow down" }
+            : { allowed: true }
+      }
+    );
+
+    const response = await web.handle(new Request(
+      "https://example.test/swarm-home/tools/swarm.home.inspect",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ arguments: {} })
+      }
+    ));
+
+    expect(response.status).toBe(429);
+    await expect(response.json()).resolves.toMatchObject({ ok: false, error: "slow down" });
+  });
+
+  it("rejects non-JSON and oversized request bodies before routing", async () => {
+    const web = await transport();
+
+    const wrongType = await web.handle(new Request(
+      "https://example.test/swarm-home/tools/swarm.home.inspect",
+      { method: "POST", headers: { "content-type": "text/plain" }, body: "{}" }
+    ));
+    expect(wrongType.status).toBe(415);
+
+    const small = new SwarmHomeWebTransport(
+      new SwarmHomeToolRouter(new SwarmHomeDoor({
+        journal: new InMemoryEventJournal(),
+        habitats: new InMemoryHabitatRegistry(),
+        atlas
+      })),
+      { basePath: "/swarm-home", maxBodyBytes: 8 }
+    );
+    const oversized = await small.handle(new Request(
+      "https://example.test/swarm-home/tools/swarm.home.inspect",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ arguments: { long: "123456789" } })
+      }
+    ));
+    expect(oversized.status).toBe(413);
+  });
+
+  it("ships defensive response headers by default", async () => {
+    const web = await transport();
+    const response = await web.handle(new Request("https://example.test/swarm-home/health"));
+    expect(response.headers.get("x-content-type-options")).toBe("nosniff");
+    expect(response.headers.get("referrer-policy")).toBe("no-referrer");
+    expect(response.headers.get("content-security-policy")).toContain("default-src 'none'");
+    expect(response.headers.get("access-control-allow-origin")).toBeNull();
   });
 
   it("does not expose routes outside its configured base path", async () => {
