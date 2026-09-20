@@ -52,3 +52,10 @@ It does not own human PII, global identity, global permissions, or Atlas constit
 ## Build shape
 
 This repository is being built as a stacked pull-request train. Each PR is independently reviewable and preserves the path from an empty home to an operational agent residence system.
+
+
+## Public repository status
+
+This repository is publicly readable so the architecture and build path can be inspected. Public visibility does not itself grant an open-source license. See [LEGAL.md](LEGAL.md) for the current legal status.
+
+Security-sensitive reports should follow [SECURITY.md](SECURITY.md). Contributions should follow [CONTRIBUTING.md](CONTRIBUTING.md).
