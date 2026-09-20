@@ -14,7 +14,7 @@ function json(data: unknown, status = 200): Response {
 
 describe("AtlasHttpGateway", () => {
   it("resolves an opaque agent identity through atlas-entity/v1", async () => {
-    let seen: { url?: string; init?: RequestInit } = {};
+    let seen: { url: string; init: RequestInit | undefined } = { url: "", init: undefined };
     const gateway = new AtlasHttpGateway({
       baseUrl: "https://atlas.example/",
       token: "atlas_gw_test_secret",
