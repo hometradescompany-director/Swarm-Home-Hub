@@ -28,6 +28,8 @@ export * from "./query/residence-heartbeat.js";
 export * from "./integrations/atlas/contract.js";
 export * from "./integrations/atlas/federation.js";
 export * from "./integrations/atlas/http-gateway.js";
+export * from "./integrations/atlas/event-sink.js";
+export * from "./integrations/atlas/event-delivery.js";
 export { ResidenceRequestService as RequestService } from "./service/request-service.js";
 
 export * from "./platform/swarm-home-door.js";
