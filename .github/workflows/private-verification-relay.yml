@@ -1,0 +1,258 @@
+name: private-verification-relay
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_slot:
+        description: "Opaque private-repository target slot"
+        required: true
+        type: choice
+        options:
+          - r1
+          - r2
+          - r3
+          - r4
+          - r5
+          - r6
+          - r7
+      target_sha:
+        description: "Exact 40-character commit SHA to verify"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: private-verify-${{ inputs.target_slot }}-${{ inputs.target_sha }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: bounded private verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TARGET_SLOT: ${{ inputs.target_slot }}
+      TARGET_SHA: ${{ inputs.target_sha }}
+
+    steps:
+      - name: Fetch exact private source without publishing it
+        id: source
+        continue-on-error: true
+        shell: bash
+        env:
+          PRIVATE_REPO_READ_TOKEN: ${{ secrets.PRIVATE_REPO_READ_TOKEN }}
+          PRIVATE_VERIFY_TARGETS_JSON: ${{ secrets.PRIVATE_VERIFY_TARGETS_JSON }}
+        run: |
+          set -euo pipefail
+
+          if [[ ! "$TARGET_SHA" =~ ^[0-9a-fA-F]{40}$ ]]; then
+            echo "target_sha must be an exact 40-character Git commit SHA" >&2
+            exit 2
+          fi
+
+          if [ -z "${PRIVATE_REPO_READ_TOKEN:-}" ] || [ -z "${PRIVATE_VERIFY_TARGETS_JSON:-}" ]; then
+            echo "private verification relay is not configured" >&2
+            exit 3
+          fi
+
+          target_repo="$(jq -er --arg slot "$TARGET_SLOT" '.[$slot]' <<<"$PRIVATE_VERIFY_TARGETS_JSON")"
+          if [[ ! "$target_repo" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]]; then
+            echo "configured target is invalid" >&2
+            exit 4
+          fi
+
+          mkdir -p private-target
+          git -C private-target init -q
+          git -C private-target remote add origin "https://github.com/${target_repo}.git"
+
+          auth_header="$(printf 'x-access-token:%s' "$PRIVATE_REPO_READ_TOKEN" | base64 -w0)"
+          if ! git -C private-target             -c "http.extraHeader=AUTHORIZATION: basic ${auth_header}"             fetch --depth=1 origin "$TARGET_SHA"             >"$RUNNER_TEMP/private-fetch.log" 2>&1; then
+            code=$?
+            rm -f "$RUNNER_TEMP/private-fetch.log"
+            echo "exact private-source fetch failed" >&2
+            exit "$code"
+          fi
+
+          unset auth_header PRIVATE_REPO_READ_TOKEN PRIVATE_VERIFY_TARGETS_JSON target_repo
+          rm -f "$RUNNER_TEMP/private-fetch.log"
+
+          git -C private-target checkout -q --detach FETCH_HEAD
+          git -C private-target remote remove origin
+
+          actual_sha="$(git -C private-target rev-parse HEAD)"
+          if [ "$actual_sha" != "$TARGET_SHA" ]; then
+            echo "fetched commit does not match requested SHA" >&2
+            exit 5
+          fi
+
+          tree_sha="$(git -C private-target rev-parse 'HEAD^{tree}')"
+          package_sha="absent"
+          lock_sha="absent"
+
+          if [ -f private-target/package.json ]; then
+            package_sha="$(sha256sum private-target/package.json | awk '{print $1}')"
+          fi
+          if [ -f private-target/bun.lock ]; then
+            lock_sha="$(sha256sum private-target/bun.lock | awk '{print $1}')"
+          fi
+
+          jq -n             --arg schema "SwarmPrivateVerificationSource/v1"             --arg slot "$TARGET_SLOT"             --arg commit "$actual_sha"             --arg tree "$tree_sha"             --arg packageSha256 "$package_sha"             --arg bunLockSha256 "$lock_sha"             '{
+              schema: $schema,
+              targetSlot: $slot,
+              commit: $commit,
+              tree: $tree,
+              packageSha256: $packageSha256,
+              bunLockSha256: $bunLockSha256
+            }' > "$RUNNER_TEMP/private-source.json"
+
+      - name: Install Bun execution substrate
+        id: bun
+        continue-on-error: true
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Execute fixed repository verifier
+        id: verifier
+        continue-on-error: true
+        shell: bash
+        run: |
+          set +e
+
+          if [ ! -d private-target ]; then
+            echo 96 > "$RUNNER_TEMP/private-verifier.exit-code"
+            exit 96
+          fi
+
+          cd private-target
+          : > "$RUNNER_TEMP/private-verifier.log"
+
+          case "$TARGET_SLOT" in
+            r1|r2|r3|r4)
+              bun install --frozen-lockfile >>"$RUNNER_TEMP/private-verifier.log" 2>&1 &&
+              bun run ci >>"$RUNNER_TEMP/private-verifier.log" 2>&1
+              code=$?
+              ;;
+            r5)
+              bun install >>"$RUNNER_TEMP/private-verifier.log" 2>&1 &&
+              bun run check:bun >>"$RUNNER_TEMP/private-verifier.log" 2>&1
+              code=$?
+              ;;
+            r6)
+              bun install >>"$RUNNER_TEMP/private-verifier.log" 2>&1 &&
+              bun run ci >>"$RUNNER_TEMP/private-verifier.log" 2>&1
+              code=$?
+              ;;
+            r7)
+              bun install >>"$RUNNER_TEMP/private-verifier.log" 2>&1 &&
+              bun test >>"$RUNNER_TEMP/private-verifier.log" 2>&1 &&
+              bun run docs:build >>"$RUNNER_TEMP/private-verifier.log" 2>&1
+              code=$?
+              ;;
+            *)
+              code=95
+              ;;
+          esac
+
+          printf '%s\n' "$code" > "$RUNNER_TEMP/private-verifier.exit-code"
+          exit "$code"
+
+      - name: Emit non-source verification receipt
+        if: always()
+        id: receipt
+        shell: bash
+        env:
+          SOURCE_OUTCOME: ${{ steps.source.outcome }}
+          BUN_OUTCOME: ${{ steps.bun.outcome }}
+          VERIFIER_OUTCOME: ${{ steps.verifier.outcome }}
+        run: |
+          set -euo pipefail
+
+          mkdir -p relay-receipt
+
+          exit_code="unavailable"
+          if [ -f "$RUNNER_TEMP/private-verifier.exit-code" ]; then
+            exit_code="$(cat "$RUNNER_TEMP/private-verifier.exit-code")"
+          fi
+
+          log_sha="absent"
+          log_size="0"
+          if [ -f "$RUNNER_TEMP/private-verifier.log" ]; then
+            log_sha="$(sha256sum "$RUNNER_TEMP/private-verifier.log" | awk '{print $1}')"
+            log_size="$(wc -c < "$RUNNER_TEMP/private-verifier.log" | tr -d ' ')"
+          fi
+
+          commit_sha="unavailable"
+          tree_sha="unavailable"
+          package_sha="unavailable"
+          lock_sha="unavailable"
+          if [ -f "$RUNNER_TEMP/private-source.json" ]; then
+            commit_sha="$(jq -r '.commit' "$RUNNER_TEMP/private-source.json")"
+            tree_sha="$(jq -r '.tree' "$RUNNER_TEMP/private-source.json")"
+            package_sha="$(jq -r '.packageSha256' "$RUNNER_TEMP/private-source.json")"
+            lock_sha="$(jq -r '.bunLockSha256' "$RUNNER_TEMP/private-source.json")"
+          fi
+
+          standing="execution_unavailable"
+          if [ "$SOURCE_OUTCOME" = "success" ] && [ "$BUN_OUTCOME" = "success" ]; then
+            if [ "$VERIFIER_OUTCOME" = "success" ] && [ "$exit_code" = "0" ]; then
+              standing="passed"
+            elif [ "$exit_code" != "unavailable" ]; then
+              standing="executed_failure"
+            fi
+          fi
+
+          jq -n             --arg schema "SwarmPrivateVerificationReceipt/v1"             --arg targetSlot "$TARGET_SLOT"             --arg requestedCommit "$TARGET_SHA"             --arg commit "$commit_sha"             --arg tree "$tree_sha"             --arg packageSha256 "$package_sha"             --arg bunLockSha256 "$lock_sha"             --arg sourceOutcome "$SOURCE_OUTCOME"             --arg bunOutcome "$BUN_OUTCOME"             --arg verifierOutcome "$VERIFIER_OUTCOME"             --arg verifierExitCode "$exit_code"             --arg verifierLogSha256 "$log_sha"             --arg verifierLogBytes "$log_size"             --arg standing "$standing"             --arg runId "$GITHUB_RUN_ID"             --arg runAttempt "$GITHUB_RUN_ATTEMPT"             --arg runnerOs "$RUNNER_OS"             --arg runnerArch "$RUNNER_ARCH"             '{
+              schema: $schema,
+              targetSlot: $targetSlot,
+              requestedCommit: $requestedCommit,
+              commit: $commit,
+              tree: $tree,
+              packageSha256: $packageSha256,
+              bunLockSha256: $bunLockSha256,
+              sourceOutcome: $sourceOutcome,
+              bunOutcome: $bunOutcome,
+              verifierOutcome: $verifierOutcome,
+              verifierExitCode: $verifierExitCode,
+              verifierLogSha256: $verifierLogSha256,
+              verifierLogBytes: ($verifierLogBytes | tonumber),
+              standing: $standing,
+              runId: $runId,
+              runAttempt: $runAttempt,
+              runnerOs: $runnerOs,
+              runnerArch: $runnerArch
+            }' > relay-receipt/receipt.json
+
+          {
+            echo "## Private verification relay"
+            echo
+            echo "- target slot: `$TARGET_SLOT`"
+            echo "- requested commit: `$TARGET_SHA`"
+            echo "- standing: **$standing**"
+            echo "- verifier exit code: `$exit_code`"
+            echo "- private verifier log SHA-256: `$log_sha`"
+            echo
+            echo "Private source and verifier logs are intentionally not published."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          rm -rf private-target
+          rm -f "$RUNNER_TEMP/private-verifier.log" "$RUNNER_TEMP/private-source.json"
+
+      - name: Publish receipt only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: private-verification-receipt-${{ inputs.target_slot }}-${{ inputs.target_sha }}
+          path: relay-receipt/receipt.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Enforce receipt standing
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          standing="$(jq -r '.standing' relay-receipt/receipt.json)"
+          test "$standing" = "passed"
