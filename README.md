@@ -8,6 +8,8 @@ For the compiled playable system, see [docs/GREAT_BUN.md](docs/GREAT_BUN.md).
 
 For runnable local proof details, see [docs/DEMO.md](docs/DEMO.md).
 
+For the OpenAI Agents SDK bridge, see [docs/OPENAI_AGENTS_SDK.md](docs/OPENAI_AGENTS_SDK.md).
+
 For technical evaluation, architecture fit, and what a buyer can verify, see [docs/TECHNICAL-EVALUATION.md](docs/TECHNICAL-EVALUATION.md).
 
 For bounded commercial engagement options, see [docs/COMMERCIAL.md](docs/COMMERCIAL.md).
@@ -73,6 +75,19 @@ capacity and every residence transition.
 Evidence retrieval and outbound event delivery remain deliberately fail-closed
 until their dedicated transport / durable outbox boundaries exist. See
 [docs/ATLAS_FEDERATION.md](docs/ATLAS_FEDERATION.md).
+
+## OpenAI Agents SDK wiring
+
+The OpenAI adapter projects the existing Swarm Home tool manifest into
+Agents SDK-compatible function tools. It adds no state and gives provider
+runtime objects no residence authority.
+
+Read-only tools are exposed by default. State-mutating residence tools require
+an explicit host opt-in and still pass through the existing Atlas and Swarm
+policy boundaries.
+
+The older OpenAI `swarm` project is treated as historical lineage; the current
+integration target is OpenAI's Agents SDK.
 
 ## Build shape
 
