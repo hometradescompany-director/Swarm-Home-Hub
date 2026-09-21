@@ -53,3 +53,5 @@ export * from "./integrations/a2a/discovery.js";
 export * from "./integrations/openrpc/client.js";
 
 export * from "./integrations/handoff/conformance.js";
+
+export * from "./integrations/execution-provider/contract.js";
