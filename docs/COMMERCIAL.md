@@ -36,13 +36,15 @@ The implementation remains constrained by the customer's existing source-of-trut
 - a second source of truth;
 - a slide deck pretending to be a deployed system.
 
-## Conversation starter
+## Start a paid pilot
 
-A useful first conversation needs only four inputs:
+The smallest useful pilot needs four non-sensitive inputs:
 
 1. the agent or automation that currently causes the most operational uncertainty;
 2. the system that is authoritative for identity or permission;
 3. the state transition the team most needs to explain after the fact;
 4. the failure that must never silently pass.
 
-From those four inputs, a bounded evaluation can be designed without requiring a platform rewrite.
+Use [Start a Paid Pilot](BUYER-START.md) for the buyer-facing scope and public intake path.
+
+Custom implementation begins only after scope, deliverables, commercial terms, and the handoff boundary are agreed in writing. The repository remains proof of architecture rather than an implied transfer of Atlas ownership or unrestricted authority.

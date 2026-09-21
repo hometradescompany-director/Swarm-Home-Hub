@@ -1,0 +1,66 @@
+name: Paid pilot inquiry
+description: Start a bounded commercial evaluation of Swarm Home Hub.
+title: "[Paid pilot] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This issue is public. Do not include secrets, credentials, customer data, personal information, private architecture, or vulnerability details.
+
+        A useful first pass needs only the shape of the problem. If the fit is real, commercial scope and a private handoff can follow before implementation work begins.
+
+  - type: dropdown
+    id: engagement
+    attributes:
+      label: Engagement shape
+      options:
+        - Bounded pilot
+        - Technical architecture review
+        - Architecture implementation
+        - Not sure yet
+    validations:
+      required: true
+
+  - type: textarea
+    id: uncertain_agent
+    attributes:
+      label: Agent or automation causing the most uncertainty
+      description: Describe the workflow at a high level without confidential details.
+      placeholder: "Example: an agent that can prepare and submit changes across multiple systems."
+    validations:
+      required: true
+
+  - type: textarea
+    id: authority_source
+    attributes:
+      label: Authoritative identity or permission source
+      description: Name the kind of system that currently decides identity or authority.
+      placeholder: "Example: internal IAM, OAuth provider, policy service, or human approval step."
+    validations:
+      required: true
+
+  - type: textarea
+    id: transition
+    attributes:
+      label: State transition that must be explainable
+      description: What change do you need to reconstruct after the fact?
+      placeholder: "Example: requested -> admitted, draft -> approved, queued -> executed."
+    validations:
+      required: true
+
+  - type: textarea
+    id: failure
+    attributes:
+      label: Failure that must never silently pass
+      description: State the fail-closed condition.
+      placeholder: "Example: missing authority must never be treated as approval."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: public_ack
+    attributes:
+      label: Public issue acknowledgement
+      options:
+        - label: I have not included secrets, credentials, PII, customer data, or private security details.
+          required: true
