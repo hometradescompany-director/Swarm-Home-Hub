@@ -2,6 +2,8 @@
 
 ## The Great Bun: playable mode
 
+The governing playable-closure contract is documented in [GREAT_BUN.md](GREAT_BUN.md).
+
 The shortest path from repository to something a human can actually use:
 
 ```bash
@@ -83,4 +85,4 @@ Set `HOST` and `PORT` to change the listener.
 
 For deterministic local automation, `SWARM_PLAY_TOKEN` may be supplied explicitly. Otherwise playable mode generates a process-local token at startup.
 
-Keep any demo behind trusted ingress if exposing it beyond a local machine.
+Playable mode refuses non-loopback binding by default. An operator may explicitly set `SWARM_PLAY_ALLOW_EXTERNAL=1`, but that override does not provide authentication or trusted ingress.
