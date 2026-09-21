@@ -31,3 +31,12 @@ jobs:
         run: bun install
       - name: Run Bun-native typecheck and tests
         run: bun run check:bun
+      - name: Require generated Bun lock
+        run: test -f bun.lock
+      - name: Export candidate Bun lock
+        uses: actions/upload-artifact@v4
+        with:
+          name: swarm-bun-lock-${{ github.sha }}
+          path: bun.lock
+          if-no-files-found: error
+          retention-days: 7
