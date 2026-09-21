@@ -1,32 +1,86 @@
-# Run the Swarm Home Hub demo
+# Run Swarm Home Hub
 
-This is a deliberately bounded, read-only host over the existing Swarm Home web transport.
+## The Great Bun: playable mode
 
-## Start
-
-```bash
-npm install
-npx tsc
-node scripts/demo.mjs
-```
-
-The host binds to `127.0.0.1:8787` by default.
-
-## Inspect
+The shortest path from repository to something a human can actually use:
 
 ```bash
-curl http://127.0.0.1:8787/swarm-home/health
-curl http://127.0.0.1:8787/swarm-home/tools
-curl -X POST \
-  -H 'content-type: application/json' \
-  -d '{"arguments":{}}' \
-  http://127.0.0.1:8787/swarm-home/tools/swarm.home.inspect
+bun install --frozen-lockfile
+bun run play
 ```
 
-The demo deliberately provides no admission guard. The existing transport therefore rejects every state-mutating tool before it reaches the router.
+Open:
+
+```text
+http://127.0.0.1:8787/play
+```
+
+The playable console drives the **real Swarm Home residence services and tool router** through a local HTTP surface.
+
+It can:
+
+- request residence for an opaque synthetic agent identity;
+- evaluate synthetic Atlas admission authority;
+- admit, rest, ready, hand off and depart;
+- inspect the derived current projection;
+- inspect the append-only residence timeline;
+- deliberately test authority denial;
+- deliberately attempt an illegal transition;
+- deliberately attempt mutation without the local play token.
+
+### What is real
+
+- Swarm Home domain/runtime code;
+- transition policy;
+- append-only event journal behaviour;
+- habitat capacity logic;
+- current-state projection;
+- tool router;
+- web transport boundary;
+- Bun HTTP process;
+- compiled executable proof.
+
+### What is deliberately synthetic
+
+- Atlas identity resolution and authority decisions;
+- demo agent identities;
+- demo capability/offering refs;
+- local in-memory persistence.
+
+The demo **does not claim live federation** with private Atlas, HomeFlow, Diamond, Skills Foundry, Media Forge, Trade Hubs or CropZero.
+
+## Compile it into one executable
+
+```bash
+bun run bun:compile
+./dist/swarm-home-bun
+```
+
+That is the literal "pile becomes playable" proof.
+
+## Machine proof
+
+```bash
+bun run test:playable
+```
+
+The proof compiles the executable, boots it on a separate port, drives a complete lifecycle over HTTP, verifies invalid transitions fail, verifies unauthorised mutation fails, verifies an authority denial becomes a rejection, then shuts the executable down.
+
+## Legacy bounded read-only host
+
+The older read-only host remains available:
+
+```bash
+bunx tsc
+bun scripts/demo.mjs
+```
+
+It binds to `127.0.0.1:8787` by default and deliberately provides no mutation admission guard.
 
 ## Configuration
 
-Set `HOST` and `PORT` to change the listener. Keep the demo behind a trusted ingress if exposing it beyond a local machine.
+Set `HOST` and `PORT` to change the listener.
 
-This host owns only HTTP process lifecycle and request/response adaptation. It does not own Atlas authority, Swarm residence truth, the event journal, habitat state, or evidence.
+For deterministic local automation, `SWARM_PLAY_TOKEN` may be supplied explicitly. Otherwise playable mode generates a process-local token at startup.
+
+Keep any demo behind trusted ingress if exposing it beyond a local machine.
