@@ -43,7 +43,7 @@ deleted before the job finishes.
 
 ## Authority and privacy boundaries
 
-- Manual `workflow_dispatch` only.
+- Manual `workflow_dispatch` or the owner-only control issue command `/verify-private <slot> <exact-sha>` only. The comment trigger is restricted to control issue #345 and the repository owner.
 - Exact commit SHA only. Branch names and moving refs are rejected.
 - Target repository selection is resolved from a secret map.
 - The cross-repository credential should be **read-only** and restricted to the
@@ -60,7 +60,7 @@ deleted before the job finishes.
 
 ## Secret configuration
 
-The relay is inert until both repository secrets exist:
+The private slots are inert until both repository secrets exist. The `selftest` slot verifies an exact Swarm commit without private credentials so the trigger, runner and receipt chain can be exercised independently:
 
 - `PRIVATE_REPO_READ_TOKEN`
 - `PRIVATE_VERIFY_TARGETS_JSON`
