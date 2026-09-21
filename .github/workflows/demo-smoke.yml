@@ -10,6 +10,7 @@ on:
       - "scripts/play.mjs"
       - "scripts/play-ui.mjs"
       - "scripts/play-smoke.mjs"
+      - "scripts/play-receipt.mjs"
       - "docs/DEMO.md"
       - "src/**"
       - "package.json"
@@ -41,7 +42,16 @@ jobs:
       - name: Compile TypeScript
         run: bunx tsc
       - name: Prove compiled playable Bun
-        run: bun run test:playable
+        run: bun run prove:playable
+      - name: Upload compiled playable + provenance receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: swarm-home-playable-bun-${{ github.sha }}
+          path: |
+            dist/swarm-home-bun
+            dist/playable-receipt.json
+          if-no-files-found: error
+          retention-days: 90
       - name: Boot bounded demo host
         shell: bash
         run: |
