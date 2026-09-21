@@ -1,6 +1,7 @@
 import type { AtlasAuthorityDecision } from "../integrations/atlas/contract.js";
 import type { Habitat } from "../domain/habitat.js";
 import { assertHabitatCapacity } from "../domain/habitat.js";
+import { assertResidenceAuthorityBoundary } from "./no-king.js";
 
 export function assertAuthorityAllows(decision: AtlasAuthorityDecision): void {
   if (!decision.allowed) {
@@ -8,9 +9,7 @@ export function assertAuthorityAllows(decision: AtlasAuthorityDecision): void {
       `Atlas authority denied admission: ${decision.reason ?? "no reason supplied"}`
     );
   }
-  if (!decision.authorityRef) {
-    throw new Error("admission requires an Atlas authority reference");
-  }
+  assertResidenceAuthorityBoundary({ authorityRef: decision.authorityRef });
 }
 
 export function assertHabitatAdmissionAvailable(
