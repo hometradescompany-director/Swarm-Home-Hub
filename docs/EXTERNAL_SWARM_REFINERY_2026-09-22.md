@@ -105,8 +105,10 @@ The concrete interoperability family is:
 7. Require Atlas authority when external provider action crosses an existing permission boundary.
 
 ### Phase C: only after evidence
-8. Decide whether any external runtime also qualifies as a real SwarmHomeFederation/v1 peer.
+8. Decide whether any external runtime also qualifies as a real SwarmHomeFederation/v1 peer. **Implemented as an evidence gate in `src/policy/federation-peer-qualification.ts`; none of the six inspected upstreams is promoted by the current evidence.**
 9. Never import a state engine merely because two systems use the word "swarm".
+
+See `docs/EXTERNAL_FEDERATION_QUALIFICATION.md` for the current typed qualification decision and the evidence required to change it.
 
 ## Non-claims
 
