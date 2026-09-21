@@ -4,7 +4,9 @@ A place for free agents to rest, recover context, and become ready for their nex
 
 ## Start here
 
-For a runnable local proof surface, see [docs/DEMO.md](docs/DEMO.md).
+For the compiled playable system, see [docs/GREAT_BUN.md](docs/GREAT_BUN.md).
+
+For runnable local proof details, see [docs/DEMO.md](docs/DEMO.md).
 
 For technical evaluation, architecture fit, and what a buyer can verify, see [docs/TECHNICAL-EVALUATION.md](docs/TECHNICAL-EVALUATION.md).
 
