@@ -4,7 +4,9 @@ A place for free agents to rest, recover context, and become ready for their nex
 
 ## Start here
 
-For a runnable local proof surface, see [docs/DEMO.md](docs/DEMO.md).
+For the executable playable surface, see [docs/GREAT_BUN.md](docs/GREAT_BUN.md).
+
+For the older bounded read-only transport demo, see [docs/DEMO.md](docs/DEMO.md).
 
 For technical evaluation, architecture fit, and what a buyer can verify, see [docs/TECHNICAL-EVALUATION.md](docs/TECHNICAL-EVALUATION.md).
 
@@ -71,6 +73,25 @@ capacity and every residence transition.
 Evidence retrieval and outbound event delivery remain deliberately fail-closed
 until their dedicated transport / durable outbox boundaries exist. See
 [docs/ATLAS_FEDERATION.md](docs/ATLAS_FEDERATION.md).
+
+## Playable closure
+
+The repository now exposes a local interactive executable path:
+
+```bash
+bun install --frozen-lockfile
+bun run play
+```
+
+Open `http://127.0.0.1:8787/play`.
+
+For compiled-executable and falsification proof:
+
+```bash
+bun run great-bun:prove
+```
+
+See [docs/GREAT_BUN.md](docs/GREAT_BUN.md) for ownership, non-claims and evidence standing.
 
 ## Build shape
 
