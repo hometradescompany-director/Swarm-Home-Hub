@@ -1,6 +1,7 @@
 export * from "./domain/agent.js";
 export * from "./domain/residence.js";
 export * from "./domain/habitat.js";
+export * from "./domain/federation.js";
 export * from "./events/event.js";
 export * from "./events/journal.js";
 export * from "./provenance/absence.js";
@@ -17,6 +18,7 @@ export * from "./service/rest-service.js";
 export * from "./service/departure-service.js";
 export * from "./service/rejection-service.js";
 export * from "./service/ready-handoff-service.js";
+export * from "./service/federation-handshake-service.js";
 export * from "./registry/habitat-registry.js";
 export * from "./query/active-residences.js";
 export * from "./query/residence-index.js";
