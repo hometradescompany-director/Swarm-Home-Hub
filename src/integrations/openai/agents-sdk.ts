@@ -1,3 +1,5 @@
+import type { AgentReference } from "../../domain/agent.js";
+import type { ResidenceId } from "../../domain/residence.js";
 import {
   swarmHomeToolManifest,
   type SwarmHomeToolDescriptor,
@@ -12,8 +14,8 @@ import type {
  * Narrow structural seam for OpenAI Agents SDK function tools.
  *
  * Swarm Home deliberately does not import @openai/agents here. The caller
- * supplies the SDK's `tool` function, keeping OpenAI at the transport edge
- * instead of making it a source of residence truth.
+ * supplies the SDK's `tool` or `handoff` integration point, keeping OpenAI
+ * at the transport edge instead of making it a source of residence truth.
  */
 export interface OpenAIAgentsToolFactoryOptions {
   readonly name: string;
@@ -39,6 +41,12 @@ export interface OpenAIAgentsAdapterOptions {
    * explicit opt-in by the host application.
    */
   readonly exposure?: OpenAIAgentsExposure;
+}
+
+export interface OpenAIAgentsHandoffInput {
+  readonly residenceId: ResidenceId;
+  readonly agent: AgentReference;
+  readonly generatedAt: string;
 }
 
 function ensureObject(input: unknown): Readonly<Record<string, unknown>> {
@@ -108,4 +116,37 @@ export function createOpenAIAgentsTools<TTool>(
           })
       })
     );
+}
+
+/**
+ * Resolve the Swarm-side evidence capsule for an OpenAI Agents SDK handoff.
+ *
+ * This is intentionally non-mutating. OpenAI's handoff transfers runtime
+ * control between agents; Swarm Home's handoff proves the current resident is
+ * ready to carry bounded context. Departure remains a separate Swarm state
+ * transition and is never implied by an SDK handoff.
+ */
+export async function prepareOpenAIAgentsHandoff(
+  router: SwarmHomeToolInvoker,
+  input: OpenAIAgentsHandoffInput
+): Promise<unknown> {
+  const result = await router.invoke({
+    name: "swarm.home.handoff",
+    arguments: {
+      residenceId: input.residenceId,
+      agent: input.agent,
+      generatedAt: input.generatedAt
+    }
+  });
+
+  if (!result.ok) {
+    throw new Error(result.error ?? "Swarm Home handoff failed");
+  }
+
+  const value = ensureObject(result.value);
+  if (value.created !== true || !("handoff" in value)) {
+    throw new Error("Swarm Home resident is not currently eligible for handoff");
+  }
+
+  return value.handoff;
 }
