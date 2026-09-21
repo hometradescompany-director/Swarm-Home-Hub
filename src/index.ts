@@ -11,6 +11,7 @@ export * from "./policy/transitions.js";
 export * from "./policy/admission.js";
 export * from "./policy/readiness.js";
 export * from "./policy/departure.js";
+export * from "./policy/human-state-intent.js";
 export * from "./service/residence-service.js";
 export * from "./service/request-service.js";
 export * from "./service/admission-service.js";
