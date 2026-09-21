@@ -8,9 +8,16 @@ import { playHtml, playCss, playJs } from "./play-ui.mjs";
 const host = process.env.HOST ?? "127.0.0.1";
 const port = Number(process.env.PORT ?? "8787");
 const playToken = process.env.SWARM_PLAY_TOKEN ?? crypto.randomUUID();
+const externalBindingAllowed = process.env.SWARM_PLAY_ALLOW_EXTERNAL === "1";
+const loopbackHosts = new Set(["127.0.0.1", "localhost", "::1"]);
 
 if (!Number.isInteger(port) || port <= 0 || port > 65535) {
   throw new Error("PORT must be an integer between 1 and 65535");
+}
+if (!loopbackHosts.has(host) && !externalBindingAllowed) {
+  throw new Error(
+    "playable Bun refuses non-loopback binding; set SWARM_PLAY_ALLOW_EXTERNAL=1 only behind a trusted ingress"
+  );
 }
 
 function buildRuntime() {
