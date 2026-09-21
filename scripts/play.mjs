@@ -76,7 +76,8 @@ function response(body, contentType, status = 200) {
       "content-type": contentType,
       "cache-control": "no-store",
       "x-content-type-options": "nosniff",
-      "referrer-policy": "no-referrer"
+      "referrer-policy": "no-referrer",
+      "content-security-policy": "default-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
     }
   });
 }
@@ -119,6 +120,32 @@ const server = Bun.serve({
         atlasAuthority: "synthetic-demo-adapter",
         persistence: "in-memory",
         truthOwnership: "swarm-residence-only"
+      });
+    }
+
+    if (request.method === "GET" && url.pathname === "/play/manifest") {
+      return Response.json({
+        schema: "PlayableBunManifest/v1",
+        executable: "swarm-home-bun",
+        runtime: "bun",
+        surface: "Swarm Home Hub",
+        ownership: {
+          residenceLifecycle: "swarm-home",
+          habitatState: "swarm-home",
+          eventHistory: "swarm-home",
+          authorityDecision: "external-atlas-contract-synthetic-in-demo",
+          presentation: "playable-shell"
+        },
+        evidencePath: ["identity", "event", "transformation", "evidence", "outcome"],
+        persistence: "in-memory-demo",
+        networkBindingDefault: "127.0.0.1",
+        nonClaims: [
+          "not production Atlas",
+          "not live cross-repository federation",
+          "not durable persistence",
+          "not external authentication",
+          "not a copy of private product truth"
+        ]
       });
     }
 
