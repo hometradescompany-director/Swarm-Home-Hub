@@ -1,4 +1,5 @@
 import type { AgentReference, CapabilityRef, OfferingRef } from "../domain/agent.js";
+import type { RelationalContextRef } from "../domain/relational-context.js";
 import type { Habitat } from "../domain/habitat.js";
 import type { ResidenceSnapshot } from "../domain/residence.js";
 import type { ResidenceHeartbeat } from "./residence-heartbeat.js";
@@ -9,6 +10,11 @@ export interface ReadyHandoffCapsule {
   readonly habitatId: string;
   readonly capabilityRefs: readonly CapabilityRef[];
   readonly offeringRefs: readonly OfferingRef[];
+  /**
+   * Opaque Atlas-owned contextual references. Swarm never interprets these as
+   * authority and never expands them into raw human communications.
+   */
+  readonly relationalContextRefs: readonly RelationalContextRef[];
   readonly lastResidenceEventId: string;
   readonly generatedAt: string;
 }
@@ -24,7 +30,8 @@ function freezeReadyHandoffCapsule<T extends ReadyHandoffCapsule>(handoff: T): T
   const frozen = {
     ...handoff,
     capabilityRefs: Object.freeze([...handoff.capabilityRefs]),
-    offeringRefs: Object.freeze([...handoff.offeringRefs])
+    offeringRefs: Object.freeze([...handoff.offeringRefs]),
+    relationalContextRefs: Object.freeze([...handoff.relationalContextRefs])
   };
 
   return Object.freeze(frozen) as T;
@@ -33,7 +40,8 @@ function freezeReadyHandoffCapsule<T extends ReadyHandoffCapsule>(handoff: T): T
 export function projectReadyHandoff(
   residence: ResidenceSnapshot,
   agent: AgentReference,
-  generatedAt: string
+  generatedAt: string,
+  relationalContextRefs: readonly RelationalContextRef[] = []
 ): ReadyHandoffCapsule {
   if (residence.status !== "ready") {
     throw new Error(`handoff requires a ready residence, got ${residence.status}`);
@@ -44,6 +52,9 @@ export function projectReadyHandoff(
   if (!Number.isFinite(Date.parse(generatedAt))) {
     throw new Error("handoff generation time must be a valid ISO-8601 value");
   }
+  if (relationalContextRefs.some((ref) => !String(ref).trim())) {
+    throw new Error("relational context refs must be non-empty opaque references");
+  }
 
   return freezeReadyHandoffCapsule({
     residenceId: residence.residenceId,
@@ -51,6 +62,7 @@ export function projectReadyHandoff(
     habitatId: residence.habitatId,
     capabilityRefs: agent.capabilityRefs,
     offeringRefs: agent.offeringRefs,
+    relationalContextRefs,
     lastResidenceEventId: residence.lastEventId,
     generatedAt
   });
@@ -60,7 +72,8 @@ export function projectCurrentReadyHandoff(
   residence: ResidenceSnapshot,
   agent: AgentReference,
   heartbeat: ResidenceHeartbeat,
-  generatedAt: string
+  generatedAt: string,
+  relationalContextRefs: readonly RelationalContextRef[] = []
 ): CurrentReadyHandoffCapsule {
   if (heartbeat.residenceId !== residence.residenceId) {
     throw new Error("handoff heartbeat does not belong to residence");
@@ -115,7 +128,7 @@ export function projectCurrentReadyHandoff(
   }
 
   return freezeReadyHandoffCapsule({
-    ...projectReadyHandoff(residence, agent, generatedAt),
+    ...projectReadyHandoff(residence, agent, generatedAt, relationalContextRefs),
     readinessObservedAt: heartbeat.lastObservedAt,
     heartbeatEvaluatedAt: heartbeat.evaluatedAt,
     staleAfterMs: heartbeat.staleAfterMs,
