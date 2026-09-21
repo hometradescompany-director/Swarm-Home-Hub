@@ -21,7 +21,12 @@ on:
     branches: [main]
     paths:
       - "scripts/demo.mjs"
+      - "scripts/play.mjs"
+      - "scripts/play-ui.mjs"
+      - "scripts/play-smoke.mjs"
+      - "scripts/play-receipt.mjs"
       - "docs/DEMO.md"
+      - "docs/GREAT_BUN.md"
       - "src/**"
       - "package.json"
       - "package-lock.json"
