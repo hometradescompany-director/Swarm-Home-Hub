@@ -55,6 +55,8 @@ It does not own human PII, global identity, global permissions, or Atlas constit
 - Absence is typed, never silently invented.
 - No cross-boundary PII.
 - No duplicate truth ownership with Atlas.
+- Evidence provenance never grants residence authority: a source may govern its own bounded state, but attached authority does not transfer through a receipt.
+- Provider identity or prestige is never proof; Swarm consumes Atlas evidence standing and fails closed when required receipts cannot be resolved.
 - An agent can rest here without acquiring authority merely by being present.
 
 ## Atlas wiring
