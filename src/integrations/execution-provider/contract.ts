@@ -136,6 +136,7 @@ export async function executeWithExternalProvider(input: {
   readonly observedAt: string;
 }): Promise<ExternalExecutionResult> {
   const observedAtMs = validTime(input.observedAt, "observedAt");
+  const requestedAtMs = validTime(input.request.requestedAt, "request.requestedAt");
   const expiresAtMs = validTime(input.request.expiresAt, "request.expiresAt");
 
   if (input.provider.providerRef !== input.request.providerRef) {
@@ -150,6 +151,21 @@ export async function executeWithExternalProvider(input: {
       evidenceReceiptIds: Object.freeze([]),
       observedAt: input.observedAt,
       message: "provider identity does not match request providerRef"
+    });
+  }
+
+  if (observedAtMs < requestedAtMs) {
+    return Object.freeze({
+      schema: SWARM_HOME_EXTERNAL_EXECUTION_RESULT,
+      requestId: input.request.requestId,
+      providerRef: input.request.providerRef,
+      capabilityRef: input.request.capabilityRef,
+      authorityRef: "authority:unresolved",
+      status: "refused_by_boundary",
+      resultRefs: Object.freeze([]),
+      evidenceReceiptIds: Object.freeze([]),
+      observedAt: input.observedAt,
+      message: "external execution cannot be observed before the request exists"
     });
   }
 
@@ -192,7 +208,29 @@ export async function executeWithExternalProvider(input: {
     outcome.providerExecutionRef,
     "providerOutcome.providerExecutionRef"
   );
-  validTime(outcome.observedAt, "providerOutcome.observedAt");
+  const outcomeObservedAtMs = validTime(
+    outcome.observedAt,
+    "providerOutcome.observedAt"
+  );
+
+  if (outcomeObservedAtMs < observedAtMs) {
+    return Object.freeze({
+      schema: SWARM_HOME_EXTERNAL_EXECUTION_RESULT,
+      requestId: input.request.requestId,
+      providerRef: input.request.providerRef,
+      capabilityRef: input.request.capabilityRef,
+      authorityRef: authority.authorityRef,
+      providerExecutionRef,
+      status: "refused_by_boundary",
+      resultRefs: refs(outcome.resultRefs, "providerOutcome.resultRefs"),
+      evidenceReceiptIds: refs(
+        outcome.evidenceReceiptIds,
+        "providerOutcome.evidenceReceiptIds"
+      ),
+      observedAt: outcome.observedAt,
+      message: "provider outcome predates the external execution boundary"
+    });
+  }
 
   return Object.freeze({
     schema: SWARM_HOME_EXTERNAL_EXECUTION_RESULT,
