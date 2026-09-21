@@ -59,3 +59,5 @@ export * from "./integrations/execution-provider/contract.js";
 export * from "./integrations/mcp/client.js";
 
 export * from "./integrations/execution-provider/adapters.js";
+
+export * from "./policy/federation-peer-qualification.js";
