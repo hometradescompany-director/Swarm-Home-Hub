@@ -15,7 +15,9 @@
     "bun:compile": "mkdir -p dist && bun build scripts/play.mjs --compile --outfile dist/swarm-home-bun",
     "test:playable": "bun run bun:compile && bun scripts/play-smoke.mjs",
     "receipt:playable": "bun scripts/play-receipt.mjs",
-    "prove:playable": "bun run test:playable && bun run receipt:playable"
+    "prove:playable": "bun run test:playable && bun run receipt:playable",
+    "play:compile": "bun run bun:compile",
+    "great-bun:prove": "bun run check && bun run prove:playable"
   },
   "devDependencies": {
     "typescript": "^5.9.2",

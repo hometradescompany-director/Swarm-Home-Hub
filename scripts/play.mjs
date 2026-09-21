@@ -8,9 +8,16 @@ import { playHtml, playCss, playJs } from "./play-ui.mjs";
 const host = process.env.HOST ?? "127.0.0.1";
 const port = Number(process.env.PORT ?? "8787");
 const playToken = process.env.SWARM_PLAY_TOKEN ?? crypto.randomUUID();
+const externalBindingAllowed = process.env.SWARM_PLAY_ALLOW_EXTERNAL === "1";
+const loopbackHosts = new Set(["127.0.0.1", "localhost", "::1"]);
 
 if (!Number.isInteger(port) || port <= 0 || port > 65535) {
   throw new Error("PORT must be an integer between 1 and 65535");
+}
+if (!loopbackHosts.has(host) && !externalBindingAllowed) {
+  throw new Error(
+    "playable Bun refuses non-loopback binding; set SWARM_PLAY_ALLOW_EXTERNAL=1 only behind a trusted ingress"
+  );
 }
 
 function buildRuntime() {
@@ -76,7 +83,8 @@ function response(body, contentType, status = 200) {
       "content-type": contentType,
       "cache-control": "no-store",
       "x-content-type-options": "nosniff",
-      "referrer-policy": "no-referrer"
+      "referrer-policy": "no-referrer",
+      "content-security-policy": "default-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
     }
   });
 }
@@ -119,6 +127,32 @@ const server = Bun.serve({
         atlasAuthority: "synthetic-demo-adapter",
         persistence: "in-memory",
         truthOwnership: "swarm-residence-only"
+      });
+    }
+
+    if (request.method === "GET" && url.pathname === "/play/manifest") {
+      return Response.json({
+        schema: "PlayableBunManifest/v1",
+        executable: "swarm-home-bun",
+        runtime: "bun",
+        surface: "Swarm Home Hub",
+        ownership: {
+          residenceLifecycle: "swarm-home",
+          habitatState: "swarm-home",
+          eventHistory: "swarm-home",
+          authorityDecision: "external-atlas-contract-synthetic-in-demo",
+          presentation: "playable-shell"
+        },
+        evidencePath: ["identity", "event", "transformation", "evidence", "outcome"],
+        persistence: "in-memory-demo",
+        networkBindingDefault: "127.0.0.1",
+        nonClaims: [
+          "not production Atlas",
+          "not live cross-repository federation",
+          "not durable persistence",
+          "not external authentication",
+          "not a copy of private product truth"
+        ]
       });
     }
 

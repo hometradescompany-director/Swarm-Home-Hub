@@ -7,7 +7,7 @@ export const playHtml = `<!doctype html>
   <title>Swarm Home // Playable Bun</title>
   <link rel="stylesheet" href="/play/styles.css">
 </head>
-<body>
+<body data-play-token="__PLAY_TOKEN__">
   <div class="noise"></div>
   <main class="shell">
     <header class="hero">
@@ -227,7 +227,7 @@ footer b{color:var(--hot)}
 export const playJs = `(function () {
   "use strict";
 
-  var token = window.__SWARM_PLAY_TOKEN__;
+  var token = document.body.dataset.playToken;
   var run = null;
   var stepIndex = 0;
   var states = ["requested","admitted","resting","ready","departed"];
@@ -285,10 +285,10 @@ export const playJs = `(function () {
     var inspection = value.value;
     var habitat = inspection.habitats && inspection.habitats[0];
     id("habitatStatus").textContent = habitat ? habitat.status : "unknown";
-    id("occupancy").textContent = habitat ? String(habitat.activeResidents) + "/" + String(habitat.capacity) : "0";
+    id("occupancy").textContent = habitat ? String(habitat.occupied) + "/" + String(habitat.capacity) : "0";
     if (run) {
       var residence = inspection.residences.find(function (x) { return x.residenceId === run.residenceId; });
-      renderState(residence ? residence.state : null);
+      renderState(residence ? residence.status : null);
       if (residence) await recover();
     }
     return inspection;
@@ -317,7 +317,7 @@ export const playJs = `(function () {
       var title = document.createElement("b");
       title.textContent = event.type || "event";
       var meta = document.createElement("span");
-      meta.textContent = (event.occurredAt || "") + " · " + (event.id || "");
+      meta.textContent = (event.occurredAt || "") + " · " + (event.eventId || "");
       li.appendChild(title);
       li.appendChild(meta);
       list.appendChild(li);
