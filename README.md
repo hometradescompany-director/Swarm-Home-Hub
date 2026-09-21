@@ -55,7 +55,7 @@ It does not own human PII, global identity, global permissions, or Atlas constit
 - Absence is typed, never silently invented.
 - No cross-boundary PII.
 - No duplicate truth ownership with Atlas.
-- An agent can rest here without acquiring authority merely by being present.
+- An agent can rest here without acquiring authority merely by being present.\n- Arrival order, residence duration, host/creator/founder/provider status, contribution, capability, and visibility are context/provenance only; none grants authority.
 
 ## Atlas wiring
 
