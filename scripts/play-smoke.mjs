@@ -45,9 +45,19 @@ try {
   assert(health.ok === true, "health did not report ok");
   assert(health.runtime === "bun", "compiled executable did not identify Bun runtime");
 
-  const html = await fetch(origin + "/play").then(r => r.text());
+  const manifestResponse = await fetch(origin + "/play/manifest");
+  assert(manifestResponse.ok, "playable manifest was not served");
+  const manifest = await manifestResponse.json();
+  assert(manifest.schema === "PlayableBunManifest/v1", "unexpected playable manifest schema");
+  assert(manifest.runtime === "bun", "manifest did not identify Bun runtime");
+  assert(manifest.ownership.residenceLifecycle === "swarm-home", "manifest lost Swarm ownership boundary");
+  assert(manifest.ownership.authorityDecision === "external-atlas-contract-synthetic-in-demo", "manifest blurred Atlas authority boundary");
+
+  const pageResponse = await fetch(origin + "/play");
+  const html = await pageResponse.text();
   assert(html.includes("PLAYABLE"), "playable UI was not served");
   assert(html.includes("THE PILE BECOMES PLAYABLE"), "playable closure marker missing");
+  assert((pageResponse.headers.get("content-security-policy") || "").includes("default-src 'self'"), "playable CSP missing");
 
   const seed = Date.now().toString(36);
   const residenceId = "residence:smoke:" + seed;
@@ -162,6 +172,17 @@ try {
 
   const inspection = await tool("swarm.home.inspect", {}, false);
   assert(inspection.body.ok === true, "final inspection failed");
+  const finalResidence = inspection.body.value.residences.find(r => r.residenceId === residenceId);
+  assert(finalResidence && finalResidence.status === "departed", "full lifecycle did not end in departed state");
+
+  const recovery = await tool("swarm.home.recover", {
+    residenceId,
+    observedAt: at(14)
+  }, false);
+  assert(recovery.body.ok === true, "final recovery failed");
+  assert(recovery.body.value.found === true, "final recovery did not find the residence");
+  assert(recovery.body.value.timeline.length === 5, "unexpected authoritative event count after lifecycle");
+  assert(recovery.body.value.timeline.at(-1).status === "departed", "authoritative timeline did not end in departed");
 
   console.log(JSON.stringify({
     ok: true,
@@ -169,7 +190,9 @@ try {
     executable: "./dist/swarm-home-bun",
     lifecycle: ["requested","admitted","resting","ready","handoff","departed"],
     falsifiers: ["unauthorized-mutation-refused","illegal-transition-refused","authority-denial-preserved"],
-    finalInspection: inspection.body.value
+    manifest,
+    finalInspection: inspection.body.value,
+    finalTimeline: recovery.body.value.timeline
   }, null, 2));
 } finally {
   processHandle.kill();
