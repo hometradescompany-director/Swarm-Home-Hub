@@ -86,7 +86,7 @@ function assertTask(taskRef: string): void {
  */
 export class ResidentContinuationBridge<TPayload = unknown, TResult = unknown> {
   readonly #clock: () => string;
-  readonly #observe?: ContinuationObserver<TResult>;
+  readonly #observe: ContinuationObserver<TResult> | undefined;
 
   constructor(
     private readonly handoffs: ReadyHandoffIssuer,
