@@ -1,0 +1,33 @@
+name: bun-ci
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "package.json"
+      - ".github/workflows/bun-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "package.json"
+      - ".github/workflows/bun-ci.yml"
+  workflow_dispatch:
+
+jobs:
+  bun:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install exact Bun lockfile
+        run: bun install --frozen-lockfile
+      - name: Run Bun-native typecheck and tests
+        run: bun run check:bun
