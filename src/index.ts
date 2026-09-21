@@ -51,3 +51,5 @@ export * from "./integrations/a2a/agent-card.js";
 export * from "./integrations/a2a/discovery.js";
 
 export * from "./integrations/openrpc/client.js";
+
+export * from "./integrations/handoff/conformance.js";
