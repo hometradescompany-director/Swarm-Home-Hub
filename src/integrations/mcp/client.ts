@@ -92,6 +92,12 @@ export class SwarmHomeMcpClient {
       body: JSON.stringify(body)
     });
 
+    if (!response.ok) {
+      throw new Error(
+        "MCP peer transport failed with HTTP status " + response.status
+      );
+    }
+
     const declared = response.headers.get("content-length");
     if (
       declared !== null &&
