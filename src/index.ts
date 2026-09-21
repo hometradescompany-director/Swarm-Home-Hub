@@ -1,4 +1,5 @@
 export * from "./domain/agent.js";
+export * from "./domain/relational-context.js";
 export * from "./domain/residence.js";
 export * from "./domain/habitat.js";
 export * from "./events/event.js";
