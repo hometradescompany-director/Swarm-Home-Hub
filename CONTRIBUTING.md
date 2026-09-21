@@ -2,7 +2,8 @@
 
 - Preserve the existing residence/readiness state machine and event journal.
 - Do not create a second truth store or parallel authority path.
-- Keep Atlas authority distinct from Swarm residence/readiness ownership.\n- Never infer authority from arrival order, residence duration, host/creator/founder/provider status, contribution, capability, or visibility.
+- Keep Atlas authority distinct from Swarm residence/readiness ownership.
+- Never infer authority from arrival order, residence duration, host/creator/founder/provider status, contribution, capability, or visibility.
 - Preserve typed absence, contradiction, supersession, and provenance relationships.
 - New transports must route through the existing door/router boundary.
 - Add tests for lifecycle or authority invariants before merge.
