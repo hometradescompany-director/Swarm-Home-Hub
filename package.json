@@ -10,7 +10,10 @@
     "test:residence-phase": "bun test tests/residence-phase-contract.test.ts",
     "test:bun": "bun test",
     "check:bun": "bun run check",
-    "test:vitest": "vitest run"
+    "test:vitest": "vitest run",
+    "play": "bun scripts/play.mjs",
+    "bun:compile": "mkdir -p dist && bun build scripts/play.mjs --compile --outfile dist/swarm-home-bun",
+    "test:playable": "bun run bun:compile && bun scripts/play-smoke.mjs"
   },
   "devDependencies": {
     "typescript": "^5.9.2",

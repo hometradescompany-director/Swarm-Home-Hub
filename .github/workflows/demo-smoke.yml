@@ -7,6 +7,9 @@ on:
   pull_request:
     paths:
       - "scripts/demo.mjs"
+      - "scripts/play.mjs"
+      - "scripts/play-ui.mjs"
+      - "scripts/play-smoke.mjs"
       - "docs/DEMO.md"
       - "src/**"
       - "package.json"
@@ -35,8 +38,10 @@ jobs:
           bun-version: latest
       - name: Install exact Bun lockfile
         run: bun install --frozen-lockfile
-      - name: Compile
+      - name: Compile TypeScript
         run: bunx tsc
+      - name: Prove compiled playable Bun
+        run: bun run test:playable
       - name: Boot bounded demo host
         shell: bash
         run: |
