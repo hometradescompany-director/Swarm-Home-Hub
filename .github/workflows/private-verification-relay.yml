@@ -184,7 +184,15 @@ jobs:
           : > "$RUNNER_TEMP/private-verifier.log"
 
           case "$TARGET_SLOT" in
-            selftest|r1|r2|r3|r4)
+            selftest)
+              bun install --frozen-lockfile >>"$RUNNER_TEMP/private-verifier.log" 2>&1 &&
+              bun run check >>"$RUNNER_TEMP/private-verifier.log" 2>&1
+              code=$?
+              if [ "$code" -ne 0 ]; then
+                cat "$RUNNER_TEMP/private-verifier.log"
+              fi
+              ;;
+            r1|r2|r3|r4)
               bun install --frozen-lockfile >>"$RUNNER_TEMP/private-verifier.log" 2>&1 &&
               bun run ci >>"$RUNNER_TEMP/private-verifier.log" 2>&1
               code=$?
@@ -280,15 +288,15 @@ jobs:
             }' > relay-receipt/receipt.json
 
           {
-            echo "## Private verification relay"
-            echo
-            echo "- target slot: `$TARGET_SLOT`"
-            echo "- requested commit: `$TARGET_SHA`"
-            echo "- standing: **$standing**"
-            echo "- verifier exit code: `$exit_code`"
-            echo "- verifier log SHA-256: `$log_sha`"
-            echo
-            echo "Source and verifier logs are intentionally not published."
+            printf '%s\n' "## Private verification relay"
+            printf '\n'
+            printf '%s\n' "- target slot: \`$TARGET_SLOT\`"
+            printf '%s\n' "- requested commit: \`$TARGET_SHA\`"
+            printf '%s\n' "- standing: **$standing**"
+            printf '%s\n' "- verifier exit code: \`$exit_code\`"
+            printf '%s\n' "- verifier log SHA-256: \`$log_sha\`"
+            printf '\n'
+            printf '%s\n' "Source and verifier logs are intentionally not published."
           } >> "$GITHUB_STEP_SUMMARY"
 
           rm -rf private-target
