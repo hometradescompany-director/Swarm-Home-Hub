@@ -163,6 +163,32 @@ describe("external execution provider adapters", () => {
     });
   });
 
+  it("treats non-success HTTP status as transport failure before protocol decoding", async () => {
+    const mcp = new SwarmHomeMcpClient({
+      endpointUrl: "https://provider.example/mcp",
+      fetcher: async () =>
+        new Response(JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          result: { isError: false }
+        }), { status: 503 })
+    });
+
+    await expect(mcp.callTool("execute", {})).rejects.toThrow(/HTTP status 503/);
+
+    const rpc = new SwarmHomeOpenRpcClient({
+      endpointUrl: "https://provider.example/rpc",
+      fetcher: async () =>
+        new Response(JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          result: {}
+        }), { status: 502 })
+    });
+
+    await expect(rpc.call("execute.run", {})).rejects.toThrow(/HTTP status 502/);
+  });
+
   it("fails closed on methods/tools outside configured allowlists", async () => {
     const mcp = new SwarmHomeMcpClient({
       endpointUrl: "https://provider.example/mcp",

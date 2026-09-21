@@ -154,6 +154,12 @@ export class SwarmHomeOpenRpcClient {
       })
     });
 
+    if (!response.ok) {
+      throw new Error(
+        "OpenRPC peer transport failed with HTTP status " + response.status
+      );
+    }
+
     const declared = response.headers.get("content-length");
     if (
       declared !== null &&

@@ -142,6 +142,64 @@ describe("external execution-provider envelope", () => {
     expect(result).not.toHaveProperty("schedule");
   });
 
+  it("refuses impossible provider chronology while preserving the remote execution ref", async () => {
+    const result = await executeWithExternalProvider({
+      request: request(),
+      provider: {
+        providerRef: "provider:agent-swarm",
+        async execute() {
+          return {
+            providerExecutionRef: "remote:task:time-travel",
+            status: "completed",
+            resultRefs: ["artifact:result:time-travel"],
+            evidenceReceiptIds: ["receipt:remote:time-travel"],
+            observedAt: "2026-09-22T01:01:20.000Z"
+          };
+        }
+      },
+      authorize: async () => ({
+        allowed: true,
+        authorityRef: "atlas:authority:allow",
+        decidedAt: "2026-09-22T01:01:25.000Z"
+      }),
+      observedAt: "2026-09-22T01:01:30.000Z"
+    });
+
+    expect(result).toMatchObject({
+      providerExecutionRef: "remote:task:time-travel",
+      status: "refused_by_boundary",
+      message: "provider outcome predates the external execution boundary"
+    });
+  });
+
+  it("refuses an execution boundary observed before the request exists", async () => {
+    let authorised = false;
+    const result = await executeWithExternalProvider({
+      request: request(),
+      provider: {
+        providerRef: "provider:agent-swarm",
+        async execute() {
+          throw new Error("must not execute");
+        }
+      },
+      authorize: async () => {
+        authorised = true;
+        return {
+          allowed: true,
+          authorityRef: "atlas:authority:allow",
+          decidedAt: "2026-09-22T01:00:30.000Z"
+        };
+      },
+      observedAt: "2026-09-22T01:00:30.000Z"
+    });
+
+    expect(authorised).toBe(false);
+    expect(result).toMatchObject({
+      status: "refused_by_boundary",
+      message: "external execution cannot be observed before the request exists"
+    });
+  });
+
   it("fails closed when the provider identity does not match the request", async () => {
     let authorised = false;
     const result = await executeWithExternalProvider({
