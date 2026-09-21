@@ -43,3 +43,6 @@ export * from "./platform/tool-manifest.js";
 export * from "./platform/tool-router.js";
 
 export * from "./platform/web-transport.js";
+
+export * from "./integrations/mcp/modern.js";
+export * from "./integrations/mcp/web-transport.js";
