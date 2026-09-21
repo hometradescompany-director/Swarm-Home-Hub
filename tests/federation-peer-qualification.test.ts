@@ -41,14 +41,13 @@ describe("external federation peer qualification", () => {
   });
 
   it("does not promote transport compatibility into federation status", () => {
-    expect(
-      qualifyExternalFederationPeer(
-        observation({
-          protocolVersion: undefined,
-          protocolEvidenceRef: undefined,
-        })
-      )
-    ).toMatchObject({
+    const {
+      protocolVersion: _protocolVersion,
+      protocolEvidenceRef: _protocolEvidenceRef,
+      ...withoutProtocol
+    } = observation();
+
+    expect(qualifyExternalFederationPeer(withoutProtocol)).toMatchObject({
       qualified: false,
       reason: "missing_protocol_evidence",
     });
@@ -69,25 +68,20 @@ describe("external federation peer qualification", () => {
   });
 
   it("requires evidence of the federation handshake surface", () => {
-    expect(
-      qualifyExternalFederationPeer(
-        observation({ handshakeEvidenceRef: undefined })
-      )
-    ).toMatchObject({
+    const { handshakeEvidenceRef: _handshakeEvidenceRef, ...withoutHandshake } =
+      observation();
+
+    expect(qualifyExternalFederationPeer(withoutHandshake)).toMatchObject({
       qualified: false,
       reason: "missing_handshake_evidence",
     });
   });
 
   it("keeps unknown remote state ownership as a typed qualification gap", () => {
-    expect(
-      qualifyExternalFederationPeer(
-        observation({
-          stateModel: "unknown",
-          stateBoundaryEvidenceRef: undefined,
-        })
-      )
-    ).toMatchObject({
+    const { stateBoundaryEvidenceRef: _stateBoundaryEvidenceRef, ...withoutStateEvidence } =
+      observation({ stateModel: "unknown" });
+
+    expect(qualifyExternalFederationPeer(withoutStateEvidence)).toMatchObject({
       qualified: false,
       reason: "state_boundary_unknown",
     });
@@ -105,14 +99,12 @@ describe("external federation peer qualification", () => {
   });
 
   it("keeps unknown authority semantics as a typed qualification gap", () => {
-    expect(
-      qualifyExternalFederationPeer(
-        observation({
-          authorityModel: "unknown",
-          authorityBoundaryEvidenceRef: undefined,
-        })
-      )
-    ).toMatchObject({
+    const {
+      authorityBoundaryEvidenceRef: _authorityBoundaryEvidenceRef,
+      ...withoutAuthorityEvidence
+    } = observation({ authorityModel: "unknown" });
+
+    expect(qualifyExternalFederationPeer(withoutAuthorityEvidence)).toMatchObject({
       qualified: false,
       reason: "authority_boundary_unknown",
     });
