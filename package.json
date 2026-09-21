@@ -13,7 +13,9 @@
     "test:vitest": "vitest run",
     "play": "bun scripts/play.mjs",
     "bun:compile": "mkdir -p dist && bun build scripts/play.mjs --compile --outfile dist/swarm-home-bun",
-    "test:playable": "bun run bun:compile && bun scripts/play-smoke.mjs"
+    "test:playable": "bun run bun:compile && bun scripts/play-smoke.mjs",
+    "play:compile": "bun run bun:compile",
+    "great-bun:prove": "bun run check && bun run test:playable"
   },
   "devDependencies": {
     "typescript": "^5.9.2",
