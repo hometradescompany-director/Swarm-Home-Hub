@@ -1,0 +1,87 @@
+name: great-bun
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "scripts/play.mjs"
+      - "scripts/play-ui.mjs"
+      - "scripts/play-smoke.mjs"
+      - "package.json"
+      - "bun.lock"
+      - "docs/GREAT_BUN.md"
+      - ".github/workflows/great-bun.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "scripts/play.mjs"
+      - "scripts/play-ui.mjs"
+      - "scripts/play-smoke.mjs"
+      - "package.json"
+      - "bun.lock"
+      - "docs/GREAT_BUN.md"
+      - ".github/workflows/great-bun.yml"
+  workflow_dispatch:
+
+jobs:
+  playable:
+    name: Compile, execute, falsify, retain
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install exact dependency graph
+        run: bun install --frozen-lockfile
+
+      - name: Static and behavioural proof
+        run: bun run check
+
+      - name: Compile standalone executable
+        run: bun run bun:compile
+
+      - name: Execute compiled lifecycle and falsification proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p proof
+          bun scripts/play-smoke.mjs | tee proof/great-bun-proof.json
+          test -x dist/swarm-home-bun
+          grep -q '"proof": "compiled-playable-bun"' proof/great-bun-proof.json
+          grep -q '"status": "departed"' proof/great-bun-proof.json
+
+      - name: Record build identity
+        shell: bash
+        run: |
+          {
+            echo "commit=${GITHUB_SHA}"
+            echo "workflow=${GITHUB_WORKFLOW}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "runner_os=${RUNNER_OS}"
+            echo "bun_version=$(bun --version)"
+            echo "artifact=dist/swarm-home-bun"
+          } | tee proof/build-identity.txt
+
+      - name: Upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: swarm-home-playable-bun-${{ github.sha }}
+          path: dist/swarm-home-bun
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload proof receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: great-bun-proof-${{ github.sha }}
+          path: proof/
+          if-no-files-found: error
+          retention-days: 90
