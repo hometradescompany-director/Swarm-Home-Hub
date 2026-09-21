@@ -55,3 +55,7 @@ export * from "./integrations/openrpc/client.js";
 export * from "./integrations/handoff/conformance.js";
 
 export * from "./integrations/execution-provider/contract.js";
+
+export * from "./integrations/mcp/client.js";
+
+export * from "./integrations/execution-provider/adapters.js";
