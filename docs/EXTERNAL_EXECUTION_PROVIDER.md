@@ -79,3 +79,17 @@ The first proof uses deterministic ordering:
 A selected provider ref can then feed the existing `SwarmHomeExternalExecutionRequest/v1` boundary, where authority remains separately required before execution.
 
 GPU is therefore one accelerator class inside capability topology, not a new source of truth or a parallel execution system.
+
+
+## Placement-to-execution request proof
+
+The selected compute-placement projection can now be converted into the existing `SwarmHomeExternalExecutionRequest/v1` envelope without creating a second execution path.
+
+The bridge fails closed unless:
+- the placement status is `selected`;
+- a provider ref is present;
+- placement evidence receipts are present;
+- the selected capability is already present in the existing handoff;
+- the request timestamp is not earlier than the placement decision.
+
+Placement evidence is carried into the execution request and deduplicated with any additional request evidence. The bridge does not grant authority, call a provider, persist scheduler state, or claim that the selected provider remains suitable after the evidence freshness window. Authority remains separately required by the existing external execution boundary.
