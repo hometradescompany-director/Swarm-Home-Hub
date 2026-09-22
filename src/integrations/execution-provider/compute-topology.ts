@@ -1,3 +1,9 @@
+import type { SwarmHomeExternalHandoff } from "../handoff/conformance.js";
+import {
+  createExternalExecutionRequest,
+  type ExternalExecutionRequest
+} from "./contract.js";
+
 export const SWARM_HOME_COMPUTE_PLACEMENT_DECISION =
   "SwarmHomeComputePlacementDecision/v1" as const;
 
@@ -62,6 +68,8 @@ export interface ComputePlacementDecision {
   readonly selectedProviderRef?: string;
   readonly selectedAccelerator?: ComputeAcceleratorClass;
   readonly selectedEvidenceReceiptIds: readonly string[];
+  readonly selectedObservedAt?: string;
+  readonly selectedFreshUntil?: string;
   readonly evaluations: readonly ComputePlacementCandidateEvaluation[];
   readonly selectionBasis: readonly [
     "artifact_locality",
@@ -274,7 +282,85 @@ export function selectComputeTopologyPlacement(input: {
     selectedProviderRef: selected.providerRef,
     selectedAccelerator: selected.accelerator,
     selectedEvidenceReceiptIds: selected.evidenceReceiptIds,
+    selectedObservedAt: selected.observedAt,
+    selectedFreshUntil: selected.freshUntil,
     evaluations,
     selectionBasis
   });
+}
+
+
+export interface ComputePlacedExecutionPlan {
+  readonly placement: ComputePlacementDecision;
+  readonly request?: ExternalExecutionRequest;
+}
+
+function mergeEvidenceRefs(
+  first: readonly string[],
+  second: readonly string[]
+): readonly string[] {
+  return Object.freeze([...new Set([...first, ...second])]);
+}
+
+export function createComputePlacedExecutionRequest(input: {
+  readonly workload: ComputePlacementWorkload;
+  readonly candidates: readonly ComputeProviderObservation[];
+  readonly requestId: string;
+  readonly instructionRef: string;
+  readonly evidenceReceiptIds?: readonly string[];
+  readonly handoff: SwarmHomeExternalHandoff;
+  readonly decidedAt: string;
+  readonly requestedAt: string;
+  readonly expiresAt: string;
+}): ComputePlacedExecutionPlan {
+  const decidedAtMs = validTime(input.decidedAt, "decidedAt");
+  const requestedAtMs = validTime(input.requestedAt, "requestedAt");
+  const expiresAtMs = validTime(input.expiresAt, "expiresAt");
+
+  if (requestedAtMs < decidedAtMs) {
+    throw new Error("external execution request cannot predate compute placement");
+  }
+
+  const placement = selectComputeTopologyPlacement({
+    workload: input.workload,
+    candidates: input.candidates,
+    decidedAt: input.decidedAt
+  });
+
+  if (
+    placement.status === "no_eligible_provider" ||
+    !placement.selectedProviderRef ||
+    !placement.selectedFreshUntil
+  ) {
+    return Object.freeze({ placement });
+  }
+
+  const selectedFreshUntilMs = validTime(
+    placement.selectedFreshUntil,
+    "placement.selectedFreshUntil"
+  );
+
+  if (requestedAtMs > selectedFreshUntilMs) {
+    throw new Error("external execution request cannot use a stale compute placement");
+  }
+  if (expiresAtMs > selectedFreshUntilMs) {
+    throw new Error("external execution request cannot outlive compute placement freshness");
+  }
+
+  const request = createExternalExecutionRequest({
+    requestId: input.requestId,
+    providerRef: placement.selectedProviderRef,
+    capabilityRef: placement.capabilityRef,
+    instructionRef: input.instructionRef,
+    artifactRefs: input.workload.artifactRefs,
+    evidenceReceiptIds: mergeEvidenceRefs(
+      input.evidenceReceiptIds ?? [],
+      placement.selectedEvidenceReceiptIds
+    ),
+    handoff: input.handoff,
+    requestedAt: input.requestedAt,
+    expiresAt: input.expiresAt
+  });
+
+  return Object.freeze({ placement, request });
 }
