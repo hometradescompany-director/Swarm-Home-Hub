@@ -69,12 +69,19 @@ describe("compute placement to external execution request", () => {
   it("fails closed when no provider was selected", () => {
     expect(() =>
       createExternalExecutionRequestFromPlacement({
-        decision: selectedDecision({
-          status: "no_eligible_provider",
-          selectedProviderRef: undefined,
-          selectedAccelerator: undefined,
-          selectedEvidenceReceiptIds: []
-        }),
+        decision: (() => {
+          const {
+            selectedProviderRef: _provider,
+            selectedAccelerator: _accelerator,
+            ...rest
+          } = selectedDecision();
+          return {
+            ...rest,
+            status: "no_eligible_provider" as const,
+            selectedEvidenceReceiptIds: [],
+            evaluations: []
+          };
+        })(),
         requestId: "exec:render:none",
         instructionRef: "instruction:render:opaque",
         handoff,
