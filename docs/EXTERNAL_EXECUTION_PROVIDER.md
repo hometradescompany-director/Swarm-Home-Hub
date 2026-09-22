@@ -93,3 +93,17 @@ The bridge fails closed unless:
 - the request timestamp is not earlier than the placement decision.
 
 Placement evidence is carried into the execution request and deduplicated with any additional request evidence. The bridge does not grant authority, call a provider, persist scheduler state, or claim that the selected provider remains suitable after the evidence freshness window. Authority remains separately required by the existing external execution boundary.
+
+
+## Provider execution observation receipt
+
+After a provider actually returns an attributable execution reference, Swarm Home can now project that observed crossing into the existing provenance-receipt shape.
+
+The receipt:
+- uses the opaque provider execution ref as its source;
+- records the provider result observation time;
+- preserves the authority ref as provenance only;
+- carries source-record standing;
+- may preserve an externally supplied content hash, but never invents one.
+
+It fails closed when no provider execution ref exists, so an authority refusal before provider execution does not masquerade as provider evidence. A later Swarm boundary refusal may still preserve the provider execution as source evidence when the provider did in fact run. The receipt does not grant authority, copy provider task state, or promote provider prestige, payment or capability into permission.
