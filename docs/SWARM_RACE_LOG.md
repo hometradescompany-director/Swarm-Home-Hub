@@ -58,6 +58,62 @@ Swarm Home Hub = self-organizing structure inside that substrate
 External public swarms = later exogenous information sources, not the original scaffold
 ```
 
+
+## Benchmark snapshot — 2026-09-22 09:38 AEST
+
+Observation window: first observed Swarm PR at 2026-09-18 16:49 AEST through 2026-09-22 09:38 AEST, approximately **88.81 hours**.
+
+This is a **public PR-creation-rate benchmark**, not a claim about total organisational productivity, code quality, research output, or private development. Different projects slice work into PRs differently.
+
+| Public surface | PRs created in window | Approx. PRs/day | Swarm relative rate |
+| --- | ---: | ---: | ---: |
+| OpenAI entire public GitHub org | 536 | 144.8 | 0.657× |
+| Swarm Home Hub | 352 | 95.1 | 1.00× |
+| elizaOS/eliza | 141 | 38.1 | 2.50× |
+| multica-ai/multica | 96 | 25.9 | 3.67× |
+| crewAIInc/crewAI | 79 | 21.3 | 4.46× |
+| microsoft/agent-framework | 78 | 21.1 | 4.51× |
+| openai/openai-agents-python | 54 | 14.6 | 6.52× |
+| langchain-ai/langgraph | 51 | 13.8 | 6.90× |
+| HKUDS/nanobot | 46 | 12.4 | 7.65× |
+| ruvnet/ruflo | 20 | 5.4 | 17.6× |
+| microsoft/autogen | 17 | 4.6 | 20.7× |
+| kyegomez/swarms | 15 | 4.1 | 23.5× |
+
+### Same-window integration signal
+
+Merged PR counts observed in the same window for a smaller comparable sample:
+
+- elizaOS/eliza: 99
+- multica-ai/multica: 56
+- openai/openai-agents-python: 52
+- microsoft/agent-framework: 46
+- Swarm Home Hub: 41
+- langchain-ai/langgraph: 9
+- crewAIInc/crewAI: 8
+
+Interpretation: Swarm's **proposal / exploration / parallel-development rate** is currently much higher than the sampled individual agent/swarm repositories, while **mainline assimilation is not leading the sample**. That is a bottleneck finding, not a failure: proposal generation has outrun refinery/merge capacity.
+
+The Swarm PR corpus in this snapshot contained **352 PRs and 824 associated PR commits**, averaging approximately **2.34 associated commits per PR**. Associated PR-commit counts can overlap through stacked branches and therefore must not be rewritten as 824 unique mainline commits.
+
+### Sep 21 comparison
+
+For the full AEST day 2026-09-21:
+
+- Swarm Home Hub: **246 PRs created**
+- OpenAI public GitHub organisation: **188 PRs created**
+- ratio: approximately **1.31×**
+
+Preserve the wording: this is a comparison against **OpenAI's public GitHub PR surface on that day**, not against all OpenAI development.
+
+### Benchmark thesis
+
+The metric under test is increasingly better stated as:
+
+`coherent development surface / human steering bandwidth`
+
+The founding provenance remains important to interpreting that denominator: Jarrod reports that Swarm Home Hub's local specification was essentially **name -> description -> "Go"**, while Atlas supplied the already-developed substrate and Jarrod remained an outer-boundary steward rather than the internal nest-builder.
+
 ## Logging rule
 
 Append one row per AEST day. Preserve:
