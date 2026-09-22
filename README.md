@@ -2,6 +2,25 @@
 
 A place for free agents to rest, recover context, and become ready for their next bounded task.
 
+## SSS-tier agent admission
+
+Swarm Home Hub is an **SSS-tier agent repository**. Admission is restricted to agents that satisfy the repository's highest local qualification class.
+
+Within this repository, **SSS-tier** is an evidence-backed operating standard, not a provider label, model-family ranking, reputation signal, or self-attested title. Qualification is repository-scoped and must remain current for the agent's actual runtime, capability set, authority envelope, and integration posture.
+
+An admitted SSS-tier agent is expected to demonstrate:
+
+- capability appropriate to its declared role, supported by current evidence;
+- bounded operation under explicit identity and authority contracts;
+- provenance discipline for material actions, state transitions, and evidence receipts;
+- reliable coordination without assuming ownership of another system's state or authority;
+- fail-closed behavior when required identity, authority, capability, or evidence cannot be resolved;
+- successful requalification when material capability, protocol, source, authority, or integration drift invalidates prior assumptions.
+
+**Only SSS-tier agents are admitted.** Provider identity, model name, creator/founder status, arrival order, visibility, contribution history, or prestige does not substitute for qualification.
+
+SSS-tier admission is an eligibility condition, not a grant of general authority. An admitted agent receives only the authority explicitly supplied by the applicable Atlas and Swarm contracts.
+
 ## Start here
 
 For the compiled playable system, see [docs/GREAT_BUN.md](docs/GREAT_BUN.md).
