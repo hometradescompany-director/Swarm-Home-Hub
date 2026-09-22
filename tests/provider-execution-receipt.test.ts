@@ -38,16 +38,17 @@ describe("external execution observation receipt", () => {
   });
 
   it("fails closed when no provider execution ref exists", () => {
+    const { providerExecutionRef: _providerExecutionRef, ...denied } = result({
+      status: "refused_by_authority",
+      authorityRef: "atlas:authority:deny-render",
+      resultRefs: [],
+      evidenceReceiptIds: []
+    });
+
     expect(() =>
       createExternalExecutionObservationReceipt({
         receiptId: "receipt:swarm:execution:denied",
-        result: result({
-          status: "refused_by_authority",
-          providerExecutionRef: undefined,
-          authorityRef: "atlas:authority:deny-render",
-          resultRefs: [],
-          evidenceReceiptIds: []
-        })
+        result: denied
       })
     ).toThrow(/requires a provider execution ref/);
   });
