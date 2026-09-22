@@ -57,6 +57,7 @@ export * from "./integrations/handoff/conformance.js";
 export * from "./integrations/execution-provider/contract.js";
 export * from "./integrations/execution-provider/compute-topology.js";
 export * from "./integrations/execution-provider/placement-request.js";
+export * from "./integrations/execution-provider/execution-receipt.js";
 
 export * from "./integrations/mcp/client.js";
 
