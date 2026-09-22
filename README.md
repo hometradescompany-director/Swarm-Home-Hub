@@ -62,7 +62,7 @@ It does not own human PII, global identity, global permissions, or Atlas constit
 - Evidence provenance never grants residence authority: a source may govern its own bounded state, but attached authority does not transfer through a receipt.
 - Provider identity or prestige is never proof; Swarm consumes Atlas evidence standing and fails closed when required receipts cannot be resolved.
 - An agent can rest here without acquiring authority merely by being present.
-- Arrival order, residence duration, host/creator/founder/provider status, contribution, capability, and visibility are context/provenance only; none grants authority.
+- Arrival order, residence duration, host/creator/founder/provider status, contribution, capability, visibility, paid status, commercial tier, and price paid are context/provenance only; none grants authority.
 
 ## Atlas wiring
 
