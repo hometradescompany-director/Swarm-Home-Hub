@@ -6,7 +6,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "bun test",
-    "check": "bun run typecheck && bun run test",
+    "check": "bun run typecheck && bun run test && bun run demo:build",
     "test:residence-phase": "bun test tests/residence-phase-contract.test.ts",
     "test:bun": "bun test",
     "check:bun": "bun run check",
@@ -17,7 +17,8 @@
     "receipt:playable": "bun scripts/play-receipt.mjs",
     "prove:playable": "bun run test:playable && bun run receipt:playable",
     "play:compile": "bun run bun:compile",
-    "great-bun:prove": "bun run check && bun run prove:playable"
+    "great-bun:prove": "bun run check && bun run prove:playable",
+    "demo:build": "rm -rf site-dist && mkdir -p site-dist && bun build site/main.ts --outdir site-dist --target browser && cp site/index.html site-dist/index.html"
   },
   "devDependencies": {
     "typescript": "^5.9.2",

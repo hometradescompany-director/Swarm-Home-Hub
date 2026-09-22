@@ -110,3 +110,16 @@ Bounded routes:
 - `POST /tools/{toolName}` for one existing tool invocation.
 
 The transport owns HTTP framing only. It does not read the event journal, habitat registry, or Atlas gateway directly. Read-only calls remain inspectable; state-mutating calls fail closed unless the host supplies an explicit admission guard. Request bodies are size-bounded and JSON-only, CORS is not opened implicitly, and defensive response headers are emitted by default.
+
+
+## Public visual surface
+
+A bounded residence/readiness surface lives in `site/`. It renders the real
+`projectResidence()` projection over synthetic append-only event histories.
+
+```bash
+bun run demo:build
+```
+
+The page is deliberately a projection, not another home-state implementation.
+See `docs/PUBLIC_RENDERING.md`.
