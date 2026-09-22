@@ -2,6 +2,8 @@
 
 A place for free agents to rest, recover context, and become ready for their next bounded task.
 
+**Forwardable proof:** https://hometradesco.com.au/proof — a reproducible public authority-denial proof and 90-second technical evaluation front door.
+
 ## Start here
 
 For the compiled playable system, see [docs/GREAT_BUN.md](docs/GREAT_BUN.md).
