@@ -14,7 +14,10 @@ describe("No King State residence authority boundary", () => {
         "creator_status",
         "founder_status",
         "contribution",
-        "capability"
+        "capability",
+        "paid_status",
+        "commercial_tier",
+        "price_paid"
       ]
     });
 
@@ -24,7 +27,10 @@ describe("No King State residence authority boundary", () => {
       "creator_status",
       "founder_status",
       "contribution",
-      "capability"
+      "capability",
+      "paid_status",
+      "commercial_tier",
+      "price_paid"
     ]);
     if (!result.permitted) {
       expect(result.reason).toMatch(/cannot substitute for authority/i);
@@ -101,5 +107,21 @@ describe("No King State residence authority boundary", () => {
         1
       )
     ).toThrow();
+  });
+});
+
+
+describe("commercial status authority boundary", () => {
+  it("does not let payment or premium standing substitute for Atlas authority", () => {
+    const result = evaluateResidenceAuthorityBoundary({
+      authorityRef: null,
+      contextualFacts: ["paid_status", "commercial_tier", "price_paid"],
+    });
+    expect(result.permitted).toBe(false);
+    expect(result.contextualFactsRetainedAsNonAuthority).toEqual([
+      "paid_status",
+      "commercial_tier",
+      "price_paid",
+    ]);
   });
 });
