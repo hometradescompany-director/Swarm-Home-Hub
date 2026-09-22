@@ -27,6 +27,28 @@ For organisations that need the underlying patterns implemented inside an existi
 
 The implementation remains constrained by the customer's existing source-of-truth boundaries and security model.
 
+
+## Commercial tier boundary
+
+Swarm Home may present **entry, professional and premium** engagement shapes as
+local commercial projections, but it does not own the governing economics
+policy. Atlas C20 Economic Gradient Stewardship is the upstream doctrine.
+
+Local invariants:
+
+- entry must remain functional for its declared evaluation purpose;
+- professional and premium offers must add identifiable value rather than make
+  the entry path deliberately worse;
+- premium may add deeper implementation, support, assurance, integration,
+  capacity, customisation or scarce human attention;
+- a higher price, paid pilot, premium engagement or customer tier never grants
+  residence or execution authority;
+- price/value claims remain attributable to their source and current terms;
+- Swarm Home sets no universal price ceiling or inflation/indexation rate.
+
+The public proof surface remains useful without purchase. Paid engagement buys
+additional bounded work or service; it does not buy constitutional authority.
+
 ## What we are not selling
 
 - unrestricted autonomous authority;

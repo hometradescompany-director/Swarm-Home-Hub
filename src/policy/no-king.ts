@@ -15,7 +15,10 @@ export const NON_AUTHORITY_FACTS = [
   "provider_status",
   "contribution",
   "capability",
-  "visibility"
+  "visibility",
+  "paid_status",
+  "commercial_tier",
+  "price_paid"
 ] as const;
 
 export type NonAuthorityFact = (typeof NON_AUTHORITY_FACTS)[number];
@@ -47,7 +50,7 @@ export function evaluateResidenceAuthorityBoundary(
     return {
       permitted: false,
       reason:
-        "Explicit Atlas authority is required; arrival, residence, host, creator, provider, contribution, capability, and visibility facts cannot substitute for authority.",
+        "Explicit Atlas authority is required; arrival, residence, host, creator, provider, contribution, capability, visibility, paid status, commercial tier, and price paid cannot substitute for authority.",
       contextualFactsRetainedAsNonAuthority
     };
   }
