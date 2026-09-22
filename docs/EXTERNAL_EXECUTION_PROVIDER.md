@@ -59,3 +59,23 @@ Swarm Home receives only opaque refs and attributable evidence/result standing.
 
 This makes large external runtimes such as agent-swarm usable as capability
 providers without turning Swarm Home into a mirror of their architecture.
+
+
+## Compute-topology placement proof
+
+Swarm Home may project a bounded placement decision over fresh external provider observations before creating an execution request.
+
+The projection is deliberately **not** a GPU scheduler or remote task store. It evaluates provider capability, accelerator class, observed available memory, queue depth, estimated start latency, estimated cost, and artifact locality while retaining source evidence refs and observation/freshness times.
+
+The first proof uses deterministic ordering:
+
+1. reject stale, future-dated, capability-mismatched or resource-ineligible observations;
+2. prefer fewer non-local artifacts;
+3. then lower estimated start latency;
+4. then lower queue depth;
+5. then lower estimated cost;
+6. finally stable provider identity as the deterministic tie-breaker.
+
+A selected provider ref can then feed the existing `SwarmHomeExternalExecutionRequest/v1` boundary, where authority remains separately required before execution.
+
+GPU is therefore one accelerator class inside capability topology, not a new source of truth or a parallel execution system.
