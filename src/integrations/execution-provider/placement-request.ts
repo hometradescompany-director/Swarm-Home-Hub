@@ -62,7 +62,7 @@ export function createExternalExecutionRequestFromPlacement(input: {
     providerRef: input.decision.selectedProviderRef,
     capabilityRef: input.decision.capabilityRef,
     instructionRef: input.instructionRef,
-    artifactRefs: input.artifactRefs,
+    ...(input.artifactRefs ? { artifactRefs: input.artifactRefs } : {}),
     evidenceReceiptIds: mergeRefs(
       input.decision.selectedEvidenceReceiptIds,
       input.evidenceReceiptIds ?? []
