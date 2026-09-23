@@ -65,3 +65,7 @@ export * from "./integrations/mcp/client.js";
 export * from "./integrations/execution-provider/adapters.js";
 
 export * from "./policy/federation-peer-qualification.js";
+
+export * from "./refinery/concurrency-semantics.js";
+export * from "./policy/external-capability-lifecycle.js";
+export * from "./integrations/external-swarms/division-sh.js";
