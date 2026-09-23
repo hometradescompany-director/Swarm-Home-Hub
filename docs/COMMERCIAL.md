@@ -1,6 +1,6 @@
 # Commercial Engagement
 
-Swarm Home Hub is the public proof surface for a wider event-driven orchestration architecture built around bounded identity, authority, provenance, and state transitions.
+Swarm Topology is the current public system identity for a wider event-driven orchestration architecture built around bounded identity, authority, provenance, and state transitions. Swarm Home Base, historically Swarm Home Hub, remains the bounded residence/readiness kernel.
 
 ## Engagement shapes
 
@@ -19,7 +19,7 @@ Output can include:
 
 ### Bounded pilot
 
-Integrate one real agent workflow through the Swarm Home residence lifecycle and produce an auditable before/after technical report.
+Integrate one real agent workflow through the Swarm Home Base residence lifecycle and produce an auditable before/after technical report.
 
 ### Architecture implementation
 
@@ -30,7 +30,7 @@ The implementation remains constrained by the customer's existing source-of-trut
 
 ## Commercial tier boundary
 
-Swarm Home may present **entry, professional and premium** engagement shapes as
+Swarm Home Base may present **entry, professional and premium** engagement shapes as
 local commercial projections, but it does not own the governing economics
 policy. Atlas C20 Economic Gradient Stewardship is the upstream doctrine.
 
@@ -44,7 +44,7 @@ Local invariants:
 - a higher price, paid pilot, premium engagement or customer tier never grants
   residence or execution authority;
 - price/value claims remain attributable to their source and current terms;
-- Swarm Home sets no universal price ceiling or inflation/indexation rate.
+- Swarm Home Base sets no universal price ceiling or inflation/indexation rate.
 
 The public proof surface remains useful without purchase. Paid engagement buys
 additional bounded work or service; it does not buy constitutional authority.

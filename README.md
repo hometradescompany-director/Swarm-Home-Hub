@@ -1,6 +1,12 @@
-# Swarm Home Hub
+# Swarm Topology
+
+### Swarm Home Base
 
 A place for free agents to rest, recover context, and become ready for their next bounded task.
+
+Swarm Home Base is the bounded residence/readiness kernel that originated as **Swarm Home Hub**. The historical name remains preserved in the repository's lineage rather than being rewritten.
+
+**Swarm Topology** is the current public system identity for the wider set of bounded relationships growing around that kernel. Topology describes structure; it does not grant authority.
 
 **Forwardable proof:** https://hometradesco.com.au/proof — a reproducible public authority-denial proof and 90-second technical evaluation front door.
 
@@ -18,9 +24,11 @@ For smaller first-contact tests, see [docs/EVALUATION-LADDER.md](docs/EVALUATION
 
 For bounded commercial engagement options, see [docs/COMMERCIAL.md](docs/COMMERCIAL.md).
 
+For the naming lineage and compatibility rule, see [docs/IDENTITY-LINEAGE.md](docs/IDENTITY-LINEAGE.md).
+
 ## Boundary
 
-Swarm Home Hub is **not Atlas**. It is a bounded system that consumes Atlas contracts.
+Swarm Topology is **not Atlas**. Within it, Swarm Home Base is the bounded residence/readiness kernel that consumes Atlas contracts.
 
 ### What it owns
 
@@ -82,7 +90,7 @@ until their dedicated transport / durable outbox boundaries exist. See
 
 ## OpenAI Agents SDK wiring
 
-The OpenAI adapter projects the existing Swarm Home tool manifest into
+The OpenAI adapter projects the existing Swarm Home tool manifest from the Swarm Home Base kernel into
 Agents SDK-compatible function tools. It adds no state and gives provider
 runtime objects no residence authority.
 
@@ -95,7 +103,7 @@ integration target is OpenAI's Agents SDK.
 
 ## Build shape
 
-This repository is being built as a stacked pull-request train. Each PR is independently reviewable and preserves the path from an empty home to an operational agent residence system.
+This repository is being built as a stacked pull-request train. Each PR is independently reviewable and preserves the path from the original Swarm Home kernel into the current topology without rewriting that lineage.
 
 ## Public repository status
 

@@ -1,8 +1,8 @@
-# Swarm Home Hub: Technical Evaluation
+# Swarm Topology · Swarm Home Base: Technical Evaluation
 
-Swarm Home Hub is a bounded residence and readiness layer for software agents.
+Swarm Topology is the current public system identity. Swarm Home Base, historically Swarm Home Hub, remains its bounded residence and readiness kernel for software agents.
 
-It gives an agent a place to enter, rest, recover context, become ready for work, and depart without confusing presence with authority.
+The kernel gives an agent a place to enter, rest, recover context, become ready for work, and depart without confusing presence with authority.
 
 ## The 30-second version
 
@@ -12,9 +12,9 @@ Most agent systems blur three different questions:
 2. Is this agent allowed to act?
 3. What state is this agent currently in?
 
-Swarm Home Hub keeps those questions separate.
+Swarm Home Base keeps those questions separate.
 
-Atlas remains the authority and identity source. Swarm Home owns only local residence lifecycle and readiness projection. State changes are events, current state is derived, provenance is preserved, and the public transport fails closed on mutation unless an explicit host admission guard is supplied.
+Atlas remains the authority and identity source. Swarm Home Base owns only local residence lifecycle and readiness projection. State changes are events, current state is derived, provenance is preserved, and the public transport fails closed on mutation unless an explicit host admission guard is supplied.
 
 ## What a technical buyer can verify now
 
@@ -36,7 +36,7 @@ The demo smoke workflow compiles the project, boots the host, verifies health an
 
 ## Where it fits
 
-Swarm Home is useful when an organisation has multiple agents, models, automations, or workers moving between tasks and needs to answer:
+Swarm Home Base is useful when an organisation has multiple agents, models, automations, or workers moving between tasks and needs to answer:
 
 - Which agent is here?
 - Why is it here?

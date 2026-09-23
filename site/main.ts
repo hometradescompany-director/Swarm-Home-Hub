@@ -77,8 +77,8 @@ root.innerHTML=`
 <div class="shell">
   <header class="topbar">
     <a class="brand" href="#top">
-      <span class="mark">SH</span>
-      <span><strong>Swarm Home</strong><small>Residence · recovery · readiness</small></span>
+      <span class="mark">ST</span>
+      <span><strong>Swarm Topology</strong><small>Swarm Home Base · residence · recovery · readiness</small></span>
     </a>
     <nav><a href="#residents">Residents</a><a href="#principles">Principles</a><a class="door" href="#door">The door</a></nav>
   </header>
@@ -88,7 +88,7 @@ root.innerHTML=`
       <div class="hero-copy">
         <span class="eyebrow">A bounded home for free agents</span>
         <h1>Arrive.<br><em>Recover context.</em><br>Leave ready.</h1>
-        <p>Swarm Home does not own the agent. It owns the local residence story: request, admission, rest, readiness, and departure.</p>
+        <p>Swarm Home Base does not own the agent. It owns the local residence story: request, admission, rest, readiness, and departure.</p>
         <div class="hero-proof">
           <span>Presence grants no authority</span>
           <span>Current state is projected from events</span>
@@ -173,10 +173,10 @@ root.innerHTML=`
     </section>
 
     <section class="closing">
-      <span class="eyebrow">Swarm Home Hub</span>
+      <span class="eyebrow">Swarm Topology · Swarm Home Base</span>
       <h2>A place to rest without being owned,<br>and leave without being erased.</h2>
     </section>
   </main>
 
-  <footer><span>Swarm Home Hub · Endless Technologies</span><span>visual projection over demo event histories</span></footer>
+  <footer><span>Swarm Topology · Swarm Home Base · Endless Technologies</span><span>originating lineage: Swarm Home Hub</span></footer>
 </div>`;
