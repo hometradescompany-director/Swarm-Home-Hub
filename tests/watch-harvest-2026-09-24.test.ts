@@ -106,6 +106,36 @@ describe("2026-09-24 cross-swarm watcher harvest", () => {
     });
   });
 
+  it("requires explicit evidence before distributed recovery exclusivity is proven", () => {
+    expect(
+      projectRecoveryOwnership({
+        subjectRef: "workflow:distributed",
+        scope: "distributed_lease",
+        localOwnerActive: false,
+        observedAt: "2026-09-24T00:03:02.000Z",
+        evidenceReceiptIds: ["receipt:lease-capable"]
+      })
+    ).toMatchObject({
+      localRecoveryCandidate: true,
+      distributedExclusivityProven: false
+    });
+
+    expect(
+      projectRecoveryOwnership({
+        subjectRef: "workflow:distributed",
+        scope: "distributed_lease",
+        localOwnerActive: false,
+        distributedLeaseHeld: true,
+        observedAt: "2026-09-24T00:03:03.000Z",
+        evidenceReceiptIds: ["receipt:lease-held"]
+      })
+    ).toMatchObject({
+      localRecoveryCandidate: false,
+      distributedExclusivityProven: true,
+      authorityImplication: "none"
+    });
+  });
+
   it("requires keyed acknowledgements before a post-commit fault may retain durable success", () => {
     expect(
       projectExternalDurableExecutionStanding({
