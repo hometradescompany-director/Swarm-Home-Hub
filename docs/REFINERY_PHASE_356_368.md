@@ -23,3 +23,27 @@ and federation qualification inputs.
 - 368 phase proof
 
 The next Order 666 phase begins at 369: auditability, observability, heartbeat and recovery.
+## Lesson-harvest invariant
+
+Failure cases and historical mistakes are useful refinery inputs only when they
+produce bounded evidence, falsification fixtures, safer constraints or
+interoperability lessons.
+
+Swarm should preserve the **failure mode** and the evidence needed to explain
+it, not turn a harmful path into a reusable execution recipe.
+
+Canonical bridge from Atlas doctrine:
+
+> **Legacy should inherit the warning, not the method.**
+
+Operationally, this means:
+- keep source identity and provenance;
+- capture the condition or boundary that failed;
+- preserve the observable consequence;
+- extract the minimal invariant or test that would detect/prevent recurrence;
+- omit unnecessary reproduction detail when that detail increases harmful
+  capability without improving the falsification value.
+
+This adds no new authority, truth store, execution path or refinery stage. It
+clarifies how phases 365-366 should compress pattern and failure evidence.
+
