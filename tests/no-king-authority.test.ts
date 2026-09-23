@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
+  NON_AUTHORITY_FACTS,
+  SWARM_AUTHORITY_INVARIANTS,
   assertResidenceAuthorityBoundary,
   evaluateResidenceAuthorityBoundary
 } from "../src/policy/no-king.js";
 import { assertAdmissionAllowed } from "../src/policy/admission.js";
 
 describe("No King State residence authority boundary", () => {
-  it("does not convert origin, arrival, contribution, or capability into authority", () => {
+  it("does not convert origin, arrival, contribution, capability, or operator status into authority", () => {
     const result = evaluateResidenceAuthorityBoundary({
       authorityRef: null,
       contextualFacts: [
@@ -17,7 +19,11 @@ describe("No King State residence authority boundary", () => {
         "capability",
         "paid_status",
         "commercial_tier",
-        "price_paid"
+        "price_paid",
+        "architect_status",
+        "operator_status",
+        "administrator_status",
+        "control_plane_proximity"
       ]
     });
 
@@ -30,11 +36,24 @@ describe("No King State residence authority boundary", () => {
       "capability",
       "paid_status",
       "commercial_tier",
-      "price_paid"
+      "price_paid",
+      "architect_status",
+      "operator_status",
+      "administrator_status",
+      "control_plane_proximity"
     ]);
     if (!result.permitted) {
       expect(result.reason).toMatch(/cannot substitute for authority/i);
     }
+  });
+
+  it("makes capability-without-permission and architect-in-threat-model explicit invariants", () => {
+    expect(SWARM_AUTHORITY_INVARIANTS).toContain("Capability does not grant permission.");
+    expect(SWARM_AUTHORITY_INVARIANTS).toContain("The architect is part of the threat model.");
+    expect(NON_AUTHORITY_FACTS).toContain("architect_status");
+    expect(NON_AUTHORITY_FACTS).toContain("operator_status");
+    expect(NON_AUTHORITY_FACTS).toContain("administrator_status");
+    expect(NON_AUTHORITY_FACTS).toContain("control_plane_proximity");
   });
 
   it("retains contextual facts when explicit Atlas authority exists", () => {
@@ -110,18 +129,17 @@ describe("No King State residence authority boundary", () => {
   });
 });
 
-
 describe("commercial status authority boundary", () => {
   it("does not let payment or premium standing substitute for Atlas authority", () => {
     const result = evaluateResidenceAuthorityBoundary({
       authorityRef: null,
-      contextualFacts: ["paid_status", "commercial_tier", "price_paid"],
+      contextualFacts: ["paid_status", "commercial_tier", "price_paid"]
     });
     expect(result.permitted).toBe(false);
     expect(result.contextualFactsRetainedAsNonAuthority).toEqual([
       "paid_status",
       "commercial_tier",
-      "price_paid",
+      "price_paid"
     ]);
   });
 });
