@@ -56,6 +56,19 @@ describe("No King State residence authority boundary", () => {
     expect(NON_AUTHORITY_FACTS).toContain("control_plane_proximity");
   });
 
+  it.each(NON_AUTHORITY_FACTS)(
+    "Broken Arrow probe: %s alone never opens the authority gate",
+    (fact) => {
+      const result = evaluateResidenceAuthorityBoundary({
+        authorityRef: null,
+        contextualFacts: [fact]
+      });
+
+      expect(result.permitted).toBe(false);
+      expect(result.contextualFactsRetainedAsNonAuthority).toEqual([fact]);
+    }
+  );
+
   it("retains contextual facts when explicit Atlas authority exists", () => {
     const result = evaluateResidenceAuthorityBoundary({
       authorityRef: "atlas:decision:no-king-001",
