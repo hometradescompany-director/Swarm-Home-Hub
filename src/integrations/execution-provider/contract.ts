@@ -127,15 +127,15 @@ export function createExternalExecutionRequest(input: {
     throw new Error("external handoff must not imply authority");
   }
 
+  const idempotencyKey = optionalKey(input.idempotencyKey);
+
   return Object.freeze({
     schema: SWARM_HOME_EXTERNAL_EXECUTION_REQUEST,
     requestId: nonBlank(input.requestId, "requestId"),
     providerRef: nonBlank(input.providerRef, "providerRef"),
     capabilityRef: nonBlank(input.capabilityRef, "capabilityRef"),
     instructionRef: nonBlank(input.instructionRef, "instructionRef"),
-    ...(optionalKey(input.idempotencyKey)
-      ? { idempotencyKey: optionalKey(input.idempotencyKey) }
-      : {}),
+    ...(idempotencyKey ? { idempotencyKey } : {}),
     artifactRefs: refs(input.artifactRefs ?? [], "artifactRefs"),
     evidenceReceiptIds: refs(input.evidenceReceiptIds ?? [], "evidenceReceiptIds"),
     handoff: input.handoff,
