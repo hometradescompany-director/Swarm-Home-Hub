@@ -1,6 +1,6 @@
 # Evaluation Ladder
 
-Swarm Home already has a full technical evaluation, runnable demo, playable proof, and bounded pilot specification.
+Swarm Topology already has a full technical evaluation, runnable demo, playable proof, and bounded pilot specification through its Swarm Home Base kernel.
 
 This page adds smaller microscopes.
 
@@ -91,7 +91,7 @@ bun run evaluate:playable
 
 This reuses the existing playable proof. It compiles the executable, boots it on a local port, exercises the lifecycle, checks illegal transitions, checks unauthorised mutation, checks an authority denial, and emits the existing playable receipt.
 
-The runtime uses the real Swarm Home residence engine with a synthetic local Atlas-compatible authority adapter and in-memory persistence.
+The runtime uses the real Swarm Home residence engine, now named as the Swarm Home Base kernel, with a synthetic local Atlas-compatible authority adapter and in-memory persistence.
 
 **It does not prove** live private-Atlas federation, production ingress, production persistence, operational scale, or a real customer's workflow.
 
