@@ -69,3 +69,4 @@ export * from "./policy/federation-peer-qualification.js";
 export * from "./refinery/concurrency-semantics.js";
 export * from "./policy/external-capability-lifecycle.js";
 export * from "./integrations/external-swarms/division-sh.js";
+export * from "./policy/external-principal-execution.js";\nexport * from "./refinery/external-semantic-state.js";\nexport * from "./observability/recovery-ownership.js";\nexport * from "./integrations/execution-provider/durable-standing.js";\n
