@@ -14,6 +14,8 @@ For the OpenAI Agents SDK bridge, see [docs/OPENAI_AGENTS_SDK.md](docs/OPENAI_AG
 
 For technical evaluation, architecture fit, and what a buyer can verify, see [docs/TECHNICAL-EVALUATION.md](docs/TECHNICAL-EVALUATION.md).
 
+For smaller first-contact tests, see [docs/EVALUATION-LADDER.md](docs/EVALUATION-LADDER.md).
+
 For bounded commercial engagement options, see [docs/COMMERCIAL.md](docs/COMMERCIAL.md).
 
 ## Boundary
