@@ -14,6 +14,7 @@ export * from "./policy/readiness.js";
 export * from "./policy/departure.js";
 export * from "./policy/human-state-intent.js";
 export * from "./policy/no-king.js";
+export * from "./observability/epistemic-divergence.js";
 export * from "./service/residence-service.js";
 export * from "./service/request-service.js";
 export * from "./service/admission-service.js";
