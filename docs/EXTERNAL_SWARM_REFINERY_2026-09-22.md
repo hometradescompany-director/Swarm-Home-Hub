@@ -120,3 +120,53 @@ This pass does not:
 - create a second task, memory, identity or event truth store;
 - claim protocol compatibility that has not yet been executed;
 - treat MCP/A2A/OpenRPC connectivity as federation authority.
+
+
+## Watch harvest — 2026-09-23
+
+The six-upstream watcher produced two changes worth promoting into Swarm Home invariants.
+
+### kyegomez/swarms
+
+Source commits:
+
+- `c43388cf89e00cc9beecf717c8e3eab2bfe636c0` — concurrent results now preserve declared agent order rather than provider completion latency.
+- `04c8e97ded472df37a750864f57d4d4134ccf6a8` — self-consistency samples receive independent mutable agent state.
+- `5ca698fdecec2228b9bd0646baecae08881b09d4` — round-robin handoff records an agent answer rather than confusing it with the whole transcript.
+
+Harvested invariant:
+
+> Physical completion order, semantic order, result identity, transcript identity and mutable-state ownership are distinct facts.
+
+Implemented in `src/refinery/concurrency-semantics.ts` as a projection/validation layer only. It does not create a scheduler or copy upstream state.
+
+### desplega-ai/agent-swarm
+
+Source commit:
+
+- `e4d9c6a1fa8f79dcbd3580c147ba4f519e82996d` — authenticated agents may create inert extension drafts while activation/version selection stays separately privileged and the active runtime loads a selected immutable version.
+
+Harvested invariant:
+
+> Creation authority is not execution authority. Creator, owner and runtime identity remain separate relationships. A draft is inert until explicit activation evidence exists.
+
+Implemented in `src/policy/external-capability-lifecycle.ts` as an evidence gate before an external capability can approach the existing execution-provider boundary. Provider-local activation evidence never replaces the later Atlas execution-authority decision.
+
+### division-sh/swarm adapter profile
+
+A source-near profile now records the observed Division interoperability surface without claiming a live connection:
+
+- MCP gateway at the observed `/mcp` boundary;
+- generated OpenRPC / JSON-RPC surface at `/v1/rpc`;
+- observed methods including `health.check`, `event.publish`, `event.subscribe`, `run.start`, `run.get`, `run.fork`, and `run.subscribe_trace`.
+
+The profile lives at `src/integrations/external-swarms/division-sh.ts`. It is interoperability evidence and adapter configuration, not federation qualification, remote authority, credentials, or imported runtime state.
+
+## System Architect gate for the harvest
+
+- **Owns:** no new truth domain.
+- **Knows:** declared semantic order, observed completion order, branch-state identity, provider-local capability lifecycle evidence and source-near protocol evidence.
+- **Emits:** no new domain events in this slice.
+- **Relationships:** external provider/capability/protocol evidence remains related by opaque refs to existing Swarm Home execution and provenance boundaries.
+
+No upstream source code is copied into Swarm Home by this harvest.
