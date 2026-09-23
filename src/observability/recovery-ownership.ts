@@ -7,6 +7,11 @@ export interface RecoveryOwnershipObservation {
   readonly subjectRef: string;
   readonly scope: RecoveryOwnershipScope;
   readonly localOwnerActive: boolean;
+  /**
+   * Explicit evidence that a distributed lease is currently held.
+   * Absence of a local owner never implies this.
+   */
+  readonly distributedLeaseHeld?: boolean;
   readonly observedAt: string;
   readonly evidenceReceiptIds: readonly string[];
 }
@@ -42,6 +47,15 @@ export function projectRecoveryOwnership(
     throw new Error("observedAt must be a valid ISO-8601 value");
   }
 
+  if (
+    observation.distributedLeaseHeld === true &&
+    observation.scope !== "distributed_lease"
+  ) {
+    throw new Error(
+      "distributedLeaseHeld requires distributed_lease ownership scope"
+    );
+  }
+
   const evidenceReceiptIds = Object.freeze(
     observation.evidenceReceiptIds.map((value, index) =>
       nonBlank(value, "evidenceReceiptIds[" + index + "]")
@@ -52,10 +66,12 @@ export function projectRecoveryOwnership(
     subjectRef: nonBlank(observation.subjectRef, "subjectRef"),
     scope: observation.scope,
     localOwnerActive: observation.localOwnerActive,
-    localRecoveryCandidate: !observation.localOwnerActive,
+    localRecoveryCandidate:
+      !observation.localOwnerActive &&
+      observation.distributedLeaseHeld !== true,
     distributedExclusivityProven:
       observation.scope === "distributed_lease" &&
-      !observation.localOwnerActive,
+      observation.distributedLeaseHeld === true,
     observedAt: observation.observedAt,
     evidenceReceiptIds,
     authorityImplication: "none"
