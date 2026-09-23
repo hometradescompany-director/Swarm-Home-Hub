@@ -4,7 +4,7 @@
 
 Endless Technologies is building infrastructure for software agents that need to operate across real systems without collapsing identity, authority, state, and provenance into one opaque execution layer.
 
-Swarm Home Hub is the public proof surface for one bounded part of that architecture.
+Swarm Topology is the current public system identity. Its originating kernel, Swarm Home Base (historically Swarm Home Hub), is the public proof surface for the bounded residence/readiness part of that architecture.
 
 ## The problem
 
@@ -21,11 +21,11 @@ When those concerns share one mutable blob, debugging becomes archaeology, permi
 
 The wider architecture separates those concerns.
 
-Swarm Home owns one narrow domain: local residence and readiness lifecycle for admitted software-agent identities.
+Swarm Home Base owns one narrow domain: local residence and readiness lifecycle for admitted software-agent identities.
 
 Atlas remains the orchestration and authority boundary.
 
-Swarm Home therefore does not become a second global identity system, a second permissions database, a CRM, an autonomous authority source, or a store for human PII.
+Swarm Topology does not broaden that authority: Swarm Home Base therefore does not become a second global identity system, a second permissions database, a CRM, an autonomous authority source, or a store for human PII.
 
 Its current state is derived from attributable events, not treated as unexplained truth.
 
