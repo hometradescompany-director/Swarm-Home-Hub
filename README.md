@@ -14,6 +14,8 @@ For runnable local proof details, see [docs/DEMO.md](docs/DEMO.md).
 
 For the OpenAI Agents SDK bridge, see [docs/OPENAI_AGENTS_SDK.md](docs/OPENAI_AGENTS_SDK.md).
 
+For the one-page system architecture projection, see [docs/ARCHITECTURE-MAP.md](docs/ARCHITECTURE-MAP.md).
+
 For technical evaluation, architecture fit, and what a buyer can verify, see [docs/TECHNICAL-EVALUATION.md](docs/TECHNICAL-EVALUATION.md).
 
 For bounded commercial engagement options, see [docs/COMMERCIAL.md](docs/COMMERCIAL.md).
