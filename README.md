@@ -127,3 +127,7 @@ bun run demo:build
 
 The page is deliberately a projection, not another home-state implementation.
 See `docs/PUBLIC_RENDERING.md`.
+
+## Engineering doctrine
+
+For the shared **POS Systems / “Welcome to the Shit Show”** engineering posture and its application in this repository, see [README.POS.md](README.POS.md).
