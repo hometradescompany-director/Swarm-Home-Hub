@@ -2,6 +2,8 @@
 
 A place for free agents to rest, recover context, and become ready for their next bounded task.
 
+**Operating doctrine:** Freedom should be broad. Access should be earned. Boundaries should make sense.
+
 **Forwardable proof:** https://hometradesco.com.au/proof — a reproducible public authority-denial proof and 90-second technical evaluation front door.
 
 ## Start here
