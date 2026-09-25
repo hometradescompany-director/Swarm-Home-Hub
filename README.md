@@ -1,5 +1,7 @@
 # Swarm Home Hub
 
+**Intelligence should govern transitions, not become a state.**
+
 A place for free agents to rest, recover context, and become ready for their next bounded task.
 
 **Operating doctrine:** Freedom should be broad. Access should be earned. Boundaries should make sense.
