@@ -59,6 +59,7 @@ export * from "./integrations/execution-provider/compute-topology.js";
 export * from "./integrations/execution-provider/placement-request.js";
 export * from "./integrations/execution-provider/execution-receipt.js";
 export * from "./integrations/execution-provider/workload-provisioning.js";
+export * from "./integrations/execution-provider/provisioned-placement.js";
 
 export * from "./integrations/mcp/client.js";
 
