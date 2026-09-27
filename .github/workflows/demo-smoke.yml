@@ -49,7 +49,7 @@ jobs:
       - name: Prove compiled playable Bun
         run: bun run prove:playable
       - name: Upload compiled playable + provenance receipt
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: swarm-home-playable-bun-${{ github.sha }}
           path: |
