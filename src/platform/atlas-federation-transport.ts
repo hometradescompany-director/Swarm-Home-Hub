@@ -5,6 +5,12 @@ import {
 
 const ATLAS_INGRESS_TOKEN_ENV = "SWARM_ATLAS_INGRESS_TOKEN" as const;
 
+/** Runtime-neutral env read (Bun/Node/Workers) without requiring Node typings. */
+function readEnv(name: string): string | undefined {
+  const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
+  return env?.[name];
+}
+
 export interface AtlasFederationTransportOptions {
   readonly token?: string;
   readonly maxBodyBytes?: number;
@@ -25,7 +31,7 @@ function json(value: unknown, status = 200): Response {
 }
 
 function configuredToken(explicit: string | undefined): string | null {
-  const value = explicit ?? process.env[ATLAS_INGRESS_TOKEN_ENV];
+  const value = explicit ?? readEnv(ATLAS_INGRESS_TOKEN_ENV);
   return typeof value === "string" && value.length > 0 ? value : null;
 }
 
@@ -49,7 +55,7 @@ export class AtlasFederationTransport {
   readonly #handler: SwarmWorkHandoffHandler | undefined;
 
   constructor(options: AtlasFederationTransportOptions = {}) {
-    this.#token = options.token ?? process.env[ATLAS_INGRESS_TOKEN_ENV];
+    this.#token = options.token ?? readEnv(ATLAS_INGRESS_TOKEN_ENV);
     this.#maxBodyBytes = options.maxBodyBytes ?? 64 * 1024;
     this.#handler = options.handler;
 
