@@ -49,3 +49,10 @@ state into local truth ownership.
 
 That keeps the first cross-home relationship compatible with the repository
 invariant: connection is not authority.
+
+## Relationship to the Atlas work hand-off
+
+This handshake is home-to-home only. The Atlas work hand-off
+(`atlas-swarm-handoff/v1` over `atlas-event/v1`, `POST /swarm-home/events`) is a
+separate edge documented in `docs/ATLAS_WORK_FEDERATION.md`. Neither edge
+implies the other, and neither grants authority.

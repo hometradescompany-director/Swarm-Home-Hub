@@ -50,3 +50,23 @@ Accepted and refused outcomes both preserve the incoming `event_id` as
 
 The existing `/swarm-home/tools/*` transport and `SWARM_PLAY_TOKEN`
 playable authentication remain separate.
+
+## Result return path
+
+Swarm reports the outcome of a hand-off back to Atlas through Atlas's existing
+Gateway event ingest (`POST /api/public/v1/events`, Bearer Atlas gateway
+token). `AtlasWorkResultReporter` (`src/integrations/atlas/work-result.ts`)
+sends an `atlas-event/v1` event named `swarm.work.result` whose
+`payload.correlation_event_id` is the request `event_id` and whose
+`payload.outcome` is `completed`, `refused` or `failed`. Its own `event_id` is
+derived deterministically from the request id, so replays are idempotent.
+
+Atlas grants the Swarm gateway client only `observe:event` narrowed to
+`swarm.work.result`. A result is evidence, never a command.
+
+## Not the peer handshake
+
+`SwarmHomeFederation/v1` (`docs/FEDERATION_HANDSHAKE_V1.md`) is a separate
+home-to-home peer recognition seam. It carries no Atlas work and grants no
+Atlas authority. Atlas's canonical spec for this edge lives in the Atlas
+repository at `docs/integration/atlas-swarm-handoff-v1.md`.
