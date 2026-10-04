@@ -84,6 +84,10 @@ Evidence retrieval and outbound event delivery remain deliberately fail-closed
 until their dedicated transport / durable outbox boundaries exist. See
 [docs/ATLAS_FEDERATION.md](docs/ATLAS_FEDERATION.md).
 
+### Atlas work federation ingress
+
+The web transport also exposes `POST /swarm-home/events` for the authenticated Atlas work handoff. It validates the `atlas-event/v1` / `atlas-swarm-handoff/v1` envelope and passes accepted messages to a dedicated Swarm work-handoff handler. Configure `SWARM_ATLAS_INGRESS_TOKEN` on the Swarm host; do not use `SWARM_PLAY_TOKEN` for federation. See `docs/ATLAS_WORK_FEDERATION.md`.
+
 ## OpenAI Agents SDK wiring
 
 The OpenAI adapter projects the existing Swarm Home tool manifest into

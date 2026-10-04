@@ -1,6 +1,7 @@
 import { InMemoryEventJournal } from "../src/events/journal.ts";
 import { SwarmHomeDoor } from "../src/platform/swarm-home-door.ts";
 import { SwarmHomeToolRouter } from "../src/platform/tool-router.ts";
+import { AtlasFederationTransport } from "../src/platform/atlas-federation-transport.ts";
 import { SwarmHomeWebTransport } from "../src/platform/web-transport.ts";
 import { InMemoryHabitatRegistry } from "../src/registry/habitat-registry.ts";
 import { playHtml, playCss, playJs } from "./play-ui.mjs";
@@ -55,9 +56,21 @@ function buildRuntime() {
   return habitats.put(habitat).then(() => {
     const door = new SwarmHomeDoor({ journal, habitats, atlas });
     const router = new SwarmHomeToolRouter(door);
+    const atlasFederation = new AtlasFederationTransport({
+      handler: {
+        async handle(event) {
+          return {
+            accepted: false,
+            correlationId: event.eventId,
+            reason: `work_kind_not_admitted:${event.workKind}`
+          };
+        }
+      }
+    });
     const transport = new SwarmHomeWebTransport(router, {
       basePath: "/swarm-home",
       maxBodyBytes: 64 * 1024,
+      atlasFederation,
       admitToolCall(request, tool) {
         if (!tool.mutatesState) return { allowed: true };
         if (request.headers.get("x-swarm-play-token") !== playToken) {
