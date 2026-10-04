@@ -70,3 +70,26 @@ Atlas grants the Swarm gateway client only `observe:event` narrowed to
 home-to-home peer recognition seam. It carries no Atlas work and grants no
 Atlas authority. Atlas's canonical spec for this edge lives in the Atlas
 repository at `docs/integration/atlas-swarm-handoff-v1.md`.
+
+## Atlas control-plane face
+
+The Atlas workspace also contains the administrative project **Swarm Hub Control**.
+Its intended published endpoint is `https://swarm-hub-control.lovable.app`.
+
+This project is a control-plane face, not a replacement for Atlas Gateway and not
+an intermediary for work or result traffic. It is intended to hold tenant, Swarm
+instance, credential-authority and audit metadata while the actual federation
+edges remain:
+
+- Atlas -> deployed Swarm: `POST /swarm-home/events` using `atlas-event/v1` and
+  `atlas-swarm-handoff/v1`.
+- Swarm -> Atlas: `POST /api/public/v1/events` using the existing
+  `swarm.work.result` evidence path.
+
+The control plane must never place federation secrets in source control. Swarm
+ingress credentials remain scoped to their intended tenant/instance and are
+installed through deployment secret storage.
+
+The published Lovable URL is currently an administrative hosting seam. A live
+Swarm deployment and explicit environment pairing are still required before it
+represents a production end-to-end federation path.
