@@ -5,6 +5,7 @@ import {
   type SwarmHomeToolDescriptor,
   type SwarmHomeToolName
 } from "./tool-manifest.js";
+import { AtlasFederationTransport } from "./atlas-federation-transport.js";
 import { SwarmHomeToolRouter, type SwarmHomeToolCall } from "./tool-router.js";
 
 export interface SwarmHomeWebAdmission {
@@ -29,6 +30,7 @@ export interface SwarmHomeWebTransportOptions {
    */
   readonly admitToolCall?: SwarmHomeWebAdmissionGuard;
   readonly maxBodyBytes?: number;
+  readonly atlasFederation?: AtlasFederationTransport;
 }
 
 export interface SwarmHomeWebHealth {
@@ -75,6 +77,7 @@ export class SwarmHomeWebTransport {
   readonly #basePath: string;
   readonly #admitToolCall: SwarmHomeWebAdmissionGuard | undefined;
   readonly #maxBodyBytes: number;
+  readonly #atlasFederation: AtlasFederationTransport | undefined;
 
   constructor(
     private readonly router: SwarmHomeToolRouter,
@@ -83,6 +86,7 @@ export class SwarmHomeWebTransport {
     this.#basePath = normalizeBasePath(options.basePath);
     this.#admitToolCall = options.admitToolCall;
     this.#maxBodyBytes = options.maxBodyBytes ?? 64 * 1024;
+    this.#atlasFederation = options.atlasFederation;
 
     if (!Number.isInteger(this.#maxBodyBytes) || this.#maxBodyBytes <= 0) {
       throw new Error("maxBodyBytes must be a positive integer");
@@ -108,6 +112,11 @@ export class SwarmHomeWebTransport {
         toolCount: swarmHomeToolManifest.length
       };
       return json(health);
+    }
+
+    if (request.method === "POST" && path === "/events") {
+      if (!this.#atlasFederation) return json({ ok: false, error: "federation_not_configured" }, 503);
+      return this.#atlasFederation.handle(request);
     }
 
     if (request.method === "GET" && path === "/tools") {

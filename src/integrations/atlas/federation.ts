@@ -22,6 +22,7 @@ export const SWARM_ATLAS_BOUNDARY = Object.freeze({
     "opaque Atlas identity references",
     "bounded Atlas authority decisions",
     "local evidence receipt references",
+    "optional opaque Atlas relational-context references carried in ready handoffs",
   ],
   emits: [
     "swarm.residence.requested",
@@ -36,9 +37,12 @@ export const SWARM_ATLAS_BOUNDARY = Object.freeze({
     "residence -> habitat",
     "residence transition -> evidence receipt",
     "local residence -> Atlas identity/authority reference",
+    "ready handoff -> opaque Atlas relational-context reference",
   ],
   withheld: [
     "Atlas evidence retrieval transport until a dedicated endpoint exists",
+    "Atlas relational-context resolution until a dedicated bounded contract exists",
+    "raw human communications, names, relationship history, effect labels or scores in Swarm handoffs",
     "Production Atlas event delivery until the host supplies durable journal and delivery-ledger adapters",
     "any shared mutable database or implicit authority transfer",
   ],

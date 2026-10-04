@@ -1,10 +1,22 @@
 # Swarm Home Hub
 
+**Intelligence should govern transitions, not become a state.**
+
 A place for free agents to rest, recover context, and become ready for their next bounded task.
+
+**Operating doctrine:** Freedom should be broad. Access should be earned. Boundaries should make sense.
+
+**Forwardable proof:** https://hometradesco.com.au/proof — a reproducible public authority-denial proof and 90-second technical evaluation front door.
 
 ## Start here
 
-For a runnable local proof surface, see [docs/DEMO.md](docs/DEMO.md).
+For the compiled playable system, see [docs/GREAT_BUN.md](docs/GREAT_BUN.md).
+
+For runnable local proof details, see [docs/DEMO.md](docs/DEMO.md).
+
+For the OpenAI Agents SDK bridge, see [docs/OPENAI_AGENTS_SDK.md](docs/OPENAI_AGENTS_SDK.md).
+
+For the one-page system architecture projection, see [docs/ARCHITECTURE-MAP.md](docs/ARCHITECTURE-MAP.md).
 
 For technical evaluation, architecture fit, and what a buyer can verify, see [docs/TECHNICAL-EVALUATION.md](docs/TECHNICAL-EVALUATION.md).
 
@@ -55,7 +67,10 @@ It does not own human PII, global identity, global permissions, or Atlas constit
 - Absence is typed, never silently invented.
 - No cross-boundary PII.
 - No duplicate truth ownership with Atlas.
+- Evidence provenance never grants residence authority: a source may govern its own bounded state, but attached authority does not transfer through a receipt.
+- Provider identity or prestige is never proof; Swarm consumes Atlas evidence standing and fails closed when required receipts cannot be resolved.
 - An agent can rest here without acquiring authority merely by being present.
+- Arrival order, residence duration, host/creator/founder/provider status, contribution, capability, visibility, paid status, commercial tier, and price paid are context/provenance only; none grants authority.
 
 ## Atlas wiring
 
@@ -68,6 +83,23 @@ capacity and every residence transition.
 Evidence retrieval and outbound event delivery remain deliberately fail-closed
 until their dedicated transport / durable outbox boundaries exist. See
 [docs/ATLAS_FEDERATION.md](docs/ATLAS_FEDERATION.md).
+
+### Atlas work federation ingress
+
+The web transport also exposes `POST /swarm-home/events` for the authenticated Atlas work handoff. It validates the `atlas-event/v1` / `atlas-swarm-handoff/v1` envelope and passes accepted messages to a dedicated Swarm work-handoff handler. Configure `SWARM_ATLAS_INGRESS_TOKEN` on the Swarm host; do not use `SWARM_PLAY_TOKEN` for federation. See `docs/ATLAS_WORK_FEDERATION.md`.
+
+## OpenAI Agents SDK wiring
+
+The OpenAI adapter projects the existing Swarm Home tool manifest into
+Agents SDK-compatible function tools. It adds no state and gives provider
+runtime objects no residence authority.
+
+Read-only tools are exposed by default. State-mutating residence tools require
+an explicit host opt-in and still pass through the existing Atlas and Swarm
+policy boundaries.
+
+The older OpenAI `swarm` project is treated as historical lineage; the current
+integration target is OpenAI's Agents SDK.
 
 ## Build shape
 
@@ -90,3 +122,20 @@ Bounded routes:
 - `POST /tools/{toolName}` for one existing tool invocation.
 
 The transport owns HTTP framing only. It does not read the event journal, habitat registry, or Atlas gateway directly. Read-only calls remain inspectable; state-mutating calls fail closed unless the host supplies an explicit admission guard. Request bodies are size-bounded and JSON-only, CORS is not opened implicitly, and defensive response headers are emitted by default.
+
+
+## Public visual surface
+
+A bounded residence/readiness surface lives in `site/`. It renders the real
+`projectResidence()` projection over synthetic append-only event histories.
+
+```bash
+bun run demo:build
+```
+
+The page is deliberately a projection, not another home-state implementation.
+See `docs/PUBLIC_RENDERING.md`.
+
+## Engineering doctrine
+
+For the shared **POS Systems / “Welcome to the Shit Show”** engineering posture and its application in this repository, see [README.POS.md](README.POS.md).

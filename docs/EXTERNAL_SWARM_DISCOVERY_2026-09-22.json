@@ -1,0 +1,4269 @@
+{
+  "schema": "SwarmHomeExternalDiscovery/v1",
+  "observed_at": "2026-09-22T00:00:00.000Z",
+  "search_source": "GitHub repository search via connected account",
+  "queries": [
+    "swarm agent",
+    "multi agent swarm",
+    "agent swarm framework",
+    "AI swarm MCP",
+    "swarm A2A agents"
+  ],
+  "unique_candidates": 377,
+  "standing": "discovery_candidates_only",
+  "non_claims": [
+    "not all search results are AI-agent swarm frameworks",
+    "not commit-pinned",
+    "not license-qualified",
+    "not protocol-qualified",
+    "not federation peers",
+    "not imported dependencies"
+  ],
+  "candidates": [
+    {
+      "repository_full_name": "0pusAI/Opus-Agent-Swarm-LLM-Framework",
+      "repository_id": "1234856181",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/0pusAI/Opus-Agent-Swarm-LLM-Framework",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "0xjerah/agent-swarm",
+      "repository_id": "1103092703",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/0xjerah/agent-swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "0xWh1tak3r/breachswarm",
+      "repository_id": "915488442",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/0xWh1tak3r/breachswarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "1850298154/memory_agent_hub",
+      "repository_id": "1047523448",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/1850298154/memory_agent_hub",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "1harios/agency-swarm",
+      "repository_id": "807744390",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/1harios/agency-swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "1Panel-dev/ClawSwarm",
+      "repository_id": "1179478740",
+      "default_branch": "dev",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/1Panel-dev/ClawSwarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "2aronS/agent-swarm",
+      "repository_id": "1243588405",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/2aronS/agent-swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "a2aworld/EARTH-A2A-Swarm",
+      "repository_id": "1154030860",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/a2aworld/EARTH-A2A-Swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "aadil1/MCP-Swarm",
+      "repository_id": "1154199024",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/aadil1/MCP-Swarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "aaronsood/VulnSwarm",
+      "repository_id": "1227804790",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/aaronsood/VulnSwarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "aaveshmoh/awesome-agent-orchestration",
+      "repository_id": "1327765352",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/aaveshmoh/awesome-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "AbdrAbdr/MCP-Swarm",
+      "repository_id": "1147901494",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/AbdrAbdr/MCP-Swarm",
+      "found_by": [
+        "multi agent swarm",
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "abhiew/APO-Quest",
+      "repository_id": "1169078276",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/abhiew/APO-Quest",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Abruptive/Ankh.md",
+      "repository_id": "1181826337",
+      "default_branch": "divine",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Abruptive/Ankh.md",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "acumenix/swarm",
+      "repository_id": "1260174012",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/acumenix/swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "AdieLaine/multi-agent-reasoning",
+      "repository_id": "865687718",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/AdieLaine/multi-agent-reasoning",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "adiled/hum",
+      "repository_id": "1187183337",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/adiled/hum",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "affaan-m/claude-swarm",
+      "repository_id": "1155063795",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/affaan-m/claude-swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "affandar/PilotSwarm",
+      "repository_id": "1173990141",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/affandar/PilotSwarm",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "agentic-dev-io/agent-farm",
+      "repository_id": "1112348720",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/agentic-dev-io/agent-farm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "AgentisLabs/agentis-framework",
+      "repository_id": "943343728",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/AgentisLabs/agentis-framework",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "Agnuxo1/p2pclaw-mcp-server",
+      "repository_id": "1158742292",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Agnuxo1/p2pclaw-mcp-server",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "AiAgentKarl/hive-mind-mcp-server",
+      "repository_id": "1186756102",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/AiAgentKarl/hive-mind-mcp-server",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "AIalliAI/omniwire",
+      "repository_id": "1321892350",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/AIalliAI/omniwire",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "AIDA-Develop/claude-code-agent-swarm-programming-framework",
+      "repository_id": "1278040628",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/AIDA-Develop/claude-code-agent-swarm-programming-framework",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "aiksa2090/Agentic-Swarm",
+      "repository_id": "1215297817",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/aiksa2090/Agentic-Swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "ainsophic-research/mcp-hub",
+      "repository_id": "1147479653",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ainsophic-research/mcp-hub",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "ali39af/orbitx",
+      "repository_id": "1284819087",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ali39af/orbitx",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "All-About-AI-YouTube/swarm_agents",
+      "repository_id": "875513796",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/All-About-AI-YouTube/swarm_agents",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "Alpha-Park/genpark-gossip-protocol-epidemic-state-sync-skill",
+      "repository_id": "1359920417",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Alpha-Park/genpark-gossip-protocol-epidemic-state-sync-skill",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "alphaparkinc/genpark-gossip-protocol-epidemic-state-sync-skill",
+      "repository_id": "1359919859",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/alphaparkinc/genpark-gossip-protocol-epidemic-state-sync-skill",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "am-will/swarms",
+      "repository_id": "1147756754",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/am-will/swarms",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "amashfak2020-ai/claude-flow",
+      "repository_id": "1166907013",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/amashfak2020-ai/claude-flow",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "Amritesh-co/openClaw-swarm",
+      "repository_id": "1252612279",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Amritesh-co/openClaw-swarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "ancrz/skill-swarm-mcp",
+      "repository_id": "1161887546",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ancrz/skill-swarm-mcp",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "aniket-gupta1/Multi-UAV-swarm",
+      "repository_id": "449781647",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/aniket-gupta1/Multi-UAV-swarm",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "aniket-gupta1/Reinforcement_Learning_Swarm",
+      "repository_id": "449776567",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/aniket-gupta1/Reinforcement_Learning_Swarm",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "AniruddhaDas1/OniRoute_SwarmAgents",
+      "repository_id": "1321987742",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/AniruddhaDas1/OniRoute_SwarmAgents",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "ankitdcx/garden-swarm",
+      "repository_id": "1366997562",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ankitdcx/garden-swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "ankitkapur1992-hlido/awesome-agent-orchestration",
+      "repository_id": "1227950352",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ankitkapur1992-hlido/awesome-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "anshulc55/AI_coder",
+      "repository_id": "1251524703",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/anshulc55/AI_coder",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "ansonTGN/swarm",
+      "repository_id": "1227269014",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ansonTGN/swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "anvil008/phalanx",
+      "repository_id": "1370913286",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/anvil008/phalanx",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "api-evangelist/getsincor-com",
+      "repository_id": "1378259255",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/api-evangelist/getsincor-com",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "api-evangelist/wrongbeauty-com",
+      "repository_id": "1378444536",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/api-evangelist/wrongbeauty-com",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Araaf7/swarm-factory",
+      "repository_id": "1269900226",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Araaf7/swarm-factory",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "Arfazrll/Swarm-Agent-Orchestrator",
+      "repository_id": "1185258019",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Arfazrll/Swarm-Agent-Orchestrator",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "Armur-Ai/Pentest-Swarm-AI",
+      "repository_id": "777597786",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Armur-Ai/Pentest-Swarm-AI",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "Ashwinkumar006/AMD-AI-Academy-SYSTEM-1-Weather-Aware-Agentic-Travel-Swarm-via-AIR-BNB-MCP",
+      "repository_id": "1287423307",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Ashwinkumar006/AMD-AI-Academy-SYSTEM-1-Weather-Aware-Agentic-Travel-Swarm-via-AIR-BNB-MCP",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "ask-the-hive/the-hive",
+      "repository_id": "906874283",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ask-the-hive/the-hive",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "asssaver97/DeviLudo",
+      "repository_id": "1303942681",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/asssaver97/DeviLudo",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "atomicswe/AgentForge",
+      "repository_id": "888090369",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/atomicswe/AgentForge",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "atretyak1985/swarmery",
+      "repository_id": "1295603224",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/atretyak1985/swarmery",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "AzureCosmosDB/multi-agent-swarm",
+      "repository_id": "902206764",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/AzureCosmosDB/multi-agent-swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "azz0r/claude-swarm",
+      "repository_id": "994169082",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/azz0r/claude-swarm",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "backbay-labs/clawdstrike",
+      "repository_id": "1146928510",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/backbay-labs/clawdstrike",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "BigBirdReturns/unstoppable-swarm",
+      "repository_id": "1015760431",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/BigBirdReturns/unstoppable-swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "bigmonmulgrew/MCP-AI-swarm",
+      "repository_id": "1087013996",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/bigmonmulgrew/MCP-AI-swarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "binary16labs/prime-silo",
+      "repository_id": "1231257047",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/binary16labs/prime-silo",
+      "found_by": [
+        "AI swarm MCP",
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "bitnormie01/polyglot-cap-localization",
+      "repository_id": "1289728255",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/bitnormie01/polyglot-cap-localization",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "BitWise-0x/open-webui-ultimate-stack",
+      "repository_id": "1173105182",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/BitWise-0x/open-webui-ultimate-stack",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "BlueSkyID666/awesome-agent-orchestration",
+      "repository_id": "1310565768",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/BlueSkyID666/awesome-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "bokiko/openClaw-dashboard",
+      "repository_id": "1152722583",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/bokiko/openClaw-dashboard",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "BossX429/agent-farm",
+      "repository_id": "1140365930",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/BossX429/agent-farm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "bradAGI/omniwire",
+      "repository_id": "1214812299",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/bradAGI/omniwire",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "brandonscottbarney/MassGenMultiAgentSwarm",
+      "repository_id": "1082721057",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/brandonscottbarney/MassGenMultiAgentSwarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "BunsDev/omniwire",
+      "repository_id": "1200783459",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/BunsDev/omniwire",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "capstone-insper/drone-swarm-search",
+      "repository_id": "599323572",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/capstone-insper/drone-swarm-search",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "ccapontep/Multi-Agent_Swarm_Collective-Decision-Making",
+      "repository_id": "241390002",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ccapontep/Multi-Agent_Swarm_Collective-Decision-Making",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "chmod777john/swarm-ide",
+      "repository_id": "1126096180",
+      "default_branch": "chore/specs-mvp",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/chmod777john/swarm-ide",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "christian-varritech/mcp-production-agent-stacks",
+      "repository_id": "1269682342",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/christian-varritech/mcp-production-agent-stacks",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "christopherkarani/Swarm",
+      "repository_id": "1115043545",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/christopherkarani/Swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "Circuit-LLM/MCP",
+      "repository_id": "1300961275",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Circuit-LLM/MCP",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "ClawixAI/clawix",
+      "repository_id": "1205112451",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ClawixAI/clawix",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "CODERUDRA-X/AEGIS-SWARM",
+      "repository_id": "1276962100",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/CODERUDRA-X/AEGIS-SWARM",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "cogitator-ai/Cogitator-AI",
+      "repository_id": "1124938076",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/cogitator-ai/Cogitator-AI",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "coleam00/ollama-swarm",
+      "repository_id": "880390920",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/coleam00/ollama-swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "copyleftdev/smesh-a2a",
+      "repository_id": "1346731614",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/copyleftdev/smesh-a2a",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "CorndogMillionaire/HyperSwarm",
+      "repository_id": "745960655",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/CorndogMillionaire/HyperSwarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "corsur/swarm-tips",
+      "repository_id": "1199272825",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/corsur/swarm-tips",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "Cotal-AI/Cotal",
+      "repository_id": "1256708592",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Cotal-AI/Cotal",
+      "found_by": [
+        "AI swarm MCP",
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "craigenator/phalanx",
+      "repository_id": "1380580250",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/craigenator/phalanx",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "crtahlin/swarm-mcp",
+      "repository_id": "1058003983",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/crtahlin/swarm-mcp",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "CUSP-NYU/autonomous-drone-swarm",
+      "repository_id": "431697837",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/CUSP-NYU/autonomous-drone-swarm",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "CyberStrategyInstitute/ai-safe2-framework",
+      "repository_id": "1115410101",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/CyberStrategyInstitute/ai-safe2-framework",
+      "found_by": [
+        "agent swarm framework",
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "datafund/swarm_provenance_MCP",
+      "repository_id": "1089406489",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/datafund/swarm_provenance_MCP",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "datAgent77/swarmops-SENTINEL-AWS",
+      "repository_id": "1357380864",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/datAgent77/swarmops-SENTINEL-AWS",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "daveshap/OpenAI_Agent_Swarm",
+      "repository_id": "715829424",
+      "default_branch": "main",
+      "archived": true,
+      "visibility": "public",
+      "display_url": "https://github.com/daveshap/OpenAI_Agent_Swarm",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "davidaparicio/swarm-ollama",
+      "repository_id": "875199343",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/davidaparicio/swarm-ollama",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "davidweidawang/MARL-UAVs-Targets-Tracking",
+      "repository_id": "786310944",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/davidweidawang/MARL-UAVs-Targets-Tracking",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "dbos-inc/durable-swarm",
+      "repository_id": "873106032",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/dbos-inc/durable-swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "ddfan/swarm_evolve",
+      "repository_id": "142220383",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ddfan/swarm_evolve",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "defi-ventures/ai-native-erp-swarm",
+      "repository_id": "1275618991",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/defi-ventures/ai-native-erp-swarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "delivstat/swarmkit",
+      "repository_id": "1216102805",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/delivstat/swarmkit",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "deshwalmahesh/lightweight-swarm-agents",
+      "repository_id": "989751116",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/deshwalmahesh/lightweight-swarm-agents",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "desplega-ai/agent-swarm",
+      "repository_id": "1119736729",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/desplega-ai/agent-swarm",
+      "found_by": [
+        "swarm agent",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "dhrish-s/GraphSwarm",
+      "repository_id": "1252902087",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/dhrish-s/GraphSwarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "didiforgithub/SwarmAgent",
+      "repository_id": "710790128",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/didiforgithub/SwarmAgent",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "didiforgithub/SwarmAgent-",
+      "repository_id": "730550989",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/didiforgithub/SwarmAgent-",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "diegotorreslopez81/swarmix-mcp",
+      "repository_id": "1199521996",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/diegotorreslopez81/swarmix-mcp",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "Div-Infinity/InternetOfAgents",
+      "repository_id": "726986200",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Div-Infinity/InternetOfAgents",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "division-sh/swarm",
+      "repository_id": "1167137603",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/division-sh/swarm",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework",
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "dragonked2/alphacode",
+      "repository_id": "1353408336",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/dragonked2/alphacode",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "duongducnguyen/swarmterm",
+      "repository_id": "1326198592",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/duongducnguyen/swarmterm",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "EdgeAgent/swarms-on-edge",
+      "repository_id": "1331348341",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/EdgeAgent/swarms-on-edge",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "elizaOS/eliza",
+      "repository_id": "826170402",
+      "default_branch": "develop",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/elizaOS/eliza",
+      "found_by": [
+        "swarm agent",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "EremosCore/Eremos",
+      "repository_id": "977432816",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/EremosCore/Eremos",
+      "found_by": [
+        "swarm agent",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "EthanXiang777/ash-agents",
+      "repository_id": "1256616890",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/EthanXiang777/ash-agents",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "ethersphere/swarm-mcp",
+      "repository_id": "1009501080",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ethersphere/swarm-mcp",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "evanli18/agentmesh",
+      "repository_id": "1184453136",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/evanli18/agentmesh",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "EvoMap/awesome-agent-swarm",
+      "repository_id": "1202930050",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/EvoMap/awesome-agent-swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "farhanic017/agent-swarm",
+      "repository_id": "1255999844",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/farhanic017/agent-swarm",
+      "found_by": [
+        "agent swarm framework",
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "feiskyer/swarm-go",
+      "repository_id": "888475850",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/feiskyer/swarm-go",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "fintools-ai/trade-copilot-agent-swarm",
+      "repository_id": "1093081942",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/fintools-ai/trade-copilot-agent-swarm",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "firstsnowcg/SwarmPentest",
+      "repository_id": "989280289",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/firstsnowcg/SwarmPentest",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "FishCodeTech/muteki",
+      "repository_id": "1279489980",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/FishCodeTech/muteki",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "fliptrigga13/nexus-notion-mcp",
+      "repository_id": "1188980091",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/fliptrigga13/nexus-notion-mcp",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "fozzfut/swarm-suite",
+      "repository_id": "1188946122",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/fozzfut/swarm-suite",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "fritzprix/libr-agent",
+      "repository_id": "1019405598",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/fritzprix/libr-agent",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "friuns2/openclaude-android",
+      "repository_id": "1204307334",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/friuns2/openclaude-android",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "fubak/ultraswarm",
+      "repository_id": "1262396222",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/fubak/ultraswarm",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "garykuepper/ggSwarm",
+      "repository_id": "1153884380",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/garykuepper/ggSwarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "gaurav1106/swarm-master-v2",
+      "repository_id": "1235447873",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/gaurav1106/swarm-master-v2",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "georgesheth/swarms-rust",
+      "repository_id": "915775624",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/georgesheth/swarms-rust",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "giantswarm/mcp-giantswarm-apps",
+      "repository_id": "996646213",
+      "default_branch": "main",
+      "archived": true,
+      "visibility": "public",
+      "display_url": "https://github.com/giantswarm/mcp-giantswarm-apps",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "glacien-technologies/agent-guardian",
+      "repository_id": "1250274118",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/glacien-technologies/agent-guardian",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "glitch-rabin/swarma",
+      "repository_id": "1184387379",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/glitch-rabin/swarma",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "gmh5225/swarm-",
+      "repository_id": "1040326761",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/gmh5225/swarm-",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "gocd-contrib/docker-swarm-elastic-agent-plugin",
+      "repository_id": "68911974",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/gocd-contrib/docker-swarm-elastic-agent-plugin",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "graysonchen/ruby-openai-swarm",
+      "repository_id": "878005021",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/graysonchen/ruby-openai-swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "grll/mcpadapt",
+      "repository_id": "915470479",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/grll/mcpadapt",
+      "found_by": [
+        "swarm agent",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "Grumpified-OGGVCT/SwarmGlass-MCP",
+      "repository_id": "1182614994",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Grumpified-OGGVCT/SwarmGlass-MCP",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "guaardvark/guaardvark",
+      "repository_id": "1178503769",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/guaardvark/guaardvark",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "HackerElman16/aura-swarm",
+      "repository_id": "1265154037",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/HackerElman16/aura-swarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "hamizghani/ReguSim",
+      "repository_id": "1201107024",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/hamizghani/ReguSim",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "Harshit-Jethi/aegis-ap2-gateway",
+      "repository_id": "1350644209",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Harshit-Jethi/aegis-ap2-gateway",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Hash-7777/HashCortX",
+      "repository_id": "1240298716",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Hash-7777/HashCortX",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "HCMUT-LAB/ros2-px4-swarm",
+      "repository_id": "1230651859",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/HCMUT-LAB/ros2-px4-swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "herdiansah/omniwire",
+      "repository_id": "1195669769",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/herdiansah/omniwire",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "hizkyas/Project-Omnicore-",
+      "repository_id": "1160731299",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/hizkyas/Project-Omnicore-",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "HKUDS/ClawTeam",
+      "repository_id": "1184391618",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/HKUDS/ClawTeam",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "HSRAKTU/chaotic-af",
+      "repository_id": "1039973819",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/HSRAKTU/chaotic-af",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "iflow-mcp/fcn06-swarm",
+      "repository_id": "1168268466",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/iflow-mcp/fcn06-swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "iflow-mcp/MCP-Swarm",
+      "repository_id": "1204473720",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/iflow-mcp/MCP-Swarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "iflow-mcp/voidchecksum-omniwire",
+      "repository_id": "1198317127",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/iflow-mcp/voidchecksum-omniwire",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "ihower/swarm",
+      "repository_id": "903825427",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ihower/swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "intelliswarm-ai/swarm-ai",
+      "repository_id": "1034110053",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/intelliswarm-ai/swarm-ai",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "Intradyne/AnyLoom-AnythingLLM-Local-AI-agentic-DyTopo-swarm",
+      "repository_id": "1157789810",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Intradyne/AnyLoom-AnythingLLM-Local-AI-agentic-DyTopo-swarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "isaiahbjork/swarm-async",
+      "repository_id": "880610653",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/isaiahbjork/swarm-async",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "jaimasih05-commits/swarm-foraging-qlearn",
+      "repository_id": "1283341037",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/jaimasih05-commits/swarm-foraging-qlearn",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "jamesrochabrun/SwiftSwarm",
+      "repository_id": "876995661",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/jamesrochabrun/SwiftSwarm",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "jamesurquhart/swarmclass",
+      "repository_id": "1116484713",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/jamesurquhart/swarmclass",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "Jason-Vaughan/Medusa",
+      "repository_id": "1202196715",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Jason-Vaughan/Medusa",
+      "found_by": [
+        "AI swarm MCP",
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "jasveer-ai/agent-swarm-framework",
+      "repository_id": "1333342249",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/jasveer-ai/agent-swarm-framework",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "JayZeeDesign/research-agents-3.0",
+      "repository_id": "725078427",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/JayZeeDesign/research-agents-3.0",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "jenkinsci/docker-swarm-plugin",
+      "repository_id": "121533060",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/jenkinsci/docker-swarm-plugin",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "JesseRWeigel/minecraft-agent-swarm",
+      "repository_id": "618952953",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/JesseRWeigel/minecraft-agent-swarm",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "jiangnuonnuo/DebateSwarm",
+      "repository_id": "1203538653",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/jiangnuonnuo/DebateSwarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "jmikedupont2/ai-agent-terraform",
+      "repository_id": "901611266",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/jmikedupont2/ai-agent-terraform",
+      "found_by": [
+        "swarm agent",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "jmylchreest/aide",
+      "repository_id": "1149172280",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/jmylchreest/aide",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "jnotsknab/mux-swarm",
+      "repository_id": "1174352723",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/jnotsknab/mux-swarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "joelhooks/swarm-tools",
+      "repository_id": "1112015061",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/joelhooks/swarm-tools",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "johntrandall/mcp_omnifocus-take2",
+      "repository_id": "1071714843",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/johntrandall/mcp_omnifocus-take2",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "jonwiggins/optio",
+      "repository_id": "1186598756",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/jonwiggins/optio",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "jorgeutd/swarm-multi-agent-orchestration",
+      "repository_id": "876080959",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/jorgeutd/swarm-multi-agent-orchestration",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "jukto-ai/SwarmSync-SDK",
+      "repository_id": "980712845",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/jukto-ai/SwarmSync-SDK",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "kadir4172/formation_control",
+      "repository_id": "25026044",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/kadir4172/formation_control",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "KafClaw/KafClaw",
+      "repository_id": "1159169884",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/KafClaw/KafClaw",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "kakarot-dev/deepmiro",
+      "repository_id": "1200690751",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/kakarot-dev/deepmiro",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "kannaka-labs/kannaka-memory",
+      "repository_id": "1160470464",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/kannaka-labs/kannaka-memory",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "kevinnn-git/The-Federated-Data-Intelligence-Swarm-Google-X-Kaggle-5-Day-AI-Agents-Intensive-",
+      "repository_id": "1104827679",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/kevinnn-git/The-Federated-Data-Intelligence-Swarm-Google-X-Kaggle-5-Day-AI-Agents-Intensive-",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Kimi-K2-7/kimi-K2.7",
+      "repository_id": "1267701867",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Kimi-K2-7/kimi-K2.7",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "KMnO4-zx/swarm",
+      "repository_id": "871511983",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/KMnO4-zx/swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "knarayanareddy/FinnMCP-KAIROS-BunqSwarm",
+      "repository_id": "1218952589",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/knarayanareddy/FinnMCP-KAIROS-BunqSwarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "Knuckles-Team/container-manager-mcp",
+      "repository_id": "1053759173",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Knuckles-Team/container-manager-mcp",
+      "found_by": [
+        "AI swarm MCP",
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "konesina458/ai-agent-swarm",
+      "repository_id": "1249555005",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/konesina458/ai-agent-swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "kunwarVivek/mcp-github-project-manager",
+      "repository_id": "903027325",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/kunwarVivek/mcp-github-project-manager",
+      "found_by": [
+        "multi agent swarm",
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "kyegomez/awesome-multi-agent-papers",
+      "repository_id": "761397238",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/kyegomez/awesome-multi-agent-papers",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "kyegomez/swarms",
+      "repository_id": "639195966",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/kyegomez/swarms",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "l0usie/swarm-agent",
+      "repository_id": "919089897",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/l0usie/swarm-agent",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "langchain-ai/langgraph-swarm-py",
+      "repository_id": "935534753",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/langchain-ai/langgraph-swarm-py",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "learnwithtalhagillani/openai-swarm-basic-demo",
+      "repository_id": "879275008",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/learnwithtalhagillani/openai-swarm-basic-demo",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "Leo-Atienza/atlas-claude",
+      "repository_id": "1190629089",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Leo-Atienza/atlas-claude",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "lib4u/rufler",
+      "repository_id": "1210782538",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/lib4u/rufler",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "linhtringon/jak-swarm-nexus",
+      "repository_id": "1250458280",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/linhtringon/jak-swarm-nexus",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "liwala/ay-framework",
+      "repository_id": "1233907218",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/liwala/ay-framework",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "liyangbing/awesome-agent-orchestration",
+      "repository_id": "1351527180",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/liyangbing/awesome-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "LUMAN48/swarm",
+      "repository_id": "873184053",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/LUMAN48/swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "lwsinclair/Swarms_MCPserver",
+      "repository_id": "1003471266",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/lwsinclair/Swarms_MCPserver",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "Lyellr88/marm-memory",
+      "repository_id": "999368352",
+      "default_branch": "MARM-main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Lyellr88/marm-memory",
+      "found_by": [
+        "multi agent swarm",
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "madarco/abx-agent-orch",
+      "repository_id": "1294841136",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/madarco/abx-agent-orch",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "magicplatforms/SwarmSharp",
+      "repository_id": "872188789",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/magicplatforms/SwarmSharp",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "magnus919/hermes-profiles",
+      "repository_id": "1260110388",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/magnus919/hermes-profiles",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "Mahopanda/NanoSwarm",
+      "repository_id": "1163876787",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Mahopanda/NanoSwarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "marcusschiesser/open-swarm",
+      "repository_id": "871559630",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/marcusschiesser/open-swarm",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "MarlBurroW/awesome-agent-orchestration",
+      "repository_id": "1321441301",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/MarlBurroW/awesome-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Masonleenf/awesome-agent-orchestration",
+      "repository_id": "1271681738",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Masonleenf/awesome-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "mastyf-ai/mastyf.ai",
+      "repository_id": "1273830568",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/mastyf-ai/mastyf.ai",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "Meterless/Meterless",
+      "repository_id": "1298912807",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Meterless/Meterless",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "mind-network/swarms-rust",
+      "repository_id": "931914154",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/mind-network/swarms-rust",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "mithril-logic/omniwire",
+      "repository_id": "1201102634",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/mithril-logic/omniwire",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "mnmldb/autonomous-drone-swarm",
+      "repository_id": "416100796",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/mnmldb/autonomous-drone-swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "mojomast/swarmussy",
+      "repository_id": "1110979696",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/mojomast/swarmussy",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "monaccode/astromesh",
+      "repository_id": "1174861508",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/monaccode/astromesh",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "monotykamary/pi-messenger-swarm",
+      "repository_id": "1164510083",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/monotykamary/pi-messenger-swarm",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "moseleydev/swarm-kit",
+      "repository_id": "1192545243",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/moseleydev/swarm-kit",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "mtzanidakis/praktor",
+      "repository_id": "1157160660",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/mtzanidakis/praktor",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "muhammadhaseebiqbal-dev/claude-code-leak-source-code",
+      "repository_id": "1200183268",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/muhammadhaseebiqbal-dev/claude-code-leak-source-code",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "MukundaKatta/SwarmKit",
+      "repository_id": "1191398491",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/MukundaKatta/SwarmKit",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "n00b-creations/omniwire",
+      "repository_id": "1271148801",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/n00b-creations/omniwire",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "NateBJones-Projects/ringer",
+      "repository_id": "1287728325",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/NateBJones-Projects/ringer",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "near-horizon/near-ai-agent-studio",
+      "repository_id": "899800976",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/near-horizon/near-ai-agent-studio",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "Necmttn/awesome-agent-orchestration",
+      "repository_id": "1275059902",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Necmttn/awesome-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "nekonaute/roborobo4",
+      "repository_id": "353129517",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/nekonaute/roborobo4",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "neomjs/neo",
+      "repository_id": "220867748",
+      "default_branch": "dev",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/neomjs/neo",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "NetVar1337/omniwire",
+      "repository_id": "1188202405",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/NetVar1337/omniwire",
+      "found_by": [
+        "AI swarm MCP",
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "newmindsgroup/ella-claude-code-ai-agent",
+      "repository_id": "1229267663",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/newmindsgroup/ella-claude-code-ai-agent",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "nextunicorn2026/HGI-agent-orchestration",
+      "repository_id": "1248242795",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/nextunicorn2026/HGI-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Nicolas-FTM/swarn-ai-engineer",
+      "repository_id": "1254740464",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Nicolas-FTM/swarn-ai-engineer",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "nielsbosma/awesome-agent-orchestration",
+      "repository_id": "1252314237",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/nielsbosma/awesome-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "nithin42/Azure-ai-foundry-erp-swarm",
+      "repository_id": "1336172780",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/nithin42/Azure-ai-foundry-erp-swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "Northern-Lighthouse/swarm-mcp-server",
+      "repository_id": "1334111647",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Northern-Lighthouse/swarm-mcp-server",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "nrrso/swarm_ex",
+      "repository_id": "879410146",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/nrrso/swarm_ex",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "op7ic/SwarmMaker",
+      "repository_id": "1218480801",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/op7ic/SwarmMaker",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "openai/swarm",
+      "repository_id": "761974775",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/openai/swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "openamer/openamer",
+      "repository_id": "1335518634",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/openamer/openamer",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "openplan-labs/pymapf",
+      "repository_id": "330166439",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/openplan-labs/pymapf",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "OpenRouterTeam/lux",
+      "repository_id": "938952358",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/OpenRouterTeam/lux",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "openswarm-ai/openswarm",
+      "repository_id": "1181094269",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/openswarm-ai/openswarm",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "OrderofChaos33/SINCOR2",
+      "repository_id": "1043104537",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/OrderofChaos33/SINCOR2",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "ovasylenko/awesome-agent-orchestration",
+      "repository_id": "1344506793",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ovasylenko/awesome-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "OzzieAI-AU/A2AP",
+      "repository_id": "1214032423",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/OzzieAI-AU/A2AP",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Pallavibahekar/oracle_mas_main",
+      "repository_id": "1250468674",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Pallavibahekar/oracle_mas_main",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "palmalcheg-new/swarm",
+      "repository_id": "1111187363",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/palmalcheg-new/swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Pastarafian/VegaMCP",
+      "repository_id": "1165135829",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Pastarafian/VegaMCP",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "pdichone/swarm-writer-agents",
+      "repository_id": "880448687",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/pdichone/swarm-writer-agents",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "peahd/swarms-rust",
+      "repository_id": "934259831",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/peahd/swarms-rust",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "penberg/swarm",
+      "repository_id": "1199224566",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/penberg/swarm",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "phil1px/swarm",
+      "repository_id": "1093513302",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/phil1px/swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "phuryn/swarm-protocol",
+      "repository_id": "1180894715",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/phuryn/swarm-protocol",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "portainer/agent",
+      "repository_id": "141553758",
+      "default_branch": "develop",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/portainer/agent",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "Prathamesh01110/MARCOS",
+      "repository_id": "1330108323",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Prathamesh01110/MARCOS",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "prathyushnallamothu/swarmgo",
+      "repository_id": "876493648",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/prathyushnallamothu/swarmgo",
+      "found_by": [
+        "swarm agent",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "professorpalmer/Puppetmaster",
+      "repository_id": "1231210975",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/professorpalmer/Puppetmaster",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "qqewq/GRA-Swarm",
+      "repository_id": "1173300171",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/qqewq/GRA-Swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "Quarm-AI/Quarm",
+      "repository_id": "917861590",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Quarm-AI/Quarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "quoroom-ai/room",
+      "repository_id": "1161940285",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/quoroom-ai/room",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "qwerty35/swarm_simulator",
+      "repository_id": "169521514",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/qwerty35/swarm_simulator",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "RaheesAhmed/SajiCode",
+      "repository_id": "1045849904",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/RaheesAhmed/SajiCode",
+      "found_by": [
+        "multi agent swarm",
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "RandomSynergy17/Arcane-MCP-Server",
+      "repository_id": "1149133969",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/RandomSynergy17/Arcane-MCP-Server",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "Ransom-Alpha/Swarms_MCPserver",
+      "repository_id": "975850142",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Ransom-Alpha/Swarms_MCPserver",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "Raynan00/shoal",
+      "repository_id": "1331104768",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Raynan00/shoal",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "redactedmeme/swarm",
+      "repository_id": "1125906927",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/redactedmeme/swarm",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "relusion/MediSwarmPOC",
+      "repository_id": "879565200",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/relusion/MediSwarmPOC",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "Repello-AI/Agent-Wiz",
+      "repository_id": "957750737",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Repello-AI/Agent-Wiz",
+      "found_by": [
+        "swarm agent",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "retomeier/MoMoA",
+      "repository_id": "1156654780",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/retomeier/MoMoA",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "RisingWater/agent_swarm",
+      "repository_id": "1365403810",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/RisingWater/agent_swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "rperez93/collab-a2a",
+      "repository_id": "1351841117",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/rperez93/collab-a2a",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "ruvnet/flow-nexus",
+      "repository_id": "1044433672",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ruvnet/flow-nexus",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "ruvnet/marketing",
+      "repository_id": "1133661421",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ruvnet/marketing",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "ruvnet/ruflo",
+      "repository_id": "995029641",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ruvnet/ruflo",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "ruvnet/yyz-agentics-june",
+      "repository_id": "1008497251",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ruvnet/yyz-agentics-june",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "ryanpettry/awesome-agent-orchestration",
+      "repository_id": "1310670061",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ryanpettry/awesome-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "s0lda/hadron",
+      "repository_id": "1313182462",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/s0lda/hadron",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "sagar0x0/Supply-Chain-Resilience-ai-agentic-system",
+      "repository_id": "999036939",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/sagar0x0/Supply-Chain-Resilience-ai-agentic-system",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "samwang0723/agent-swarm",
+      "repository_id": "999418845",
+      "default_branch": "main",
+      "archived": true,
+      "visibility": "public",
+      "display_url": "https://github.com/samwang0723/agent-swarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "satoshiann/o-swarm-prototype-1",
+      "repository_id": "940323008",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/satoshiann/o-swarm-prototype-1",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "scrutiniz3r/jira-support-swarm",
+      "repository_id": "1380386439",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/scrutiniz3r/jira-support-swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "seanebones-lang/harness",
+      "repository_id": "1223154704",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/seanebones-lang/harness",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "sentientwave/automata",
+      "repository_id": "1184498774",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/sentientwave/automata",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "Shaaha-7/waypost",
+      "repository_id": "1330097867",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Shaaha-7/waypost",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Shaan-alpha/syntrueno",
+      "repository_id": "1341280475",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Shaan-alpha/syntrueno",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "ShakeLv/oar-agent-orchestration-vivy",
+      "repository_id": "1300225491",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ShakeLv/oar-agent-orchestration-vivy",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Shaswat2001/Multi_Agent_Path_Finding",
+      "repository_id": "799565679",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Shaswat2001/Multi_Agent_Path_Finding",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "shells-above/ida-swarm",
+      "repository_id": "1061580389",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/shells-above/ida-swarm",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "Shiyao-Huang/awesome-agent-evolution",
+      "repository_id": "1246535785",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Shiyao-Huang/awesome-agent-evolution",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "significance/swarm-mcp",
+      "repository_id": "1015416069",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/significance/swarm-mcp",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "SimarcLabs/pybullet-swarm-sim",
+      "repository_id": "1250289468",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/SimarcLabs/pybullet-swarm-sim",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "simulanics/swarm2",
+      "repository_id": "1210045884",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/simulanics/swarm2",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Sisyphbaous-DT-Project/agent_swarm",
+      "repository_id": "1173672359",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Sisyphbaous-DT-Project/agent_swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "SJTUwbl/MaCA",
+      "repository_id": "292741842",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/SJTUwbl/MaCA",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "smiraldr/openamer",
+      "repository_id": "1374914960",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/smiraldr/openamer",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Solar-Punk-Ltd/swarm-mcp",
+      "repository_id": "1031800566",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Solar-Punk-Ltd/swarm-mcp",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "Sompote/Tiger_bot",
+      "repository_id": "1154120275",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Sompote/Tiger_bot",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "sotiamaestro/harris",
+      "repository_id": "1241792145",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/sotiamaestro/harris",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "Spectral-Finance/lux",
+      "repository_id": "911264133",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Spectral-Finance/lux",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "SpideXD/mcp-swarm",
+      "repository_id": "1159451994",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/SpideXD/mcp-swarm",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "spyrae/kronos-agent-os",
+      "repository_id": "1221605737",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/spyrae/kronos-agent-os",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "stoaaadev/stoa",
+      "repository_id": "1242230402",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/stoaaadev/stoa",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "strias-ai/openamer",
+      "repository_id": "1373202308",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/strias-ai/openamer",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "sumitrj/ConnectedQ-Multi-agent-Reinforcement-Learning-Algorithm",
+      "repository_id": "186299957",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/sumitrj/ConnectedQ-Multi-agent-Reinforcement-Learning-Algorithm",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "sunilgentyala/AegisSwarm-Core",
+      "repository_id": "1252894823",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/sunilgentyala/AegisSwarm-Core",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "sunmh207/swarm-x",
+      "repository_id": "875215507",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/sunmh207/swarm-x",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "Sunwood-ai-labs/swarm-sample-box",
+      "repository_id": "871545214",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Sunwood-ai-labs/swarm-sample-box",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "suonian/omniclaw-swarm",
+      "repository_id": "1238877705",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/suonian/omniclaw-swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "SuperInstance/flux-swarm",
+      "repository_id": "1207194306",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/SuperInstance/flux-swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "SuperInstance/SwarmMCP",
+      "repository_id": "1171906934",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/SuperInstance/SwarmMCP",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "surajkumar811/swarm-test",
+      "repository_id": "1246487920",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/surajkumar811/swarm-test",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "swarm-ai-research/swarm",
+      "repository_id": "1148465142",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/swarm-ai-research/swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "swarm-api-dev/swarm-api",
+      "repository_id": "1234913440",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/swarm-api-dev/swarm-api",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "Swarm-Squad/Swarm-Squad",
+      "repository_id": "729292679",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Swarm-Squad/Swarm-Squad",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "swarm-workflows/swarm-agents-llms",
+      "repository_id": "919783196",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/swarm-workflows/swarm-agents-llms",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "swarm-workflows/SwarmAgents",
+      "repository_id": "804033455",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/swarm-workflows/SwarmAgents",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "swarmauri/swarmauri-sdk",
+      "repository_id": "783516011",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/swarmauri/swarmauri-sdk",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "swarmclawai/swarmclaw",
+      "repository_id": "1161242607",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/swarmclawai/swarmclaw",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework",
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "swarmclawai/swarmfeed",
+      "repository_id": "1200811500",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/swarmclawai/swarmfeed",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "swarmclawai/swarmrelay",
+      "repository_id": "1197628490",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/swarmclawai/swarmrelay",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "swarmclawai/swarmvault",
+      "repository_id": "1203219280",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/swarmclawai/swarmvault",
+      "found_by": [
+        "swarm agent",
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "SwarmOne/agentic-swarm-bench",
+      "repository_id": "1210378945",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/SwarmOne/agentic-swarm-bench",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "SwarmPack/SwarmWatch",
+      "repository_id": "1170017236",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/SwarmPack/SwarmWatch",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "swarmpit/swarmpit",
+      "repository_id": "81071976",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/swarmpit/swarmpit",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "SwarmRL/SwarmRL",
+      "repository_id": "611314950",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/SwarmRL/SwarmRL",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "swarmsync-ai/swarmscore-spec",
+      "repository_id": "1184805757",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/swarmsync-ai/swarmscore-spec",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "Swarmwage/swarmwage",
+      "repository_id": "1228008196",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Swarmwage/swarmwage",
+      "found_by": [
+        "AI swarm MCP",
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "swarmzero/swarmzero",
+      "repository_id": "840500420",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/swarmzero/swarmzero",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "synapbus/synapbus",
+      "repository_id": "1180641969",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/synapbus/synapbus",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "TailoredSips/Chrono_Swarm",
+      "repository_id": "1004830899",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/TailoredSips/Chrono_Swarm",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "tale-project/tale",
+      "repository_id": "1106975320",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/tale-project/tale",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "tatitamati87-coder/omniwire---framework",
+      "repository_id": "1276293958",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/tatitamati87-coder/omniwire---framework",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "tcztzy/swarmx",
+      "repository_id": "872989453",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/tcztzy/swarmx",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "teilomillet/enzu-go",
+      "repository_id": "860299091",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/teilomillet/enzu-go",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/AdvancedResearch",
+      "repository_id": "1026331365",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/AdvancedResearch",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/agentverse",
+      "repository_id": "867306322",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/agentverse",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/AutoHedge",
+      "repository_id": "901529145",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/AutoHedge",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/Awesome-Swarms-List",
+      "repository_id": "1018750366",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/Awesome-Swarms-List",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/BackTesterAgent",
+      "repository_id": "890649146",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/BackTesterAgent",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/Blackwall",
+      "repository_id": "1135822165",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/Blackwall",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/ClawSwarm",
+      "repository_id": "1158782187",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/ClawSwarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/Marketing-Swarm-Template",
+      "repository_id": "882552506",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/Marketing-Swarm-Template",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/MedicalCoderSwarm",
+      "repository_id": "906458272",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/MedicalCoderSwarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/radiology-swarm",
+      "repository_id": "898726461",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/radiology-swarm",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/swarm-shield",
+      "repository_id": "915145203",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/swarm-shield",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/swarms-cloud",
+      "repository_id": "728893484",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/swarms-cloud",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/swarms-framework-docs",
+      "repository_id": "1173087649",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/swarms-framework-docs",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/swarms-memory",
+      "repository_id": "825914209",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/swarms-memory",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/swarms-rs",
+      "repository_id": "849128320",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/swarms-rs",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "The-Swarm-Corporation/swarms-tools",
+      "repository_id": "917485990",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/The-Swarm-Corporation/swarms-tools",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "TheSnowGuru/Market-Swarm-Agents-",
+      "repository_id": "860133903",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/TheSnowGuru/Market-Swarm-Agents-",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "thtskaran/claude-code-analysis",
+      "repository_id": "1198596467",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/thtskaran/claude-code-analysis",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "TinyAGI/fractals",
+      "repository_id": "1173821248",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/TinyAGI/fractals",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "tirth8205/Jailbreak-Eval",
+      "repository_id": "1148756739",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/tirth8205/Jailbreak-Eval",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "tjards/multi-agent_sim",
+      "repository_id": "687738130",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/tjards/multi-agent_sim",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "tmshv/swarm",
+      "repository_id": "246369320",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/tmshv/swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "tmustier/pi-agent-teams",
+      "repository_id": "1152443909",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/tmustier/pi-agent-teams",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "Trac-Systems/intercom",
+      "repository_id": "1148546778",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Trac-Systems/intercom",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "tripolskypetr/agent-swarm-kit",
+      "repository_id": "920687088",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/tripolskypetr/agent-swarm-kit",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "trivamj-glitch/AeroRescue-Swarm-AI-Agent",
+      "repository_id": "1287391974",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/trivamj-glitch/AeroRescue-Swarm-AI-Agent",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "twzrd-sol/awesome-agent-orchestration",
+      "repository_id": "1262517723",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/twzrd-sol/awesome-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "unclebob/swarm-forge",
+      "repository_id": "1213616615",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/unclebob/swarm-forge",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "Usaid22/swarm-factory",
+      "repository_id": "1269899136",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Usaid22/swarm-factory",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "Varritech/mcp-production-agent-stacks",
+      "repository_id": "1269681959",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/Varritech/mcp-production-agent-stacks",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "verixiaapps/awesome-agent-orchestration",
+      "repository_id": "1371647509",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/verixiaapps/awesome-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "vibeeval/vibecosystem",
+      "repository_id": "1181624333",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/vibeeval/vibecosystem",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "victorb/ollama-swarm",
+      "repository_id": "872537693",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/victorb/ollama-swarm",
+      "found_by": [
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "vivy-yi/awesome-agent-orchestration",
+      "repository_id": "1173449233",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/vivy-yi/awesome-agent-orchestration",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework",
+        "AI swarm MCP",
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "vrsen-ai-solutions/agency-swarm-mcp",
+      "repository_id": "966446604",
+      "default_branch": "main",
+      "archived": true,
+      "visibility": "public",
+      "display_url": "https://github.com/vrsen-ai-solutions/agency-swarm-mcp",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "VRSEN/agency-swarm",
+      "repository_id": "719367294",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/VRSEN/agency-swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "wadezigh96/Swarm_Agent",
+      "repository_id": "1370701824",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/wadezigh96/Swarm_Agent",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "wangmingjie36-creator/alpha-hive-mcp",
+      "repository_id": "1178375926",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/wangmingjie36-creator/alpha-hive-mcp",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "wczaja/swarmbreaker",
+      "repository_id": "1286824504",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/wczaja/swarmbreaker",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "wetware/ww",
+      "repository_id": "777809247",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/wetware/ww",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "widingmarcus-cyber/discord-agent-swarm",
+      "repository_id": "1157281410",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/widingmarcus-cyber/discord-agent-swarm",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "willackerly/rebar",
+      "repository_id": "1180060554",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/willackerly/rebar",
+      "found_by": [
+        "agent swarm framework",
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "win4r/ClawTeam-OpenClaw",
+      "repository_id": "1185162422",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/win4r/ClawTeam-OpenClaw",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "WinningTrader/omniwire--fork-VoidChecksum-260329all",
+      "repository_id": "1195658272",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/WinningTrader/omniwire--fork-VoidChecksum-260329all",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "wizerai1111/swarmrails-mcp",
+      "repository_id": "1193178363",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/wizerai1111/swarmrails-mcp",
+      "found_by": [
+        "AI swarm MCP"
+      ]
+    },
+    {
+      "repository_full_name": "wjgoarxiv/antigravity-swarm",
+      "repository_id": "1136461079",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/wjgoarxiv/antigravity-swarm",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "wxai-space/lightagent-promo-vivy-agent-orchestration",
+      "repository_id": "1319261307",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/wxai-space/lightagent-promo-vivy-agent-orchestration",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "xinghewumeng/SynapseForge",
+      "repository_id": "1352610007",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/xinghewumeng/SynapseForge",
+      "found_by": [
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "YaoZ720/SwarmAgenticCode",
+      "repository_id": "1002153120",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/YaoZ720/SwarmAgenticCode",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "youseai/openai-swarm-node",
+      "repository_id": "871982247",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/youseai/openai-swarm-node",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm",
+        "agent swarm framework"
+      ]
+    },
+    {
+      "repository_full_name": "yuki-2025/Dyna_Swarm",
+      "repository_id": "992903594",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/yuki-2025/Dyna_Swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "YunxiaoGuo/ABCS-Flocking",
+      "repository_id": "776830556",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/YunxiaoGuo/ABCS-Flocking",
+      "found_by": [
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "ZaxbyHub/opencode-swarm",
+      "repository_id": "1143461873",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ZaxbyHub/opencode-swarm",
+      "found_by": [
+        "swarm agent"
+      ]
+    },
+    {
+      "repository_full_name": "zay448345045/openamer",
+      "repository_id": "1374344273",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/zay448345045/openamer",
+      "found_by": [
+        "swarm A2A agents"
+      ]
+    },
+    {
+      "repository_full_name": "zhound420/swarm-trader",
+      "repository_id": "1176178133",
+      "default_branch": "main",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/zhound420/swarm-trader",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    },
+    {
+      "repository_full_name": "ZJU-FAST-Lab/ego-planner-swarm",
+      "repository_id": "303908462",
+      "default_branch": "master",
+      "archived": false,
+      "visibility": "public",
+      "display_url": "https://github.com/ZJU-FAST-Lab/ego-planner-swarm",
+      "found_by": [
+        "swarm agent",
+        "multi agent swarm"
+      ]
+    }
+  ]
+}
