@@ -4,7 +4,11 @@ import {
   type FederationPeerAdvertisement,
   type HomeRef,
 } from "../src/domain/federation.js";
-import { FederationHandshakeService } from "../src/service/federation-handshake-service.js";
+import {
+  FederationHandshakeService,
+  InMemoryFederationReplayState,
+  type FederationReplayState,
+} from "../src/service/federation-handshake-service.js";
 
 const ad = (
   overrides: Partial<FederationPeerAdvertisement> = {}
@@ -63,6 +67,19 @@ describe("federation handshake boundary", () => {
     expect(result).toMatchObject({ accepted: false, reason: "missing_evidence" });
   });
 
+  it("refuses blank evidence receipt identifiers", () => {
+    const service = new FederationHandshakeService("home:local" as HomeRef);
+    const result = service.evaluate(
+      ad({ evidenceReceiptIds: ["receipt:ok", "   "] }),
+      "corr:blank-evidence"
+    );
+
+    expect(result).toMatchObject({
+      accepted: false,
+      reason: "missing_evidence",
+    });
+  });
+
   it("refuses replay of an already accepted peer nonce", () => {
     const service = new FederationHandshakeService("home:local" as HomeRef);
 
@@ -84,5 +101,37 @@ describe("federation handshake boundary", () => {
     ).toMatchObject({ accepted: false, reason: "unsupported_protocol" });
 
     expect(service.evaluate(ad(), "corr:8")).toMatchObject({ accepted: true });
+  });
+
+  it("supports replay state shared across service lifetimes", () => {
+    const replayState: FederationReplayState = new InMemoryFederationReplayState();
+    const first = new FederationHandshakeService("home:local" as HomeRef, replayState);
+    const second = new FederationHandshakeService("home:local" as HomeRef, replayState);
+
+    expect(first.evaluate(ad({ nonce: "nonce:persistent" }), "corr:9")).toMatchObject({
+      accepted: true,
+    });
+    expect(second.evaluate(ad({ nonce: "nonce:persistent" }), "corr:10")).toMatchObject({
+      accepted: false,
+      reason: "replayed_nonce",
+    });
+  });
+
+  it("does not conflate distinct home/nonce pairs", () => {
+    const service = new FederationHandshakeService("home:local" as HomeRef);
+
+    expect(
+      service.evaluate(
+        ad({ homeRef: "home:a" as HomeRef, nonce: "b:c" }),
+        "corr:11"
+      )
+    ).toMatchObject({ accepted: true });
+
+    expect(
+      service.evaluate(
+        ad({ homeRef: "home:a:b" as HomeRef, nonce: "c" }),
+        "corr:12"
+      )
+    ).toMatchObject({ accepted: true });
   });
 });
