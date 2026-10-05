@@ -136,6 +136,10 @@ bun run demo:build
 The page is deliberately a projection, not another home-state implementation.
 See `docs/PUBLIC_RENDERING.md`.
 
+## Architectural provenance
+
+This repository carries a dated public architectural provenance and rights-reservation notice covering the Hub direction and related development work: [Architectural Developments Notice](docs/ARCHITECTURAL-DEVELOPMENTS-NOTICE-2026-10-05.md).
+
 ## Engineering doctrine
 
 For the shared **POS Systems / “Welcome to the Shit Show”** engineering posture and its application in this repository, see [README.POS.md](README.POS.md).
