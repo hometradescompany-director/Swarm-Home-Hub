@@ -11,6 +11,11 @@ export interface ExternalExecutionRequest {
   readonly providerRef: string;
   readonly capabilityRef: string;
   readonly instructionRef: string;
+  /**
+   * Optional caller-provided stable key for provider operations that explicitly
+   * support replay-safe durable completion. Blank keys normalize to keyless.
+   */
+  readonly idempotencyKey?: string;
   readonly artifactRefs: readonly string[];
   readonly evidenceReceiptIds: readonly string[];
   readonly handoff: SwarmHomeExternalHandoff;
@@ -77,6 +82,12 @@ function validTime(value: string, field: string): number {
   return parsed;
 }
 
+function optionalKey(value: string | undefined): string | undefined {
+  if (value === undefined) return undefined;
+  const normalized = value.trim();
+  return normalized || undefined;
+}
+
 function refs(values: readonly string[], field: string): readonly string[] {
   return Object.freeze(
     values.map((value, index) => nonBlank(value, field + "[" + index + "]"))
@@ -88,6 +99,7 @@ export function createExternalExecutionRequest(input: {
   readonly providerRef: string;
   readonly capabilityRef: string;
   readonly instructionRef: string;
+  readonly idempotencyKey?: string;
   readonly artifactRefs?: readonly string[];
   readonly evidenceReceiptIds?: readonly string[];
   readonly handoff: SwarmHomeExternalHandoff;
@@ -115,12 +127,15 @@ export function createExternalExecutionRequest(input: {
     throw new Error("external handoff must not imply authority");
   }
 
+  const idempotencyKey = optionalKey(input.idempotencyKey);
+
   return Object.freeze({
     schema: SWARM_HOME_EXTERNAL_EXECUTION_REQUEST,
     requestId: nonBlank(input.requestId, "requestId"),
     providerRef: nonBlank(input.providerRef, "providerRef"),
     capabilityRef: nonBlank(input.capabilityRef, "capabilityRef"),
     instructionRef: nonBlank(input.instructionRef, "instructionRef"),
+    ...(idempotencyKey ? { idempotencyKey } : {}),
     artifactRefs: refs(input.artifactRefs ?? [], "artifactRefs"),
     evidenceReceiptIds: refs(input.evidenceReceiptIds ?? [], "evidenceReceiptIds"),
     handoff: input.handoff,
