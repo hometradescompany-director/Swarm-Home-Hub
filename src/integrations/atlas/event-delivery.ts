@@ -86,12 +86,6 @@ export class AtlasResidenceEventPublisher {
     if (!Number.isFinite(Date.parse(attemptedAt))) {
       throw new Error("delivery sweep attemptedAt must be a valid ISO-8601 value");
     }
-
-    function readDurability(input: unknown): AtlasDeliveryDurability | null {
-      if (typeof input !== "object" || input === null || !("durability" in input)) return null;
-      const value = (input as AtlasDeliveryDurabilityTagged).durability;
-      return value === "durable" || value === "ephemeral" ? value : null;
-    }
     if (!Number.isInteger(limit) || limit < 1 || limit > 1000) {
       throw new Error("delivery sweep limit must be an integer from 1 to 1000");
     }
@@ -132,6 +126,12 @@ export class AtlasResidenceEventPublisher {
 
     return { inspected, delivered, failed, skippedAlreadyDelivered };
   }
+}
+
+function readDurability(input: unknown): AtlasDeliveryDurability | null {
+  if (typeof input !== "object" || input === null || !("durability" in input)) return null;
+  const value = (input as AtlasDeliveryDurabilityTagged).durability;
+  return value === "durable" || value === "ephemeral" ? value : null;
 }
 
 function successReceipt(
