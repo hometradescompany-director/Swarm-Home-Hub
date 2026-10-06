@@ -3,6 +3,11 @@ import type { EventJournal } from "../../events/journal.js";
 import type { AtlasEventDeliveryResult, AtlasEventSink } from "./event-sink.js";
 
 export type AtlasDeliveryOutcome = "delivered" | "failed";
+export type AtlasDeliveryDurability = "ephemeral" | "durable";
+
+export interface AtlasDeliveryDurabilityTagged {
+  readonly durability: AtlasDeliveryDurability;
+}
 
 export interface AtlasDeliveryReceipt {
   readonly sourceEventId: string;
@@ -21,6 +26,7 @@ export interface AtlasDeliveryLedger {
 }
 
 export class InMemoryAtlasDeliveryLedger implements AtlasDeliveryLedger {
+  readonly durability = "ephemeral" as const;
   #receipts: AtlasDeliveryReceipt[] = [];
 
   async append(receipt: AtlasDeliveryReceipt): Promise<void> {
@@ -54,6 +60,20 @@ export class AtlasResidenceEventPublisher {
   ) {}
 
   /**
+   * Production Atlas delivery must be backed by durable journal and delivery
+   * ledger adapters provided by the host environment.
+   */
+  assertProductionReady(): void {
+    const journalDurability = readDurability(this.journal);
+    const ledgerDurability = readDurability(this.ledger);
+    if (journalDurability !== "durable" || ledgerDurability !== "durable") {
+      throw new Error(
+        "Atlas delivery production readiness requires durable journal and delivery-ledger adapters"
+      );
+    }
+  }
+
+  /**
    * The event journal itself is the outbox source of truth.
    *
    * There is no second enqueue write that can be lost after a residence state
@@ -65,6 +85,12 @@ export class AtlasResidenceEventPublisher {
   async deliverPending(attemptedAt: string, limit = 100): Promise<AtlasDeliverySweep> {
     if (!Number.isFinite(Date.parse(attemptedAt))) {
       throw new Error("delivery sweep attemptedAt must be a valid ISO-8601 value");
+    }
+
+    function readDurability(input: unknown): AtlasDeliveryDurability | null {
+      if (typeof input !== "object" || input === null || !("durability" in input)) return null;
+      const value = (input as AtlasDeliveryDurabilityTagged).durability;
+      return value === "durable" || value === "ephemeral" ? value : null;
     }
     if (!Number.isInteger(limit) || limit < 1 || limit > 1000) {
       throw new Error("delivery sweep limit must be an integer from 1 to 1000");
