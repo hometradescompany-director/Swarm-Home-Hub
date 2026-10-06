@@ -95,8 +95,8 @@ flowchart TD
     D -->|"bounded handoff / execution request"| EXEC
     REC -->|"opaque refs + attributable evidence only"| D
 
-    X1["Typed absence:<br/>Atlas evidence retrieval is fail-closed<br/>until a dedicated seam exists"]
-    X2["Typed absence:<br/>outbound Atlas event delivery requires<br/>a durable outbox / retry boundary"]
+    X1["Absent:<br/>Atlas evidence retrieval fails closed<br/>until a dedicated seam exists"]
+    X2["Partial:<br/>journal-backed publisher + deterministic retry exist;<br/>production needs durable adapters + sweep owner"]
 
     F -.-> X1
     J -.-> X2
@@ -155,10 +155,11 @@ The system preserves evidence so later reasoning can inspect what happened. Auth
 If you have five minutes:
 
 1. Read this map.
-2. Read [TECHNICAL-EVALUATION.md](TECHNICAL-EVALUATION.md).
-3. Run the proof in [DEMO.md](DEMO.md).
-4. Inspect [PLATFORM_DOOR.md](PLATFORM_DOOR.md) and [ATLAS_FEDERATION.md](ATLAS_FEDERATION.md).
-5. For bounded external execution, read [END_TO_END_EXECUTION_PROOF.md](END_TO_END_EXECUTION_PROOF.md) and [EXTERNAL_EXECUTION_PROVIDER.md](EXTERNAL_EXECUTION_PROVIDER.md).
+2. Read [ENVIRONMENT_RECONCILIATION.md](ENVIRONMENT_RECONCILIATION.md) for transition status, state ownership, and the two outstanding Atlas boundaries.
+3. Read [TECHNICAL-EVALUATION.md](TECHNICAL-EVALUATION.md).
+4. Run the proof in [DEMO.md](DEMO.md).
+5. Inspect [PLATFORM_DOOR.md](PLATFORM_DOOR.md) and [ATLAS_FEDERATION.md](ATLAS_FEDERATION.md).
+6. For bounded external execution, read [END_TO_END_EXECUTION_PROOF.md](END_TO_END_EXECUTION_PROOF.md) and [EXTERNAL_EXECUTION_PROVIDER.md](EXTERNAL_EXECUTION_PROVIDER.md).
 
 The goal is not to make the architecture look large.
 
