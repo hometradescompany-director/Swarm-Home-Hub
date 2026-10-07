@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { InMemoryEventJournal } from "../src/events/journal.js";
 import type { SwarmResidenceEvent } from "../src/events/event.js";
+import type { EventJournal } from "../src/events/journal.js";
 import {
   AtlasResidenceEventPublisher,
   InMemoryAtlasDeliveryLedger
@@ -27,6 +28,89 @@ const event: SwarmResidenceEvent = {
 };
 
 describe("Atlas residence event delivery", () => {
+  it("delivers later pending events when the bounded prefix was already delivered", async () => {
+    const journal = new InMemoryEventJournal();
+    const ledger = new InMemoryAtlasDeliveryLedger();
+    const ids: string[] = [];
+    for (let i = 0; i < 3; i++) await journal.append({ ...event, id: `event:batch:${i}`,
+      previousEventId: i === 0 ? null : `event:batch:${i - 1}` });
+    const sink: AtlasEventSink = {
+      async deliver(input) {
+        ids.push(input.id);
+        return { sourceEventId: input.id, atlasEventId: await atlasEventIdFor(input.id),
+          atlasRecordId: `atlas:${input.id}`, accepted: true, duplicate: false };
+      }
+    };
+    const publisher = new AtlasResidenceEventPublisher(journal, sink, ledger);
+    for (let i = 0; i < 3; i++) {
+      const sweep = await publisher.deliverPending("2026-10-07T01:00:00Z", 1);
+      expect(sweep.delivered).toBe(1);
+      expect(sweep.inspected).toBe(1);
+    }
+    expect(ids).toEqual(["event:batch:0", "event:batch:1", "event:batch:2"]);
+  });
+
+  it("refuses production readiness without a callable journal inspection capability", () => {
+    const journal = { durability: "durable" as const, async append() {}, async eventsForResidence() { return []; } };
+    const ledger = { durability: "durable" as const, async append() {}, async receiptsFor() { return []; } };
+    const sink: AtlasEventSink = { async deliver() { throw new Error("must not execute"); } };
+    expect(() => new AtlasResidenceEventPublisher(journal, sink, ledger).assertProductionReady())
+      .toThrow(/journal.*inspection/);
+  });
+
+  it("fails production readiness when durable adapters are not supplied", async () => {
+    const journal = new InMemoryEventJournal();
+    const ledger = new InMemoryAtlasDeliveryLedger();
+    const sink: AtlasEventSink = {
+      async deliver(input) {
+        return {
+          sourceEventId: input.id,
+          atlasEventId: await atlasEventIdFor(input.id),
+          atlasRecordId: "atlas:event:001",
+          accepted: true,
+          duplicate: false
+        };
+      }
+    };
+    const publisher = new AtlasResidenceEventPublisher(journal, sink, ledger);
+    expect(() => publisher.assertProductionReady()).toThrow(
+      /requires durable journal and delivery-ledger adapters/
+    );
+  });
+
+  it("passes production readiness when host provides durable adapters", async () => {
+    const durableJournal: EventJournal & { durability: "durable"; allEvents: () => Promise<readonly SwarmResidenceEvent[]> } = {
+      durability: "durable",
+      async append() {},
+      async eventsForResidence() {
+        return [];
+      },
+      async allEvents() {
+        return [];
+      }
+    };
+    const durableLedger = {
+      durability: "durable" as const,
+      async append() {},
+      async receiptsFor() {
+        return [];
+      }
+    };
+    const sink: AtlasEventSink = {
+      async deliver(input) {
+        return {
+          sourceEventId: input.id,
+          atlasEventId: await atlasEventIdFor(input.id),
+          atlasRecordId: "atlas:event:001",
+          accepted: true,
+          duplicate: false
+        };
+      }
+    };
+    const publisher = new AtlasResidenceEventPublisher(durableJournal, sink, durableLedger);
+    expect(() => publisher.assertProductionReady()).not.toThrow();
+  });
+
   it("derives the same Atlas UUID from the same product event identity", async () => {
     const one = await atlasEventIdFor(event.id);
     const two = await atlasEventIdFor(event.id);
