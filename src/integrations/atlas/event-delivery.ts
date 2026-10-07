@@ -53,6 +53,8 @@ export interface AtlasDeliverySweep {
 }
 
 export class AtlasResidenceEventPublisher {
+  // A transient inspection cursor, not delivery truth: receipts remain authoritative.
+  #nextInspectionIndex = 0;
   constructor(
     private readonly journal: EventJournal,
     private readonly sink: AtlasEventSink,
@@ -70,6 +72,9 @@ export class AtlasResidenceEventPublisher {
       throw new Error(
         "Atlas delivery production readiness requires durable journal and delivery-ledger adapters"
       );
+    }
+    if (typeof this.journal.allEvents !== "function") {
+      throw new Error("event journal must expose inspection for production Atlas delivery");
     }
   }
 
@@ -89,7 +94,7 @@ export class AtlasResidenceEventPublisher {
     if (!Number.isInteger(limit) || limit < 1 || limit > 1000) {
       throw new Error("delivery sweep limit must be an integer from 1 to 1000");
     }
-    if (!this.journal.allEvents) {
+    if (typeof this.journal.allEvents !== "function") {
       throw new Error("event journal must expose bounded inspection for Atlas delivery");
     }
 
@@ -99,8 +104,11 @@ export class AtlasResidenceEventPublisher {
     let failed = 0;
     let skippedAlreadyDelivered = 0;
 
-    for (const event of events) {
-      if (inspected >= limit) break;
+    const start = events.length === 0 ? 0 : this.#nextInspectionIndex % events.length;
+    for (let offset = 0; offset < events.length && inspected < limit; offset += 1) {
+      const index = (start + offset) % events.length;
+      const event = events[index]!;
+      this.#nextInspectionIndex = (index + 1) % events.length;
       inspected += 1;
 
       const receipts = await this.ledger.receiptsFor(event.id);
