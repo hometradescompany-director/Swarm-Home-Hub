@@ -120,6 +120,40 @@ describe("Atlas federation ingress", () => {
     expect(calls).toHaveLength(0);
   });
 
+  it("accepts only bounded, canonical UTC timestamps", async () => {
+    const { h, calls } = handler();
+    const web = new AtlasFederationTransport({ token, handler: h });
+
+    for (const occurred_at of [
+      "2026-10-05T00:00:00Z",
+      "2026-10-05T00:00:00.1Z",
+      "2026-10-05T00:00:00.12Z",
+      "2026-10-05T00:00:00.123Z"
+    ]) {
+      const response = await web.handle(request({ ...validEvent, occurred_at }));
+      expect(response.status).toBe(202);
+    }
+
+    for (const occurred_at of [
+      "2026-02-30T00:00:00Z",
+      "2026-13-01T00:00:00Z",
+      "2026-10-05T24:00:00Z",
+      "2026-10-05T00:00:00",
+      "2026-10-05T00:00:00+00:00",
+      "2026-10-05T00:00Z",
+      "2026-10-05T00:00:00.1234Z",
+      "2026-10-05T00:00:00Z trailing text",
+      "2026-10-05T00:00:00.12345678901234567890Z",
+      null,
+      1
+    ]) {
+      const response = await web.handle(request({ ...validEvent, occurred_at }));
+      expect(response.status).toBe(400);
+    }
+
+    expect(calls).toHaveLength(4);
+  });
+
   it("returns handler refusal without turning it into transport failure", async () => {
     const { h } = handler({
       accepted: false,
