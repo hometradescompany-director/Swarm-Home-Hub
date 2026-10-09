@@ -14,6 +14,31 @@ A Witness can request passage, observation, and ordinary participation across wo
 - **Operator capability:** separate, explicitly delegated and time-bounded permission for named actions. Never inferred from observer or participant status.
 - **Relationship memory:** references to witnessed encounters and consented interactions, not unrestricted copies of another entity's memories.
 
+## Three-domain data separation (one user at present)
+
+There is currently **one human user**. This does not collapse three distinct data domains:
+
+| Domain | Owns | Default visibility | Write authority |
+| --- | --- | --- | --- |
+| `user` | The human user's personal data, preferences, device records, consent and user-directed activity | Private to the user and narrowly delegated actors | User-authorised operations only |
+| `atlas` | Atlas service/kernel state, federation contracts, system events, agent operational evidence and derived projections | Service-scoped, least-privilege | Explicit Atlas service authority, never implied by user login |
+| `founder` | Founder-owned governance records, strategic decisions, constitutional drafts, organisation credentials and privileged administrative provenance | Restricted founder scope | Separate authenticated founder/admin grant; never inferred from `user` or `atlas` |
+
+**Identity and authority are different axes.** The same person may hold all three roles today. A single account or device session does not permit automatic copying, merging or privilege inheritance between domains. Future users must be isolatable without rewriting provenance.
+
+Every Witness record or traversal request must carry a validated `data_domain` (`user | atlas | founder`), `subject_ref`, `actor_ref`, `purpose`, `authority_ref`, `correlation_id`, and a provenance reference. The `subject_ref` identifies whose data is affected; it must not be silently replaced with the founder or device identity.
+
+Domain crossings require an explicit, logged disclosure or delegation decision. Cross-domain projections must be purpose-limited and redacted, with the source record retained under its original owner. A Witness observing an Atlas event does not thereby acquire the user's private data or founder records. Founder status must not grant covert observation of third parties or bypass destination consent and admission.
+
+### Acceptance tests for implementation
+
+- A `user` grant cannot read `founder` records or mutate `atlas` service state.
+- An `atlas` grant cannot retrieve private `user` content or `founder` secrets.
+- A `founder` grant is separately authenticated, auditable and revocable; it does not override third-party consent.
+- Cross-domain export without a scoped delegation is denied and recorded.
+- Two device instances with the same human operator remain distinct installations, not distinct human users.
+- A Witness visit preserves the source data domain and never silently reclassifies records on arrival.
+
 ## Proposed contract: WitnessWorldVisit/v0
 
 Request:
@@ -21,6 +46,11 @@ Request:
 {
   "protocol": "WitnessWorldVisit/v0",
   "witness_ref": "opaque-id",
+  "data_domain": "user | atlas | founder",
+  "subject_ref": "opaque-subject-id",
+  "actor_ref": "opaque-actor-id",
+  "purpose": "scoped-purpose",
+  "authority_ref": "opaque-authority-grant-id",
   "device_instance_ref": "opaque-installation-id",
   "destination_ref": "opaque-world-id",
   "intent": "observe | participate",
