@@ -40,9 +40,16 @@ function nonEmptyString(value: unknown): value is string {
 }
 
 function isIsoTimestamp(value: unknown): value is string {
-  if (!nonEmptyString(value)) return false;
+  if (typeof value !== "string") return false;
+  const match = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?Z$/.exec(value);
+  if (!match) return false;
+
   const time = Date.parse(value);
-  return Number.isFinite(time);
+  if (!Number.isFinite(time)) return false;
+
+  const fractionalSeconds = (match[7] ?? "").padEnd(3, "0");
+  const canonical = `${match[1]}-${match[2]}-${match[3]}T${match[4]}:${match[5]}:${match[6]}.${fractionalSeconds}Z`;
+  return new Date(time).toISOString() === canonical;
 }
 
 export function parseAtlasWorkRequestedEvent(
