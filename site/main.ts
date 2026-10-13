@@ -5,6 +5,7 @@ import {
   type ResidenceId,
   type SwarmResidenceEvent,
 } from "../src/index.ts";
+import { buildHabitatView, renderHabitatView } from "./habitat-view.ts";
 import "./styles.css";
 
 const agent=(value:string)=>value as AgentIdentityRef;
@@ -63,6 +64,10 @@ const residents=[
   {label:"Finch",snapshot:projectResidence(cEvents),events:cEvents},
 ].filter((entry)=>entry.snapshot!==null);
 
+const habitatView=buildHabitatView(
+  {id:habitatId,name:"Quiet Garden",capacity:5,status:"open",heartbeatStaleAfterMs:60_000},
+  residents.map((entry)=>entry.snapshot),
+);
 const stages=["requested","admitted","resting","ready","departed"];
 const totalEvents=residents.reduce((sum,entry)=>sum+entry.events.length,0);
 const readyCount=residents.filter((entry)=>entry.snapshot?.status==="ready").length;
@@ -98,10 +103,11 @@ root.innerHTML=`
 
       <div class="home-map">
         <div class="ring ring-a"></div><div class="ring ring-b"></div>
-        <div class="hearth"><span>⌂</span><strong>Quiet Garden</strong><small>habitat open</small></div>
+        <div class="hearth"><span aria-hidden="true">⌂</span><strong>Quiet Garden</strong><small>habitat ${habitatView.status}</small></div>
         <div class="resident-dot d1 ready"><span>C</span><small>ready</small></div>
         <div class="resident-dot d2 resting"><span>L</span><small>resting</small></div>
         <div class="resident-dot d3 requested"><span>F</span><small>requested</small></div>
+        ${renderHabitatView(habitatView)}
         <div class="map-note"><strong>No king state.</strong><span>Home is a transition space, not a throne.</span></div>
       </div>
     </section>
