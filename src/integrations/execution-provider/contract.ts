@@ -1,4 +1,5 @@
 import type { SwarmHomeExternalHandoff } from "../handoff/conformance.js";
+import type { ProvenanceReceipt } from "../../provenance/receipt.js";
 
 export const SWARM_HOME_EXTERNAL_EXECUTION_REQUEST =
   "SwarmHomeExternalExecutionRequest/v1" as const;
@@ -27,6 +28,7 @@ export interface ExternalExecutionAuthorityDecision {
 
 export interface ExternalExecutionProviderOutcome {
   readonly providerExecutionRef: string;
+  readonly checkpointRef?: string;
   readonly status: "accepted" | "completed" | "failed" | "refused";
   readonly resultRefs: readonly string[];
   readonly evidenceReceiptIds: readonly string[];
@@ -41,6 +43,7 @@ export interface ExternalExecutionResult {
   readonly capabilityRef: string;
   readonly authorityRef: string;
   readonly providerExecutionRef?: string;
+  readonly checkpointRef?: string;
   readonly status:
     | "refused_by_authority"
     | "refused_by_boundary"
@@ -54,9 +57,21 @@ export interface ExternalExecutionResult {
   readonly message?: string;
 }
 
+export interface ExternalExecutionCheckpointReceipt extends ProvenanceReceipt {
+  readonly requestId: string;
+  readonly providerRef: string;
+  readonly capabilityRef: string;
+  readonly providerExecutionRef: string;
+  readonly checkpointRef: string;
+}
+
 export interface ExternalExecutionProvider {
   readonly providerRef: string;
   execute(request: ExternalExecutionRequest): Promise<ExternalExecutionProviderOutcome>;
+  resume?(
+    request: ExternalExecutionRequest,
+    checkpointRef: string
+  ): Promise<ExternalExecutionProviderOutcome>;
 }
 
 export type ExternalExecutionAuthorizer = (
@@ -134,6 +149,7 @@ export async function executeWithExternalProvider(input: {
   readonly provider: ExternalExecutionProvider;
   readonly authorize: ExternalExecutionAuthorizer;
   readonly observedAt: string;
+  readonly checkpoint?: ExternalExecutionCheckpointReceipt;
 }): Promise<ExternalExecutionResult> {
   const observedAtMs = validTime(input.observedAt, "observedAt");
   const requestedAtMs = validTime(input.request.requestedAt, "request.requestedAt");
@@ -184,9 +200,58 @@ export async function executeWithExternalProvider(input: {
     });
   }
 
+  if (input.checkpoint) {
+    const checkpoint = input.checkpoint;
+    const checkpointCapturedAtMs = Date.parse(checkpoint.capturedAt);
+    if (
+      !checkpoint.id.trim() ||
+      checkpoint.sourceRef !== checkpoint.checkpointRef ||
+      checkpoint.standing !== "source_record" ||
+      !checkpoint.authorityRef?.trim() ||
+      !checkpoint.requestId.trim() ||
+      checkpoint.requestId !== input.request.requestId ||
+      checkpoint.providerRef !== input.request.providerRef ||
+      checkpoint.providerRef !== input.provider.providerRef ||
+      checkpoint.capabilityRef !== input.request.capabilityRef ||
+      !checkpoint.providerExecutionRef.trim() ||
+      !checkpoint.checkpointRef.trim() ||
+      !Number.isFinite(checkpointCapturedAtMs) ||
+      checkpointCapturedAtMs < requestedAtMs ||
+      checkpointCapturedAtMs > observedAtMs
+    ) {
+      return Object.freeze({
+        schema: SWARM_HOME_EXTERNAL_EXECUTION_RESULT,
+        requestId: input.request.requestId,
+        providerRef: input.request.providerRef,
+        capabilityRef: input.request.capabilityRef,
+        authorityRef: checkpoint.authorityRef?.trim() || "authority:unresolved",
+        status: "refused_by_boundary",
+        resultRefs: Object.freeze([]),
+        evidenceReceiptIds: Object.freeze([]),
+        observedAt: input.observedAt,
+        message: "external execution checkpoint receipt is stale or mismatched"
+      });
+    }
+
+    if (!input.provider.resume) {
+      return Object.freeze({
+        schema: SWARM_HOME_EXTERNAL_EXECUTION_RESULT,
+        requestId: input.request.requestId,
+        providerRef: input.request.providerRef,
+        capabilityRef: input.request.capabilityRef,
+        authorityRef: checkpoint.authorityRef,
+        status: "refused_by_boundary",
+        resultRefs: Object.freeze([]),
+        evidenceReceiptIds: Object.freeze([]),
+        observedAt: input.observedAt,
+        message: "provider does not support checkpoint resume"
+      });
+    }
+  }
+
   const authority = await input.authorize(input.request);
   nonBlank(authority.authorityRef, "authority.authorityRef");
-  validTime(authority.decidedAt, "authority.decidedAt");
+  const authorityDecidedAtMs = validTime(authority.decidedAt, "authority.decidedAt");
 
   if (!authority.allowed) {
     return Object.freeze({
@@ -203,7 +268,24 @@ export async function executeWithExternalProvider(input: {
     });
   }
 
-  const outcome = await input.provider.execute(input.request);
+  if (input.checkpoint && authorityDecidedAtMs < observedAtMs) {
+    return Object.freeze({
+      schema: SWARM_HOME_EXTERNAL_EXECUTION_RESULT,
+      requestId: input.request.requestId,
+      providerRef: input.request.providerRef,
+      capabilityRef: input.request.capabilityRef,
+      authorityRef: authority.authorityRef,
+      status: "refused_by_boundary",
+      resultRefs: Object.freeze([]),
+      evidenceReceiptIds: Object.freeze([]),
+      observedAt: input.observedAt,
+      message: "checkpoint resume authority decision predates the resume boundary"
+    });
+  }
+
+  const outcome = input.checkpoint
+    ? await input.provider.resume!(input.request, input.checkpoint.checkpointRef)
+    : await input.provider.execute(input.request);
   const providerExecutionRef = nonBlank(
     outcome.providerExecutionRef,
     "providerOutcome.providerExecutionRef"
@@ -212,6 +294,28 @@ export async function executeWithExternalProvider(input: {
     outcome.observedAt,
     "providerOutcome.observedAt"
   );
+
+  if (
+    input.checkpoint &&
+    providerExecutionRef !== input.checkpoint.providerExecutionRef
+  ) {
+    return Object.freeze({
+      schema: SWARM_HOME_EXTERNAL_EXECUTION_RESULT,
+      requestId: input.request.requestId,
+      providerRef: input.request.providerRef,
+      capabilityRef: input.request.capabilityRef,
+      authorityRef: authority.authorityRef,
+      providerExecutionRef,
+      status: "refused_by_boundary",
+      resultRefs: refs(outcome.resultRefs, "providerOutcome.resultRefs"),
+      evidenceReceiptIds: refs(
+        outcome.evidenceReceiptIds,
+        "providerOutcome.evidenceReceiptIds"
+      ),
+      observedAt: outcome.observedAt,
+      message: "resumed provider execution does not match checkpoint receipt"
+    });
+  }
 
   if (outcomeObservedAtMs < observedAtMs) {
     return Object.freeze({
@@ -239,6 +343,9 @@ export async function executeWithExternalProvider(input: {
     capabilityRef: input.request.capabilityRef,
     authorityRef: authority.authorityRef,
     providerExecutionRef,
+    ...(outcome.checkpointRef
+      ? { checkpointRef: nonBlank(outcome.checkpointRef, "providerOutcome.checkpointRef") }
+      : {}),
     status: outcome.status,
     resultRefs: refs(outcome.resultRefs, "providerOutcome.resultRefs"),
     evidenceReceiptIds: refs(

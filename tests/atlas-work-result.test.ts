@@ -50,6 +50,38 @@ describe("atlas-swarm-handoff/v1 return path", () => {
     expect(out).toMatchObject({ correlationEventId: request.eventId, atlasRecordId: "rec-1", accepted: true });
   });
 
+  it("replays duplicate completion with the same event identity", async () => {
+    const deliveredIds: string[] = [];
+    let deliveries = 0;
+    const fetcher = (async (_url: URL, init: RequestInit) => {
+      const body = JSON.parse(String(init.body)) as Record<string, unknown>;
+      const eventId = body["event_id"] as string;
+      deliveredIds.push(eventId);
+      deliveries += 1;
+      return new Response(JSON.stringify({
+        ok: true,
+        data: {
+          event_id: eventId,
+          atlas_event_id: "rec:completion",
+          accepted: true,
+          duplicate: deliveries > 1
+        }
+      }), { status: 200 });
+    }) as unknown as typeof fetch;
+    const reporter = new AtlasWorkResultReporter({
+      baseUrl: "https://atlas.example",
+      token: "t",
+      fetcher
+    });
+
+    const first = await reporter.report(request, "completed");
+    const replay = await reporter.report(request, "completed");
+
+    expect(deliveredIds[0]).toBe(deliveredIds[1]);
+    expect(first).toMatchObject({ accepted: true, duplicate: false });
+    expect(replay).toMatchObject({ accepted: true, duplicate: true });
+  });
+
   it("surfaces Atlas refusals", async () => {
     const fetcher = (async () => new Response(JSON.stringify({ ok: false, refusal: { reason: "no active capability for observe:event", stage: "capability" } }), { status: 403 })) as unknown as typeof fetch;
     const reporter = new AtlasWorkResultReporter({ baseUrl: "https://atlas.example", token: "t", fetcher });
