@@ -127,7 +127,12 @@ export class SwarmHomeWebTransport {
     }
 
     if (request.method === "POST" && path.startsWith("/tools/")) {
-      const rawName = decodeURIComponent(path.slice("/tools/".length));
+      let rawName: string;
+      try {
+        rawName = decodeURIComponent(path.slice("/tools/".length));
+      } catch {
+        return json({ ok: false, error: "invalid tool name encoding" }, 404);
+      }
       if (!isToolName(rawName)) {
         return json({ ok: false, error: `unknown Swarm Home tool: ${rawName}` }, 404);
       }

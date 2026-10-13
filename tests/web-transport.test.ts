@@ -110,6 +110,22 @@ describe("Swarm Home web transport", () => {
     expect(malformed.status).toBe(400);
   });
 
+  it("rejects encoded traversal and malformed tool paths", async () => {
+    const web = await transport();
+
+    for (const toolPath of [
+      "%2e%2e%2fhealth",
+      "swarm.home.inspect%2f..%2fhealth",
+      "%"
+    ]) {
+      const response = await web.handle(new Request(
+        `https://example.test/swarm-home/tools/${toolPath}`,
+        { method: "POST" }
+      ));
+      expect(response.status).toBe(404);
+    }
+  });
+
   it("fails closed on state mutation when the host supplies no admission guard", async () => {
     const web = await transport();
     const response = await web.handle(new Request(
