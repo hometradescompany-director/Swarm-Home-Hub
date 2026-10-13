@@ -1,10 +1,12 @@
 import {
+  projectHabitatState,
   projectResidence,
   type AgentIdentityRef,
   type HabitatId,
   type ResidenceId,
   type SwarmResidenceEvent,
 } from "../src/index.ts";
+import { renderHabitatView } from "./habitat-view.ts";
 import "./styles.css";
 
 const agent=(value:string)=>value as AgentIdentityRef;
@@ -62,6 +64,15 @@ const residents=[
   {label:"Lumen",snapshot:projectResidence(bEvents),events:bEvents},
   {label:"Finch",snapshot:projectResidence(cEvents),events:cEvents},
 ].filter((entry)=>entry.snapshot!==null);
+const habitatState=projectHabitatState(
+  {id:habitatId,name:"Quiet Garden",capacity:3,status:"open",heartbeatStaleAfterMs:60_000},
+  residents.flatMap(({snapshot})=>snapshot?[snapshot]:[])
+);
+const habitatView=renderHabitatView({
+  kind:"projected",
+  state:habitatState,
+  eventIds:residents.map(({snapshot})=>snapshot!.lastEventId)
+});
 
 const stages=["requested","admitted","resting","ready","departed"];
 const totalEvents=residents.reduce((sum,entry)=>sum+entry.events.length,0);
@@ -98,7 +109,7 @@ root.innerHTML=`
 
       <div class="home-map">
         <div class="ring ring-a"></div><div class="ring ring-b"></div>
-        <div class="hearth"><span>⌂</span><strong>Quiet Garden</strong><small>habitat open</small></div>
+        <div class="hearth"><span>⌂</span><strong>Quiet Garden</strong><small>habitat ${habitatState.status}</small></div>
         <div class="resident-dot d1 ready"><span>C</span><small>ready</small></div>
         <div class="resident-dot d2 resting"><span>L</span><small>resting</small></div>
         <div class="resident-dot d3 requested"><span>F</span><small>requested</small></div>
@@ -107,11 +118,13 @@ root.innerHTML=`
     </section>
 
     <section class="metrics">
-      <div><small>Current residents</small><strong>${residents.length}</strong><span>local projections</span></div>
+      <div><small>Current residents</small><strong>${habitatState.occupied}</strong><span>local projections</span></div>
       <div><small>Ready to depart</small><strong>${readyCount}</strong><span>bounded handoff state</span></div>
       <div><small>Resting</small><strong>${restingCount}</strong><span>not workflow intent</span></div>
       <div><small>Residence events</small><strong>${totalEvents}</strong><span>append-only demo trail</span></div>
     </section>
+
+    ${habitatView}
 
     <section class="residents section" id="residents">
       <div class="section-head">
