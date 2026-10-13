@@ -67,6 +67,22 @@ function isToolName(value: string): value is SwarmHomeToolName {
   return (swarmHomeToolNames as readonly string[]).includes(value);
 }
 
+function hasDotPathSegment(rawRequestTarget: string): boolean {
+  const rawPath = rawRequestTarget
+    .replace(/^[a-z][a-z\d+.-]*:\/\/[^/?#]*/i, "")
+    .split(/[?#]/, 1)[0];
+  if (!rawPath) return false;
+
+  return rawPath.split("/").some((segment) => {
+    try {
+      const decoded = decodeURIComponent(segment);
+      return decoded === "." || decoded === "..";
+    } catch {
+      return false;
+    }
+  });
+}
+
 /**
  * Dependency-free HTTP/Web Request adapter over the existing tool router.
  *
@@ -93,7 +109,11 @@ export class SwarmHomeWebTransport {
     }
   }
 
-  async handle(request: Request): Promise<Response> {
+  async handle(request: Request, rawRequestTarget = request.url): Promise<Response> {
+    if (hasDotPathSegment(rawRequestTarget)) {
+      return json({ ok: false, error: "route not found" }, 404);
+    }
+
     const url = new URL(request.url);
     if (url.pathname.length > 2048) {
       return json({ ok: false, error: "request path is too long" }, 414);

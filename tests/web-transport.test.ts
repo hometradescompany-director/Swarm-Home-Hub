@@ -113,6 +113,11 @@ describe("Swarm Home web transport", () => {
   it("rejects encoded traversal and malformed tool paths", async () => {
     const web = await transport();
 
+    const traversal = "/swarm-home/tools/%2e%2e/events";
+    const normalizedRequest = new Request(`https://example.test${traversal}`, { method: "POST" });
+    expect(new URL(normalizedRequest.url).pathname).toBe("/swarm-home/events");
+    expect((await web.handle(normalizedRequest, traversal)).status).toBe(404);
+
     for (const toolPath of [
       "%2e%2e%2fhealth",
       "swarm.home.inspect%2f..%2fhealth",
