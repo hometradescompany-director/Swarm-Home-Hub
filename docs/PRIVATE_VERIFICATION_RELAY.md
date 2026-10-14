@@ -43,7 +43,7 @@ deleted before the job finishes.
 
 ## Authority and privacy boundaries
 
-- Manual `workflow_dispatch` or the owner-only control issue command `/verify-private <slot> <exact-sha>` only. The comment trigger is restricted to control issue #345 and the repository owner.
+- Manual `workflow_dispatch` or the owner-only control issue command `/verify-private <slot> <exact-sha>` only. The command uses exactly one ASCII space between its three fields, and has no leading or trailing whitespace. The comment trigger is restricted to control issue #345 and the repository owner.
 - Exact commit SHA only. Branch names and moving refs are rejected.
 - Target repository selection is resolved from a secret map.
 - The cross-repository credential should be **read-only** and restricted to the
