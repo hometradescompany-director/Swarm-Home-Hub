@@ -9,4 +9,7 @@
 - Add tests for lifecycle or authority invariants before merge.
 - Run the residence-phase contract and full repository checks.
 
-Normal work should arrive through pull requests.
+Normal work should arrive through pull requests. Repository owners must keep
+the platform-enforced `main` protections described in
+[Repository administration](docs/REPOSITORY-ADMINISTRATION.md) active;
+CODEOWNERS and this guide are advisory on their own.
