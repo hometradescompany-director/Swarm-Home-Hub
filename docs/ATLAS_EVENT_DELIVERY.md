@@ -33,3 +33,7 @@ The included in-memory delivery ledger is a reference adapter for tests and
 embedded runtimes. A production host must provide a durable implementation of
 `AtlasDeliveryLedger`; the publisher semantics do not depend on its storage
 technology.
+
+`AtlasResidenceEventPublisher.assertProductionReady()` is the explicit runtime
+gate for this boundary: production wiring must provide durable journal and
+delivery-ledger adapters before outbound delivery is enabled.

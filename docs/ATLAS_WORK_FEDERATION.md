@@ -93,3 +93,6 @@ installed through deployment secret storage.
 The published Lovable URL is currently an administrative hosting seam. A live
 Swarm deployment and explicit environment pairing are still required before it
 represents a production end-to-end federation path.
+
+For Issue #419 continuity reconciliation and deployment pairing/hardening steps,
+see `docs/operations/SWARM_ATLAS_PAIRING.md`.
