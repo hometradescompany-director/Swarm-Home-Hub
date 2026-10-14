@@ -19,8 +19,9 @@ A peer advertises:
 - a replay-protection nonce;
 - observation time.
 
-A successful handshake records only the bounded peer relationship result.
-It does **not** establish:
+A successful handshake records only the bounded peer relationship result,
+including the peer's own observation time (`peerObservedAt`) as attributable
+provenance. It does **not** establish:
 
 - Atlas authority;
 - admission permission;
@@ -75,10 +76,15 @@ The evaluator fails closed with typed refusal for:
 - self-peering;
 - incompatible protocol version;
 - missing evidence;
+- blank capability reference;
 - missing nonce;
+- invalid observation time;
 - replay of a previously accepted peer nonce.
 
 A refusal does not consume a nonce. Only an accepted handshake is replay-tracked.
+Input-integrity refusals (blank capability reference, invalid observation time)
+are evaluated before replay state is touched, so a malformed advertisement never
+burns a nonce.
 
 Replay protection is scoped to the configured replay-state store. Deployments
 that require replay protection across process restarts must provide a durable

@@ -16,7 +16,9 @@ export type FederationHandshakeRefusalReason =
   | "self_peer"
   | "unsupported_protocol"
   | "missing_evidence"
+  | "invalid_capability_ref"
   | "missing_nonce"
+  | "invalid_observation_time"
   | "replayed_nonce";
 
 export interface FederationHandshakeAccepted {
@@ -27,6 +29,7 @@ export interface FederationHandshakeAccepted {
   readonly correlationId: string;
   readonly capabilityRefs: readonly string[];
   readonly evidenceReceiptIds: readonly string[];
+  readonly peerObservedAt: string;
 }
 
 export interface FederationHandshakeRefused {

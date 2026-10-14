@@ -37,6 +37,18 @@ describe("federation handshake boundary", () => {
     expect("capacity" in result).toBe(false);
   });
 
+  it("carries the peer observation time as attributable provenance", () => {
+    const service = new FederationHandshakeService("home:local" as HomeRef);
+    const result = service.evaluate(
+      ad({ observedAt: "2026-09-21T12:34:56.000Z" }),
+      "corr:observed"
+    );
+
+    expect(result.accepted).toBe(true);
+    if (!result.accepted) throw new Error("expected accepted handshake");
+    expect(result.peerObservedAt).toBe("2026-09-21T12:34:56.000Z");
+  });
+
   it("refuses self-federation", () => {
     const service = new FederationHandshakeService("home:local" as HomeRef);
     const result = service.evaluate(
@@ -77,6 +89,48 @@ describe("federation handshake boundary", () => {
     expect(result).toMatchObject({
       accepted: false,
       reason: "missing_evidence",
+    });
+  });
+
+  it("refuses blank capability references", () => {
+    const service = new FederationHandshakeService("home:local" as HomeRef);
+    const result = service.evaluate(
+      ad({ capabilityRefs: ["cap:handoff", "  "] }),
+      "corr:blank-capability"
+    );
+
+    expect(result).toMatchObject({
+      accepted: false,
+      reason: "invalid_capability_ref",
+    });
+  });
+
+  it("refuses an invalid observation time", () => {
+    const service = new FederationHandshakeService("home:local" as HomeRef);
+    const result = service.evaluate(
+      ad({ observedAt: "not-a-timestamp" }),
+      "corr:bad-time"
+    );
+
+    expect(result).toMatchObject({
+      accepted: false,
+      reason: "invalid_observation_time",
+    });
+  });
+
+  it("does not burn a nonce for an input-integrity refusal", () => {
+    const service = new FederationHandshakeService("home:local" as HomeRef);
+
+    expect(
+      service.evaluate(ad({ observedAt: "not-a-timestamp" }), "corr:bad-time-2")
+    ).toMatchObject({ accepted: false, reason: "invalid_observation_time" });
+
+    expect(
+      service.evaluate(ad({ capabilityRefs: ["cap:ok", ""] }), "corr:bad-cap")
+    ).toMatchObject({ accepted: false, reason: "invalid_capability_ref" });
+
+    expect(service.evaluate(ad(), "corr:recover")).toMatchObject({
+      accepted: true,
     });
   });
 

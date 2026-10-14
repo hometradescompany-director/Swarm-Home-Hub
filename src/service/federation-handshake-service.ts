@@ -7,6 +7,9 @@ import {
 
 const nonBlank = (value: string): boolean => value.trim().length > 0;
 
+const isFiniteIsoTime = (value: string): boolean =>
+  Number.isFinite(Date.parse(value));
+
 export interface FederationReplayState {
   hasAccepted(homeRef: HomeRef, nonce: string): boolean;
   recordAccepted(homeRef: HomeRef, nonce: string): void;
@@ -104,6 +107,26 @@ export class FederationHandshakeService {
       });
     }
 
+    if (advertisement.capabilityRefs.some((ref) => !nonBlank(ref))) {
+      return Object.freeze({
+        accepted: false,
+        localHomeRef: this.localHomeRef,
+        remoteHomeRef: advertisement.homeRef,
+        correlationId,
+        reason: "invalid_capability_ref",
+      });
+    }
+
+    if (!isFiniteIsoTime(advertisement.observedAt)) {
+      return Object.freeze({
+        accepted: false,
+        localHomeRef: this.localHomeRef,
+        remoteHomeRef: advertisement.homeRef,
+        correlationId,
+        reason: "invalid_observation_time",
+      });
+    }
+
     if (this.#replayState.hasAccepted(advertisement.homeRef, advertisement.nonce)) {
       return Object.freeze({
         accepted: false,
@@ -124,6 +147,7 @@ export class FederationHandshakeService {
       correlationId,
       capabilityRefs: Object.freeze([...advertisement.capabilityRefs]),
       evidenceReceiptIds: Object.freeze([...advertisement.evidenceReceiptIds]),
+      peerObservedAt: advertisement.observedAt,
     });
   }
 }
