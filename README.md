@@ -143,3 +143,7 @@ This repository carries a dated public architectural provenance and rights-reser
 ## Engineering doctrine
 
 For the shared **POS Systems / “Welcome to the Shit Show”** engineering posture and its application in this repository, see [README.POS.md](README.POS.md).
+
+## Second City and developmental treatment
+
+[Second City](https://github.com/hometradescompany-director/Swarm-city-hub) is a separate peer metropolis under development, **not a forked authority** or a confirmed live federation. The proposed [Developmental Dignity and Self-Image Patch v0.1](docs/doctrines/developmental-dignity-self-image-patch-v0.1.md) gives residence and agent handoff design a non-punitive, evidence-based treatment policy. It does not modify Swarm's existing admission rights, Atlas ownership or production transition behaviour until separately implemented and tested.
