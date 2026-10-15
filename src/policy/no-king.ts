@@ -6,6 +6,13 @@
  * Atlas authority reference required by Swarm admission.
  */
 
+export const SWARM_AUTHORITY_INVARIANTS = [
+  "Capability does not grant permission.",
+  "The architect is part of the threat model.",
+  "Authorship, operator status, administrator status, and control-plane proximity are context, not authority.",
+  "Explicit authority and local policy remain separate gates."
+] as const;
+
 export const NON_AUTHORITY_FACTS = [
   "arrival_order",
   "residence_duration",
@@ -18,7 +25,11 @@ export const NON_AUTHORITY_FACTS = [
   "visibility",
   "paid_status",
   "commercial_tier",
-  "price_paid"
+  "price_paid",
+  "architect_status",
+  "operator_status",
+  "administrator_status",
+  "control_plane_proximity"
 ] as const;
 
 export type NonAuthorityFact = (typeof NON_AUTHORITY_FACTS)[number];
@@ -50,7 +61,7 @@ export function evaluateResidenceAuthorityBoundary(
     return {
       permitted: false,
       reason:
-        "Explicit Atlas authority is required; arrival, residence, host, creator, provider, contribution, capability, visibility, paid status, commercial tier, and price paid cannot substitute for authority.",
+        "Explicit Atlas authority is required; contextual status, including architect, operator, administrator, capability, payment, and control-plane proximity, cannot substitute for authority.",
       contextualFactsRetainedAsNonAuthority
     };
   }
