@@ -14,7 +14,7 @@ describe("bounded device inventory receipt", () => {
     expect(validateDeviceInventoryReceipt(valid).accepted).toBe(true);
   });
   it("rejects traversal and absolute paths", () => {
-    for (const relativePath of ["../secret", "/etc/passwd", "a/../b", "C:\\Windows"]) {
+    for (const relativePath of ["../secret", "/etc/passwd", "a/../b", "C:\\Windows", "C:/Windows", "C:relative.txt"]) {
       expect(validateDeviceInventoryReceipt({ ...valid, files: [{ ...valid.files[0], relativePath }] }).accepted).toBe(false);
     }
   });
@@ -24,5 +24,12 @@ describe("bounded device inventory receipt", () => {
   });
   it("rejects forged digest shapes", () => {
     expect(validateDeviceInventoryReceipt({ ...valid, files: [{ ...valid.files[0], sha256: "not-a-digest" }] }).accepted).toBe(false);
+  });
+  it("rejects file contents and permission claims outside the metadata contract", () => {
+    expect(validateDeviceInventoryReceipt({ ...valid, permissionsGranted: true }).accepted).toBe(false);
+    expect(validateDeviceInventoryReceipt({
+      ...valid,
+      files: [{ ...valid.files[0], content: "not metadata" }]
+    }).accepted).toBe(false);
   });
 });
