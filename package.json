@@ -18,6 +18,11 @@
     "prove:playable": "bun run test:playable && bun run receipt:playable",
     "play:compile": "bun run bun:compile",
     "great-bun:prove": "bun run check && bun run prove:playable",
+    "evaluate:boundary": "bun test tests/web-transport.test.ts",
+    "evaluate:lifecycle": "bun run test:residence-phase",
+    "evaluate:quick": "bun run evaluate:boundary && bun run evaluate:lifecycle",
+    "evaluate:playable": "bun run prove:playable",
+    "evaluate:full": "bun run check && bun run evaluate:playable",
     "demo:build": "rm -rf site-dist && mkdir -p site-dist && bun build site/main.ts --outdir site-dist --target browser && cp site/index.html site-dist/index.html"
   },
   "devDependencies": {
