@@ -19,6 +19,12 @@ http://127.0.0.1:8787/play
 
 The playable console drives the **real Swarm Home residence services and tool router** through a local HTTP surface.
 
+The same local server also serves the operator-approved Chromium workbench at
+`http://127.0.0.1:8787/workbench`. Its real browser execution and synthetic
+workshop fixture have separate evidence standing; see
+[BROWSER_WORKBENCH.md](BROWSER_WORKBENCH.md) for the exact runbook and verified
+versions.
+
 It can:
 
 - request residence for an opaque synthetic agent identity;

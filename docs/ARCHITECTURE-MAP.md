@@ -142,6 +142,8 @@ The execution-provider path can select from fresh provider observations, create 
 
 It does **not** import the provider's task database, queue, worker fleet, memory, schedule engine, conversation history, or internal event stream.
 
+The local browser workbench reuses that request / authorization / result / receipt path. Its Playwright Chromium driver is restricted to one local synthetic workshop and one reviewed job at a time. Its operator approval is explicitly synthetic, not a live Atlas decision; its scenario reference does not import World Weaver records or become another world owner. See [BROWSER_WORKBENCH.md](BROWSER_WORKBENCH.md).
+
 The provider remains canonical for its own execution state.
 
 ### 5. Evidence never becomes permission by proximity

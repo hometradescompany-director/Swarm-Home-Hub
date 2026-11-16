@@ -32,6 +32,10 @@ A result carries:
 - observation time;
 - optional summary message.
 
+Bounded provider outcomes also retain `cancelled` and `timed_out` distinctly.
+An authority decision outside the request's validity window refuses execution
+before the provider is called.
+
 It deliberately does not copy the provider's task row, queue state, worker
 record, schedule, memory, conversation history or internal event stream.
 
@@ -46,6 +50,10 @@ bounded request is allowed.
 
 Connectivity, provider capability, residence readiness and evidence do not
 themselves grant execution authority.
+
+The local [browser workbench](BROWSER_WORKBENCH.md) passes explicit operator
+review through this same boundary. Its local synthetic authority ref is not an
+Atlas decision and grants no authority outside that one demo request.
 
 ## Provider boundary
 

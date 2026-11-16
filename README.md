@@ -14,6 +14,8 @@ For the compiled playable system, see [docs/GREAT_BUN.md](docs/GREAT_BUN.md).
 
 For runnable local proof details, see [docs/DEMO.md](docs/DEMO.md).
 
+For the local Chromium workbench beta and its verified runbook, see [docs/BROWSER_WORKBENCH.md](docs/BROWSER_WORKBENCH.md).
+
 For the OpenAI Agents SDK bridge, see [docs/OPENAI_AGENTS_SDK.md](docs/OPENAI_AGENTS_SDK.md).
 
 For the one-page system architecture projection, see [docs/ARCHITECTURE-MAP.md](docs/ARCHITECTURE-MAP.md).

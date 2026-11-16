@@ -438,4 +438,30 @@ describe("external execution-provider envelope", () => {
     expect(authorised).toBe(false);
     expect(result.status).toBe("refused_by_boundary");
   });
+
+  it("does not execute when authorization arrives after the request expires", async () => {
+    let providerCalls = 0;
+    const result = await executeWithExternalProvider({
+      request: request(),
+      provider: {
+        providerRef: "provider:agent-swarm",
+        async execute() {
+          providerCalls += 1;
+          throw new Error("expired authorization must not execute");
+        }
+      },
+      authorize: async () => ({
+        allowed: true,
+        authorityRef: "atlas:authority:late",
+        decidedAt: "2026-09-22T01:04:01.000Z"
+      }),
+      observedAt: "2026-09-22T01:03:59.000Z"
+    });
+
+    expect(providerCalls).toBe(0);
+    expect(result).toMatchObject({
+      status: "refused_by_boundary",
+      message: "external execution authority decision falls outside request validity"
+    });
+  });
 });
