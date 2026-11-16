@@ -12,6 +12,8 @@ const snapshot: ProviderExecutionSnapshot = {
     completed: 1,
     failed: 0,
     refused: 0,
+    cancelled: 0,
+    timed_out: 0,
   },
   latestObservedAt: "2026-09-22T00:00:00.000Z",
   latestRequestId: "request:1",

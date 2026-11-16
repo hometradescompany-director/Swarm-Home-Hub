@@ -47,3 +47,15 @@ jobs:
       - name: Residence phase contract
         run: bun run test:residence-phase
       - run: bun run check
+      - name: Install Chromium pinned by Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Prove browser workbench in Chromium
+        run: bun run test:browser-workbench
+      - name: Upload browser workbench evidence
+        if: always() && hashFiles('.swarm-home-browser-artifacts/**') != ''
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: browser-workbench-${{ github.sha }}
+          path: .swarm-home-browser-artifacts/
+          if-no-files-found: warn
+          retention-days: 14

@@ -29,7 +29,13 @@ export interface ExternalExecutionAuthorityDecision {
 export interface ExternalExecutionProviderOutcome {
   readonly providerExecutionRef: string;
   readonly checkpointRef?: string;
-  readonly status: "accepted" | "completed" | "failed" | "refused";
+  readonly status:
+    | "accepted"
+    | "completed"
+    | "failed"
+    | "refused"
+    | "cancelled"
+    | "timed_out";
   readonly resultRefs: readonly string[];
   readonly evidenceReceiptIds: readonly string[];
   readonly observedAt: string;
@@ -50,7 +56,9 @@ export interface ExternalExecutionResult {
     | "accepted"
     | "completed"
     | "failed"
-    | "refused";
+    | "refused"
+    | "cancelled"
+    | "timed_out";
   readonly resultRefs: readonly string[];
   readonly evidenceReceiptIds: readonly string[];
   readonly observedAt: string;
@@ -252,6 +260,24 @@ export async function executeWithExternalProvider(input: {
   const authority = await input.authorize(input.request);
   nonBlank(authority.authorityRef, "authority.authorityRef");
   const authorityDecidedAtMs = validTime(authority.decidedAt, "authority.decidedAt");
+
+  if (
+    authorityDecidedAtMs < requestedAtMs ||
+    authorityDecidedAtMs > expiresAtMs
+  ) {
+    return Object.freeze({
+      schema: SWARM_HOME_EXTERNAL_EXECUTION_RESULT,
+      requestId: input.request.requestId,
+      providerRef: input.request.providerRef,
+      capabilityRef: input.request.capabilityRef,
+      authorityRef: authority.authorityRef,
+      status: "refused_by_boundary",
+      resultRefs: Object.freeze([]),
+      evidenceReceiptIds: Object.freeze([]),
+      observedAt: input.observedAt,
+      message: "external execution authority decision falls outside request validity"
+    });
+  }
 
   if (!authority.allowed) {
     return Object.freeze({
