@@ -71,6 +71,94 @@ describe("Linux compatibility receipt", () => {
     });
   });
 
+  it.each([
+    ["object", { path: "/fixture/private-timestamp" }, "invalid_value"],
+    ["omitted", undefined, "missing_value"],
+    ["arbitrary text", "/fixture/private-timestamp", "invalid_value"],
+    ["impossible calendar date", "2000-02-30T00:00:00Z", "invalid_value"],
+    ["offset instead of UTC marker", "2000-01-01T00:00:00+01:00", "invalid_value"]
+  ])("types an %s observation timestamp as unknown before serialization", (_label, observedAt, reason) => {
+    const host = { ...fixture, observedAt };
+    if (observedAt === undefined) delete host.observedAt;
+    const { receipt, exitCode } = collectCompatibilityReceipt(
+      host, runFixture([{ type: "disk", size: 800 }])
+    );
+    const serialized = JSON.stringify(receipt);
+
+    expect(exitCode).toBe(1);
+    expect(JSON.parse(serialized).observedAt).toEqual({ status: "unknown", reason });
+    expect(serialized).not.toContain("private-timestamp");
+  });
+
+  it("canonicalizes a valid UTC observation timestamp", () => {
+    const { receipt, exitCode } = collectCompatibilityReceipt(
+      { ...fixture, observedAt: "2000-01-01T00:00:00.7Z" }, runFixture([{ type: "disk", size: 800 }])
+    );
+
+    expect(exitCode).toBe(0);
+    expect(receipt.observedAt).toBe("2000-01-01T00:00:00.700Z");
+  });
+
+  it("rejects a coercible version object without reading its string representation", () => {
+    let coerced = false;
+    const version = {
+      path: "/fixture/private-version",
+      toString() {
+        coerced = true;
+        return "22.0.0";
+      }
+    };
+    const { receipt, exitCode } = collectCompatibilityReceipt(
+      { ...fixture, runtime: { name: "node", version } }, runFixture([{ type: "disk", size: 800 }])
+    );
+    const serialized = JSON.stringify(receipt);
+
+    expect(exitCode).toBe(1);
+    expect(coerced).toBe(false);
+    expect(JSON.parse(serialized).tools.runtime).toEqual({ status: "unknown", reason: "invalid_value" });
+    expect(serialized).not.toContain("private-version");
+  });
+
+  it("emits the same runtime version value it validated", () => {
+    let reads = 0;
+    const runtime = {
+      name: "node",
+      get version() {
+        reads += 1;
+        return reads === 1 ? "22.0.0" : { path: "/fixture/private-version" };
+      }
+    };
+    const { receipt, exitCode } = collectCompatibilityReceipt(
+      { ...fixture, runtime }, runFixture([{ type: "disk", size: 800 }])
+    );
+    const serialized = JSON.stringify(receipt);
+
+    expect(exitCode).toBe(0);
+    expect(JSON.parse(serialized).tools.runtime).toEqual({
+      status: "measured", value: { name: "node", version: "22.0.0" }
+    });
+    expect(serialized).not.toContain("private-version");
+  });
+
+  it("parses the same command output it validated", () => {
+    const disks = runFixture([{ type: "disk", size: 800 }]);
+    let reads = 0;
+    const { receipt, exitCode } = collectCompatibilityReceipt(fixture, (file, args) => {
+      if (!args.includes("--version")) return disks(file, args);
+      return {
+        status: 0,
+        get stdout() {
+          reads += 1;
+          return reads === 1 ? "lsblk from util-linux 2.40.0\n" : { path: "/fixture/private-stdout" };
+        }
+      };
+    });
+
+    expect(exitCode).toBe(0);
+    expect(receipt.tools.lsblk).toEqual({ status: "measured", value: "2.40.0" });
+    expect(JSON.stringify(receipt)).not.toContain("private-stdout");
+  });
+
   it("keeps unexpected host and command text out of a partial receipt", () => {
     const { receipt, exitCode } = collectCompatibilityReceipt(
       { ...fixture, architecture: "fixture-host", totalMemoryBytes: 0 },
