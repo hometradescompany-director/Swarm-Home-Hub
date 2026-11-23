@@ -57,5 +57,6 @@ jobs:
         with:
           name: browser-workbench-${{ github.sha }}
           path: .swarm-home-browser-artifacts/
+          include-hidden-files: true
           if-no-files-found: warn
           retention-days: 14

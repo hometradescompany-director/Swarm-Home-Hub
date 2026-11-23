@@ -1,10 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { chromium, type Browser } from "playwright";
 import {
   BROWSER_WORKSHOP_ACTIONS,
   BROWSER_WORKSHOP_MAX_DURATION_MS,
   BROWSER_WORKSHOP_MAX_STEPS,
   BROWSER_WORKSHOP_SCENARIO,
   browserPlanDigest,
+  browserRequestDigest,
   inspectBrowserWorkbenchReceipt,
   type BrowserArtifact,
   type BrowserJobPlan,
@@ -14,6 +16,7 @@ import {
 } from "../src/integrations/browser-workbench/contract.js";
 import {
   BrowserWorkbench,
+  PlaywrightChromiumDriver,
   type BrowserWorkbenchDriver,
   type BrowserWorkbenchStore
 } from "../src/integrations/browser-workbench/runtime.js";
@@ -280,6 +283,64 @@ describe("bounded synthetic Chromium workbench", () => {
     expect(job.message).toMatch(/failed to launch/);
     expect(job.result).toBeUndefined();
     expect(job.receipt).toBeUndefined();
+  });
+
+  it("closes Chromium without creating a context if aborted during launch", async () => {
+    for (const reason of ["cancelled", "timed_out"] as const) {
+      const controller = new AbortController();
+      const close = vi.fn(async () => {});
+      const newContext = vi.fn();
+      const browser = { close, newContext, version: () => "test" } as unknown as Browser;
+      let finishLaunch!: (browser: Browser) => void;
+      const launch = vi.spyOn(chromium, "launch").mockImplementation(
+        () => new Promise<Browser>((resolve) => { finishLaunch = resolve; })
+      );
+      try {
+        const result = new PlaywrightChromiumDriver().run({
+          requestId: "browser_job_launch_abort",
+          targetRef: target,
+          signal: controller.signal,
+          onObservation: async () => { throw new Error("unexpected observation"); },
+          saveScreenshot: async () => { throw new Error("unexpected screenshot"); }
+        });
+        controller.abort(reason);
+        finishLaunch(browser);
+        expect(await result).toMatchObject({ status: reason, message: reason });
+        expect(newContext).not.toHaveBeenCalled();
+        expect(close).toHaveBeenCalledTimes(1);
+      } finally {
+        launch.mockRestore();
+      }
+    }
+  });
+
+  it("restores interrupted reviewed and running jobs as failed without rerunning", async () => {
+    for (const status of ["reviewed", "running"] as const) {
+      const approved = await request(`browser_job_restore_${status}`);
+      const store = new MemoryStore();
+      store.jobs = [{
+        request: approved,
+        requestDigest: await browserRequestDigest(approved),
+        status,
+        currentStep: 0,
+        observations: [],
+        artifacts: []
+      }];
+      const driver = new TestDriver();
+      const { workbench } = service(driver, store);
+      await workbench.initialize();
+      expect(workbench.get(approved.requestId)).toMatchObject({
+        status: "failed",
+        message: "The local runtime stopped during this job; it was not replayed."
+      });
+      expect(store.jobs[0]?.status).toBe("failed");
+      expect(await workbench.start(approved)).toMatchObject({
+        accepted: true,
+        duplicate: true,
+        job: { status: "failed" }
+      });
+      expect(driver.calls).toBe(0);
+    }
   });
 
   it("does not repeat an approved request and surfaces identity conflicts", async () => {

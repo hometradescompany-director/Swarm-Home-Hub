@@ -113,6 +113,7 @@ export class PlaywrightChromiumDriver implements BrowserWorkbenchDriver {
         void browser?.close().catch(() => undefined);
       };
       input.signal.addEventListener("abort", abortBrowser, { once: true });
+      if (input.signal.aborted) throw input.signal.reason;
       browserVersion = browser.version();
       const context = await browser.newContext({
         viewport: { width: 1280, height: 900 },
@@ -283,7 +284,7 @@ export class BrowserWorkbench {
       }
       this.#jobs.set(
         job.request.requestId,
-        job.status === "running"
+        job.status === "running" || job.status === "reviewed"
           ? {
               ...job,
               status: "failed",
