@@ -1,5 +1,5 @@
 import { createServer } from "node:net";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { chromium } from "playwright";
 
@@ -8,6 +8,7 @@ const artifactDirectory = resolve(
     join(process.cwd(), ".swarm-home-browser-artifacts")
 );
 await mkdir(artifactDirectory, { recursive: true });
+const serverArtifactDirectory = await mkdtemp(join(artifactDirectory, "smoke-run-"));
 
 async function availablePort() {
   const listener = createServer();
@@ -33,7 +34,7 @@ const server = Bun.spawn({
     ...process.env,
     HOST: "127.0.0.1",
     PORT: String(port),
-    SWARM_BROWSER_ARTIFACT_DIR: artifactDirectory
+    SWARM_BROWSER_ARTIFACT_DIR: serverArtifactDirectory
   },
   stdout: "ignore",
   stderr: "pipe"
