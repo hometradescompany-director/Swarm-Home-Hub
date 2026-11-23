@@ -21,6 +21,7 @@ export const playHtml = `<!doctype html>
         <span class="truth">LOCAL ONLY</span>
         <span class="truth synthetic">SYNTHETIC ATLAS AUTHORITY</span>
         <span class="truth">IN-MEMORY DEMO STATE</span>
+        <a class="truth" href="/workbench">BROWSER WORKBENCH</a>
       </div>
     </header>
 
@@ -158,7 +159,7 @@ h1{font-size:clamp(52px,9vw,118px);line-height:.85;letter-spacing:-.07em;margin:
 h1 span{color:var(--hot)}
 .dek{font-size:clamp(15px,2vw,23px);color:var(--muted);margin:0;max-width:760px}
 .truth-stack{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;max-width:430px}
-.truth{font:700 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;border:1px solid var(--line);padding:9px 11px;border-radius:999px;color:var(--muted)}
+.truth{font:700 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;border:1px solid var(--line);padding:9px 11px;border-radius:999px;color:var(--muted);text-decoration:none}
 .truth.live{border-color:var(--hot);color:var(--hot);box-shadow:0 0 20px rgba(183,255,74,.12)}
 .truth.synthetic{border-color:var(--amber);color:var(--amber)}
 .panel{background:linear-gradient(180deg,rgba(16,31,26,.96),rgba(11,23,19,.96));border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.18)}

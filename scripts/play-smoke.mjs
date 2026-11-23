@@ -1,14 +1,23 @@
+import { copyFile, mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+
 const host = "127.0.0.1";
 const port = Number(process.env.PLAY_SMOKE_PORT ?? "8791");
 const token = "play-smoke-token";
 const origin = `http://${host}:${port}`;
 
-const processHandle = Bun.spawn(["./dist/swarm-home-bun"], {
+const standaloneDirectory = await mkdtemp(join(tmpdir(), "swarm-play-smoke-"));
+const executable = join(standaloneDirectory, "swarm-home-bun");
+await copyFile(resolve("dist/swarm-home-bun"), executable);
+const processHandle = Bun.spawn([executable], {
+  cwd: standaloneDirectory,
   env: {
     ...process.env,
     HOST: host,
     PORT: String(port),
-    SWARM_PLAY_TOKEN: token
+    SWARM_PLAY_TOKEN: token,
+    SWARM_BROWSER_ARTIFACT_DIR: join(standaloneDirectory, "artifacts")
   },
   stdout: "pipe",
   stderr: "pipe"
@@ -58,6 +67,22 @@ try {
   assert(html.includes("PLAYABLE"), "playable UI was not served");
   assert(html.includes("THE PILE BECOMES PLAYABLE"), "playable closure marker missing");
   assert((pageResponse.headers.get("content-security-policy") || "").includes("default-src 'self'"), "playable CSP missing");
+
+  for (const [path, file] of [
+    ["/workbench", "../site/workbench.html"],
+    ["/workbench/styles.css", "../site/workbench.css"],
+    ["/workbench/app.js", "../site/workbench.js"],
+    ["/workbench/scenario/workshop.css", "../site/workshop-scenario.css"]
+  ]) {
+    const assetResponse = await fetch(origin + path);
+    let expected = await Bun.file(new URL(file, import.meta.url)).text();
+    if (path === "/workbench") {
+      expected = expected
+        .replace("__PLAY_TOKEN__", token)
+        .replace("__BROWSER_TARGET__", origin + "/workbench/scenario/workshop");
+    }
+    assert(assetResponse.ok && (await assetResponse.text()) === expected, `compiled ${path} asset differs from source`);
+  }
 
   const seed = Date.now().toString(36);
   const residenceId = "residence:smoke:" + seed;
@@ -197,4 +222,5 @@ try {
 } finally {
   processHandle.kill();
   await processHandle.exited;
+  await rm(standaloneDirectory, { recursive: true, force: true });
 }

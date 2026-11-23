@@ -18,6 +18,8 @@ const STATUSES: readonly ProviderExecutionStatus[] = [
   "completed",
   "failed",
   "refused",
+  "cancelled",
+  "timed_out",
 ];
 
 export function projectProviderExecutionSnapshot(
