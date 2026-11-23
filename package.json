@@ -24,7 +24,7 @@
   "devDependencies": {
     "playwright": "1.65.1",
     "typescript": "^5.9.2",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "overrides": {
     "source-map-js": "1.2.2"
