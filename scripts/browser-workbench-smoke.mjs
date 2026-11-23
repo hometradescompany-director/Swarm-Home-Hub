@@ -226,6 +226,51 @@ try {
     JSON.stringify(evidence, null, 2)
   );
   console.log(JSON.stringify(evidence, null, 2));
+
+  const completedJob = (await (
+    await fetch(`${origin}/workbench/api/jobs/${requestId}`)
+  ).json()).job;
+  const racePage = await context.newPage();
+  let raceRequest;
+  let racePolls = 0;
+  await racePage.route("**/workbench/api/jobs**", async (route) => {
+    if (route.request().method() === "POST") {
+      raceRequest = route.request().postDataJSON();
+      await route.fulfill({
+        status: 202,
+        json: { job: { ...completedJob, request: raceRequest, status: "running", receipt: null } }
+      });
+    } else {
+      racePolls += 1;
+      await route.fulfill({
+        json: {
+          job: {
+            ...completedJob,
+            request: raceRequest,
+            status: racePolls === 1 ? "running" : "completed",
+            receipt: racePolls === 1 ? null : completedJob.receipt
+          }
+        }
+      });
+    }
+  });
+  await racePage.goto(`${origin}/workbench`);
+  await racePage.getByLabel(/I reviewed this exact target/).check();
+  await racePage.getByRole("button", { name: "Review & start job" }).click();
+  await racePage.waitForFunction(
+    () => document.querySelector("#jobStatus")?.dataset.state === "completed",
+    undefined,
+    { timeout: 5_000 }
+  );
+  if (
+    racePolls !== 2 ||
+    (await racePage.locator("#start").isDisabled()) ||
+    (await racePage.locator("#replay").isDisabled()) ||
+    (await racePage.locator("#download").getAttribute("aria-disabled")) !== "false"
+  ) {
+    throw new Error("completion between polls was not rendered with its receipt controls");
+  }
+  await racePage.close();
   await context.close();
 } finally {
   if (browser) await browser.close().catch(() => undefined);

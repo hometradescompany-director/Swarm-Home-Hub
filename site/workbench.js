@@ -167,19 +167,19 @@ async function pollJob(requestId) {
         clearInterval(pollTimer);
         pollTimer = undefined;
       }
+      return result.job.status;
     } catch (error) {
       clearInterval(pollTimer);
       pollTimer = undefined;
       liveMessage.textContent = error instanceof Error ? error.message : "Could not read job state.";
     }
   };
-  await poll();
-  if (pollTimer === undefined && currentRequestId === requestId) {
-    const stateResponse = await fetch(`/workbench/api/jobs/${encodeURIComponent(requestId)}`);
-    const state = await stateResponse.json();
-    if (state.job?.status === "running" || state.job?.status === "reviewed") {
-      pollTimer = setInterval(poll, 350);
-    }
+  const status = await poll();
+  if (
+    currentRequestId === requestId &&
+    (status === "running" || status === "reviewed")
+  ) {
+    pollTimer = setInterval(poll, 350);
   }
 }
 
