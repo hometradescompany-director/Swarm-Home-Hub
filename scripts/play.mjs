@@ -1,5 +1,5 @@
 import { join, resolve } from "node:path";
-import { createRequire } from "node:module";
+import { version as playwrightVersion } from "playwright/package.json";
 import { InMemoryEventJournal } from "../src/events/journal.ts";
 import { SwarmHomeDoor } from "../src/platform/swarm-home-door.ts";
 import { SwarmHomeToolRouter } from "../src/platform/tool-router.ts";
@@ -11,13 +11,14 @@ import {
   sha256
 } from "../src/integrations/browser-workbench/index.ts";
 import { playHtml, playCss, playJs } from "./play-ui.mjs";
+import workbenchHtml from "../site/workbench.html" with { type: "text" };
+import workbenchCss from "../site/workbench.css" with { type: "text" };
+import workbenchJs from "../site/workbench.js" with { type: "text" };
+import scenarioCss from "../site/workshop-scenario.css" with { type: "text" };
 
 const host = process.env.HOST ?? "127.0.0.1";
 const port = Number(process.env.PORT ?? "8787");
 const playToken = process.env.SWARM_PLAY_TOKEN ?? crypto.randomUUID();
-const playwrightVersion = createRequire(import.meta.url)(
-  "playwright/package.json"
-).version;
 const browserArtifactDirectory = resolve(
   process.env.SWARM_BROWSER_ARTIFACT_DIR ??
     join(process.cwd(), ".swarm-home-browser-artifacts")
@@ -34,18 +35,6 @@ if (!loopbackHosts.has(host) && !externalBindingAllowed) {
   );
 }
 
-const workbenchHtml = await Bun.file(
-  new URL("../site/workbench.html", import.meta.url)
-).text();
-const workbenchCss = await Bun.file(
-  new URL("../site/workbench.css", import.meta.url)
-).text();
-const workbenchJs = await Bun.file(
-  new URL("../site/workbench.js", import.meta.url)
-).text();
-const scenarioCss = await Bun.file(
-  new URL("../site/workshop-scenario.css", import.meta.url)
-).text();
 const mkdir = Bun.spawn({
   cmd: ["mkdir", "-p", browserArtifactDirectory],
   stdout: "ignore",
