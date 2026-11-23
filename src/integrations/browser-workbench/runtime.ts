@@ -11,6 +11,7 @@ import {
 import type { SwarmHomeExternalHandoff } from "../handoff/conformance.js";
 import {
   BROWSER_WORKSHOP_ACTIONS,
+  BROWSER_WORKSHOP_EXPECTED_SELECTION,
   BROWSER_WORKSHOP_MAX_DURATION_MS,
   BROWSER_WORKSHOP_MAX_STEPS,
   BROWSER_WORKSHOP_SCENARIO,
@@ -30,7 +31,6 @@ import {
 const providerRef = "provider:local-chromium-workbench";
 const capabilityRef = "capability:synthetic-workshop-browser";
 const approvalAuthorityRef = "authority:synthetic-local-operator-approval";
-const expectedSelection = "Cedar bench reserved for this synthetic workshop";
 const maxStoredJobs = 20;
 
 export interface BrowserWorkbenchStore {
@@ -176,7 +176,7 @@ export class PlaywrightChromiumDriver implements BrowserWorkbenchDriver {
 
       if (input.signal.aborted) throw input.signal.reason;
       const selectedText = await page.getByRole("status").innerText();
-      const passed = selectedText.trim() === expectedSelection;
+      const passed = selectedText.trim() === BROWSER_WORKSHOP_EXPECTED_SELECTION;
       verification = {
         sourceRef: `browser-observation:${input.requestId}:3`,
         observed: selectedText.trim(),
@@ -636,7 +636,7 @@ export class BrowserWorkbench {
         observations: job.observations,
         verification: Object.freeze({
           sourceRef: verification?.sourceRef ?? null,
-          expected: expectedSelection,
+          expected: BROWSER_WORKSHOP_EXPECTED_SELECTION,
           observed: verification?.observed ?? null,
           passed: verification?.passed ?? null
         }),

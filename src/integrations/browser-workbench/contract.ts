@@ -6,6 +6,8 @@ export const SWARM_HOME_BROWSER_RECEIPT =
   "SwarmHomeBrowserWorkbenchReceipt/v1" as const;
 export const BROWSER_WORKSHOP_SCENARIO =
   "scenario:synthetic:fresh-workshop:local-fixture:v1";
+export const BROWSER_WORKSHOP_EXPECTED_SELECTION =
+  "Cedar bench reserved for this synthetic workshop";
 export const BROWSER_WORKSHOP_ACTIONS = Object.freeze([
   "observe",
   "choose:cedar",
@@ -377,8 +379,10 @@ export async function inspectBrowserWorkbenchReceipt(input: {
     const completed = receipt.execution.status === "completed";
     if (
       !isRecord(verification) ||
+      verification.expected !== BROWSER_WORKSHOP_EXPECTED_SELECTION ||
       (verification.sourceRef !== null &&
-        verification.sourceRef !== receipt.observations.at(-1)?.sourceRef) ||
+        (verification.sourceRef !== receipt.observations.at(-1)?.sourceRef ||
+          verification.observed !== receipt.observations.at(-1)?.value)) ||
       (completed &&
         (verification.expected !== verification.observed ||
           verification.passed !== true ||

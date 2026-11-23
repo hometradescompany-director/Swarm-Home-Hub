@@ -5,6 +5,7 @@ import {
   BROWSER_WORKSHOP_MAX_STEPS,
   BROWSER_WORKSHOP_SCENARIO,
   browserPlanDigest,
+  inspectBrowserWorkbenchReceipt,
   type BrowserArtifact,
   type BrowserJobPlan,
   type BrowserStepObservation,
@@ -360,6 +361,59 @@ describe("bounded synthetic Chromium workbench", () => {
       valid: false,
       reason: "execution_provenance_mismatch"
     });
+  });
+
+  it("binds verification to the fixed selection and referenced observation", async () => {
+    const { workbench, store } = service(new TestDriver());
+    const approved = await request("browser_job_verification");
+    await workbench.start(approved);
+    const job = await waitForStatus(workbench, approved.requestId, "completed");
+    const receipt = job.receipt!;
+    const inspect = (value: unknown) =>
+      inspectBrowserWorkbenchReceipt({
+        value,
+        request: approved,
+        readArtifact: (ref) => store.readArtifact(ref)
+      });
+    const otherSelection = "No bench selected";
+    const contradicted = {
+      ...receipt,
+      observations: receipt.observations.map((observation) =>
+        observation.action === "verify:cedar"
+          ? { ...observation, value: otherSelection }
+          : observation
+      )
+    };
+
+    expect(await inspect(receipt)).toEqual({ valid: true });
+    expect(await inspect(contradicted)).toMatchObject({
+      valid: false,
+      reason: "visible_state_verification_failed"
+    });
+    expect(await inspect({
+      ...contradicted,
+      verification: {
+        ...receipt.verification,
+        expected: otherSelection,
+        observed: otherSelection
+      }
+    })).toMatchObject({ valid: false, reason: "visible_state_verification_failed" });
+    expect(await inspect({
+      ...contradicted,
+      execution: { ...receipt.execution, status: "failed" },
+      verification: { ...receipt.verification, observed: otherSelection, passed: false }
+    })).toEqual({ valid: true });
+    expect(await inspect({
+      ...contradicted,
+      execution: { ...receipt.execution, status: "failed" },
+      verification: { ...receipt.verification, passed: false }
+    })).toMatchObject({ valid: false, reason: "visible_state_verification_failed" });
+    expect(await inspect({
+      ...receipt,
+      execution: { ...receipt.execution, status: "cancelled" },
+      observations: receipt.observations.slice(0, 2),
+      verification: { ...receipt.verification, sourceRef: null, observed: null, passed: null }
+    })).toEqual({ valid: true });
   });
 
   it("allows one active job to be cancelled without starting a second", async () => {
