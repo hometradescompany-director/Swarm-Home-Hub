@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { evaluateRecipientMessage } from "../src/policy/recipient-message.js";
 
 const policy = { consent: true, quietHours: false, allowUrgentInterruptions: true };
