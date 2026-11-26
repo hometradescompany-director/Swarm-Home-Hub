@@ -66,3 +66,7 @@ export * from "./integrations/mcp/client.js";
 export * from "./integrations/execution-provider/adapters.js";
 
 export * from "./policy/federation-peer-qualification.js";
+export * from "./incubation/types.js";
+export * from "./incubation/journal.js";
+export * from "./incubation/service.js";
+export * from "./incubation/validation.js";
