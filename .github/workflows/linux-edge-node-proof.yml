@@ -1,0 +1,82 @@
+name: linux-edge-node-proof
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/linux-edge-node-proof.yml"
+      - "scripts/play.mjs"
+      - "scripts/play-smoke.mjs"
+      - "scripts/play-receipt.mjs"
+      - "src/**"
+      - "tests/**"
+      - "bun.lock"
+      - "package.json"
+  workflow_dispatch:
+
+jobs:
+  prove-linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: latest
+      - name: Environment evidence
+        run: |
+          uname -a
+          bun --version
+          git rev-parse HEAD
+      - name: Install exact dependencies
+        run: bun install --frozen-lockfile
+      - name: Existing contract, test and build suite
+        run: bun run check
+      - name: Existing playable proof and receipt
+        run: bun run prove:playable
+      - name: Compile Linux executable
+        run: bun run bun:compile
+      - name: Compiled executable loopback and fail-closed probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p proof
+          ./dist/swarm-home-bun >proof/server.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true; wait "$pid" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8787/play/health -o proof/health.json; then break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:8787/play/manifest -o proof/manifest.json
+          bun -e '
+            const fs = require("node:fs");
+            const h = JSON.parse(fs.readFileSync("proof/health.json","utf8"));
+            const m = JSON.parse(fs.readFileSync("proof/manifest.json","utf8"));
+            if (!h.ok || h.atlasAuthority !== "synthetic-demo-adapter" || h.persistence !== "in-memory") process.exit(1);
+            if (m.schema !== "PlayableBunManifest/v1" || !m.nonClaims.includes("not live cross-repository federation") || !m.nonClaims.includes("not durable persistence")) process.exit(1);
+          '
+          status=$(curl -sS -o proof/reset-denied.json -w '%{http_code}' -X POST http://127.0.0.1:8787/play/reset)
+          test "$status" = 403
+          kill "$pid" 2>/dev/null || true
+          wait "$pid" 2>/dev/null || true
+          trap - EXIT
+          if HOST=0.0.0.0 PORT=18787 ./dist/swarm-home-bun >proof/nonloopback.log 2>&1; then
+            echo 'SECURITY FAILURE: external bind unexpectedly accepted'
+            exit 1
+          fi
+          grep -q 'refuses non-loopback binding' proof/nonloopback.log
+          printf '{"schema":"LinuxEdgeProof/v1","status":"probed","atlas_receiver":"not_verified","durable_storage":"not_implemented_in_demo","network_exposure":"loopback_only","authority":"synthetic_demo","commit":"%s"}\n' "$(git rev-parse HEAD)" > proof/capability.json
+      - name: Upload redacted evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: linux-edge-proof
+          path: |
+            proof/health.json
+            proof/manifest.json
+            proof/reset-denied.json
+            proof/capability.json
+          if-no-files-found: warn
