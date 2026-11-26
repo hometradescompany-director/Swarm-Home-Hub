@@ -14,10 +14,10 @@ The corpus also marks the detailed tier placements and “primal” forms as exp
 
 - A record applies to an opaque `AgentIdentityRef`; identity ownership remains with Atlas.
 - An explicit reviewer supplies one of `sprite`, `sapling`, or `ent`, a tier from 1 through 9, a review outcome, a timestamp, and one or more provenance receipt IDs.
-- Evidence resolution is a required dependency. Missing receipts and receipts whose standing is `hypothesis` or `unknown` fail closed before an event is appended. Direct observation, source record, user report, and supported inference are accepted as evidence inputs; the reviewer remains responsible for the assessment.
+- Reviewer authorization and evidence resolution are required dependencies. Authorization is checked for the named actor, subject, and action; a false or unavailable authorization fails closed. Missing, malformed, duplicate, absence-bearing, `hypothesis`, or `unknown` receipts fail closed before an event is appended. Direct observation, source record, user report, and supported inference are accepted as evidence inputs; the reviewer remains responsible for the assessment.
 - A record can be marked `contested`. It remains visible in the history and is never represented as an accepted review.
 - An assessment can be withdrawn by an explicit, evidence-backed action. Withdrawal appends a new event; it never erases prior history.
-- Optimistic predecessor checks and monotonic event time prevent stale writes and broken subject histories.
+- Strict timezone-bearing ISO-8601 timestamps, optimistic predecessor checks, and monotonic event time prevent malformed times, stale writes, and broken subject histories. Standing queries take an explicit observation time so absence projections are reproducible.
 - The `IncubationJournal` persistence port is independent from the residence `EventJournal`. This preserves residence transition and ready-handoff chains and allows a durable notebook adapter to be added without changing the domain service.
 
 ## Boundaries
